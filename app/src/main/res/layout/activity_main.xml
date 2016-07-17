@@ -1,25 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="org.chatterbaby.chatterbaby.MainActivity"
-    android:background="#cbefe7">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+android:layout_width="fill_parent"
+android:layout_height="fill_parent"
+    android:orientation="horizontal"
+    android:gravity="center_horizontal"
+    android:background="#dafae4">
+android:background="#cbefe7"
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!"
-        android:textColor="#000000" />
+<Button
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="Questionnaire"
+    android:id="@+id/questionBtn"
+    android:layout_gravity="center_vertical"
+    android:textColorHighlight="@color/colorPrimaryDark"
+    android:background="#bfc9f5" />
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/button_send"
-        android:onClick="sendMessage" />
+<Button
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="Why Cry?"
+    android:id="@+id/whyCryBtn"
+    android:layout_gravity="center_vertical"
+    android:textColorHighlight="@color/colorPrimaryDark"
+    android:background="#7ad5c6" />
 
-</RelativeLayout>
+<Button
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="Cry / No Cry"
+    android:id="@+id/noCryBtn"
+    android:layout_gravity="center_vertical"
+    android:textColorHighlight="@color/colorPrimaryDark"
+    android:background="#bfc9f5" />
+
+</LinearLayout>
+
