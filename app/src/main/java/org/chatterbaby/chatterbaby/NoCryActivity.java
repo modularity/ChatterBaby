@@ -1,28 +1,28 @@
 package org.chatterbaby.chatterbaby;
 
+        import android.content.Intent;
+        import android.support.v7.app.AppCompatActivity;
+        import android.support.v7.widget.Toolbar;
+
+        import android.media.MediaPlayer;
+        import android.media.MediaRecorder;
+
+        import android.os.Bundle;
+        import android.os.Environment;
+
+        import android.view.Menu;
+        import android.view.MenuItem;
+        import android.view.View;
+        import android.view.animation.Animation;
+        import android.view.animation.AnimationUtils;
+        import android.widget.Button;
+
+        import android.widget.ImageView;
+        import android.widget.Toast;
+        import java.io.IOException;
 
 
-import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
-
-import android.media.MediaPlayer;
-import android.media.MediaRecorder;
-
-import android.os.Bundle;
-import android.os.Environment;
-
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.widget.Button;
-
-import android.widget.ImageView;
-import android.widget.Toast;
-import java.io.IOException;
-
-public class WhyCryActivity extends AppCompatActivity {
+public class NoCryActivity extends AppCompatActivity {
 
     Button play,stop,record;
     private MediaRecorder audioRecorder;
@@ -31,7 +31,7 @@ public class WhyCryActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_why_cry);
+        setContentView(R.layout.activity_no_cry);
 
         Intent intent = getIntent();
         String message = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
