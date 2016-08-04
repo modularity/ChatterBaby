@@ -1,12 +1,313 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="org.chatterbaby.chatterbaby.QuestionnaireActivity">
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
+    <include
+        layout="@layout/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
 
-</RelativeLayout>
+    <ScrollView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/ScrollView01"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:scrollbars="vertical">
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:orientation="vertical"
+            android:layout_height="wrap_content"
+            android:padding="10dp">
+
+            <!--Put form controls here-->
+
+            <!--Infant’s first name:-->
+            <TextView
+                android:id="@+id/Fname_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Infant's first name: "
+                android:textSize="20sp">
+            </TextView>
+            <EditText
+                android:id="@+id/Fname_field"
+                android:layout_height="wrap_content"
+                android:inputType="textPersonName"
+                android:layout_width="fill_parent">
+            </EditText>
+
+            <!--Infant’s gender:-->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Infant's gender: "
+                android:textSize="10pt">
+            </TextView>
+            <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="M"
+                    android:onClick="onRadioButtonClicked"/>
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="F"
+                    android:onClick="onRadioButtonClicked"/>
+            </RadioGroup>
+
+            <!--Infant’s birth date:-->
+            <TextView
+                android:id="@+id/bday_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Infant’s birth date: "
+                android:textSize="10pt">
+            </TextView>
+            <EditText
+                android:id="@+id/bday_field"
+                android:layout_height="wrap_content"
+                android:inputType="textPersonName"
+                android:layout_width="fill_parent">
+            </EditText>
+
+            <!--Zip Code:-->
+            <TextView
+                android:id="@+id/zip_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Zip Code: "
+                android:textSize="10pt">
+            </TextView>
+            <EditText
+                android:id="@+id/zip_field"
+                android:layout_height="wrap_content"
+                android:inputType="textPersonName"
+                android:layout_width="fill_parent">
+            </EditText>
+
+            <!--Ethnicity:-->
+            <TextView
+                android:id="@+id/ethn_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Ethnicity: "
+                android:textSize="10pt">
+            </TextView>
+            <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/ethn_bttns"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="African American"
+                    android:onClick="onRadioButtonClicked"/>
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Asian/Pacific Islander"
+                    android:onClick="onRadioButtonClicked"/>
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Hispanic/Latino"
+                    android:onClick="onRadioButtonClicked"/>
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="White"
+                    android:onClick="onRadioButtonClicked"/>
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Other"
+                    android:onClick="onRadioButtonClicked"/>
+            </RadioGroup>
+
+            <!--Level of Education (mother):-->
+            <TextView
+                android:id="@+id/MomEd_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Level of Education (mother): "
+                android:textSize="10pt">
+            </TextView>
+            <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/MomEd_bttns"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <RadioButton android:id="@+id/radio_pirates"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="High School"
+                    android:onClick="onRadioButtonClicked"/>
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Some College"
+                    android:onClick="onRadioButtonClicked"/>
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Bachelors Degree"
+                    android:onClick="onRadioButtonClicked"/>
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Masters Degree"
+                    android:onClick="onRadioButtonClicked"/>
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Doctoral Degree"
+                    android:onClick="onRadioButtonClicked"/>
+            </RadioGroup>
+
+            <!--Level of Education (father):-->
+            <TextView
+                android:id="@+id/DadEd_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Level of Education (father): "
+                android:textSize="10pt">
+            </TextView>
+            <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/DadEd_bttns"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="High School"
+                    android:onClick="onRadioButtonClicked"/>
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Some College"
+                    android:onClick="onRadioButtonClicked"/>
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Bachelors Degree"
+                    android:onClick="onRadioButtonClicked"/>
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Masters Degree"
+                    android:onClick="onRadioButtonClicked"/>
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Doctoral Degree"
+                    android:onClick="onRadioButtonClicked"/>
+            </RadioGroup>
+
+            <!--Current Marital Status of Mother:-->
+            <TextView
+                android:id="@+id/MomMarital_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Current Marital Status of Mother: "
+                android:textSize="10pt">
+            </TextView>
+            <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/momMartial_bttns"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Married"
+                    android:onClick="onRadioButtonClicked"/>
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Separated"
+                    android:onClick="onRadioButtonClicked"/>
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Divorced"
+                    android:onClick="onRadioButtonClicked"/>
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Never Married"
+                    android:onClick="onRadioButtonClicked"/>
+            </RadioGroup>
+
+            <!--Is the baby’s mother deaf or moderately-to-severely hearing impaired?:-->
+            <TextView
+                android:id="@+id/momHear_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Is the baby’s mother deaf or moderately-to-severely hearing impaired? "
+                android:textSize="10pt">
+            </TextView>
+            <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/momHear_bttns"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Yes"
+                    android:onClick="onRadioButtonClicked"/>
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="No"
+                    android:onClick="onRadioButtonClicked"/>
+            </RadioGroup>
+
+            <!--Is the baby’s father deaf or moderately-to-severely hearing impaired?:-->
+            <TextView
+                android:id="@+id/dadHear_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Is the baby’s father deaf or moderately-to-severely hearing impaired? "
+                android:textSize="10pt">
+            </TextView>
+            <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/dadHear_bttns"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Yes"
+                    android:onClick="onRadioButtonClicked"/>
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="No"
+                    android:onClick="onRadioButtonClicked"/>
+            </RadioGroup>
+
+            <!--Submit Form-->
+            <Button android:id="@+id/button_send"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Send"
+                android:onClick="sendMessage" />
+
+        </LinearLayout>
+
+
+
+
+    </ScrollView>
+</LinearLayout>
