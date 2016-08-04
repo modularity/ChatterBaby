@@ -31,9 +31,10 @@
       android:layout_gravity="center_vertical"
       android:textColorHighlight="@color/colorPrimary"
       android:layout_weight="1"
-      android:textSize="20sp"
+      android:textSize="22sp"
       android:clickable="true"
-      android:background="@color/button1" />
+      android:background="@color/button1"
+          android:elevation="12dp" />
 
       <Button
       android:layout_width="fill_parent"
@@ -44,9 +45,11 @@
       android:layout_gravity="center_vertical"
       android:textColorHighlight="@color/colorPrimary"
       android:layout_weight="1"
-      android:textSize="20sp"
+      android:textSize="22sp"
       android:clickable="true"
-      android:background="@color/button1" />
+      android:background="@color/button1"
+          android:elevation="12dp"
+          android:elegantTextHeight="false" />
 
       <Button
       android:layout_width="fill_parent"
@@ -57,9 +60,10 @@
       android:layout_gravity="center_vertical"
       android:textColorHighlight="@color/colorPrimary"
       android:layout_weight="1"
-      android:textSize="20sp"
+      android:textSize="22sp"
       android:clickable="true"
-      android:background="@color/button1" />
+      android:background="@color/button1"
+          android:elevation="12dp" />
 
 </LinearLayout>
 </LinearLayout>

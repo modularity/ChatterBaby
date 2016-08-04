@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         for (int i = 0; i < btn.length; i++) {
             btn[i] = (Button) findViewById(btn_id[i]);
-            btn[i].setBackgroundColor(Color.rgb(207, 207, 207));
+            btn[i].setBackgroundColor(Color.rgb(155,153,255));
             btn[i].setOnClickListener(this);
         }
 
@@ -74,13 +74,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.questionBtn:
                 setFocus(btn_unfocus, btn[0]);
                 btn_unfocus = btn[0];
-                Intent intent = new Intent(this, QuestionnaireActivity.class);
-                startActivity(intent);
+                Intent questionIntent = new Intent(this, QuestionnaireActivity.class);
+                startActivity(questionIntent);
                 break;
 
             case R.id.whyCryBtn:
                 setFocus(btn_unfocus, btn[1]);
                 btn_unfocus = btn[1];
+                Intent whyCryIntent = new Intent(this, WhyCryActivity.class);
+                startActivity(whyCryIntent);
                 break;
 
             case R.id.noCryBtn:
@@ -92,10 +94,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void setFocus(Button btn_unfocus, Button btn_focus) {
-        btn_unfocus.setTextColor(Color.rgb(49, 50, 51));
-        btn_unfocus.setBackgroundColor(Color.rgb(191,201,245));
+       btn_unfocus.setTextColor(Color.rgb(49, 50, 51));
+       btn_unfocus.setBackgroundColor(Color.rgb(191,201,245));
+        //122,213,198
+        //191,169,245
+        //191,201,245
         btn_focus.setTextColor(Color.rgb(255, 255, 255));
-        btn_focus.setBackgroundColor(Color.rgb(122,213,198));
+        btn_focus.setBackgroundColor(Color.rgb(191,169,245));
     }
 
     @Override
