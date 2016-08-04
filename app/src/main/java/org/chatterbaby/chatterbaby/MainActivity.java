@@ -4,6 +4,9 @@ import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -14,13 +17,15 @@ import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.common.api.GoogleApiClient;
 
-public class MainActivity extends Activity implements View.OnClickListener {
-    public final static String EXTRA_MESSAGE = "org.chatterbaby.chatterbaby.MESSAGE";
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
      * See https://g.co/AppIndexing/AndroidStudio for more information.
      */
     private GoogleApiClient client;
+
+
+    public final static String EXTRA_MESSAGE = "org.chatterbaby.chatterbaby.MESSAGE";
 
     private Button[] btn = new Button[3];
     private Button btn_unfocus;
@@ -31,8 +36,10 @@ public class MainActivity extends Activity implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // enables the activity icon as a 'home' button. required if "android:targetSdkVersion" > 14
-        //getActionBar().setHomeButtonEnabled(true);
+        // Attaching the layout to the toolbar object
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        // Setting toolbar as the ActionBar with setSupportActionBar() call
+        setSupportActionBar(toolbar);
 
         // Show EULA
         new AppEula(this).show();
@@ -86,9 +93,9 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
     private void setFocus(Button btn_unfocus, Button btn_focus) {
         btn_unfocus.setTextColor(Color.rgb(49, 50, 51));
-        btn_unfocus.setBackgroundColor(Color.rgb(207, 207, 207));
+        btn_unfocus.setBackgroundColor(Color.rgb(191,201,245));
         btn_focus.setTextColor(Color.rgb(255, 255, 255));
-        btn_focus.setBackgroundColor(Color.rgb(3, 106, 150));
+        btn_focus.setBackgroundColor(Color.rgb(122,213,198));
     }
 
     @Override
@@ -130,33 +137,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
         AppIndex.AppIndexApi.end(client, viewAction);
         client.disconnect();
     }
-
-
-
-
-
-    /**
-     * Let's the user tap the activity icon to go 'home'.
-     * Requires setHomeButtonEnabled() in onCreate().
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem menuItem) {
-        switch (menuItem.getItemId()) {
-            case android.R.id.home:
-                // MainActivity is my 'home' activity
-                startActivityAfterCleanup(MainActivity.class);
-                return true;
-        }
-        return (super.onOptionsItemSelected(menuItem));
-    }
-
-    private void startActivityAfterCleanup(Class<?> cls) {
-       // if (MainActivity != null) MainActivity.close();
-        Intent intent = new Intent(getApplicationContext(), cls);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        startActivity(intent);
-    }
-*/
 
 
 
