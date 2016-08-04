@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -29,6 +30,9 @@ public class MainActivity extends Activity implements View.OnClickListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // enables the activity icon as a 'home' button. required if "android:targetSdkVersion" > 14
+        //getActionBar().setHomeButtonEnabled(true);
 
         // Show EULA
         new AppEula(this).show();
@@ -63,6 +67,8 @@ public class MainActivity extends Activity implements View.OnClickListener {
             case R.id.questionBtn:
                 setFocus(btn_unfocus, btn[0]);
                 btn_unfocus = btn[0];
+                Intent intent = new Intent(this, QuestionnaireActivity.class);
+                startActivity(intent);
                 break;
 
             case R.id.whyCryBtn:
@@ -124,4 +130,34 @@ public class MainActivity extends Activity implements View.OnClickListener {
         AppIndex.AppIndexApi.end(client, viewAction);
         client.disconnect();
     }
+
+
+
+
+
+    /**
+     * Let's the user tap the activity icon to go 'home'.
+     * Requires setHomeButtonEnabled() in onCreate().
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem menuItem) {
+        switch (menuItem.getItemId()) {
+            case android.R.id.home:
+                // MainActivity is my 'home' activity
+                startActivityAfterCleanup(MainActivity.class);
+                return true;
+        }
+        return (super.onOptionsItemSelected(menuItem));
+    }
+
+    private void startActivityAfterCleanup(Class<?> cls) {
+       // if (MainActivity != null) MainActivity.close();
+        Intent intent = new Intent(getApplicationContext(), cls);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
+    }
+*/
+
+
+
 }
