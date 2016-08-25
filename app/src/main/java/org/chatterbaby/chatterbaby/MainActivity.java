@@ -88,6 +88,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.noCryBtn:
                 setFocus(btn_unfocus, btn[2]);
                 btn_unfocus = btn[2];
+                Intent noCryIntent = new Intent(this, NoCryActivity.class);
+                startActivity(noCryIntent);
                 break;
 
         }
