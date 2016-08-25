@@ -2,6 +2,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="org.chatterbaby.chatterbaby">
 
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/logo_chatterbaby"
@@ -28,6 +33,41 @@
                 android:value="org.chatterbaby.chatterbaby.MainActivity" />
         </activity>
 
+        <!-- WhyCry Activity -->
+        <activity
+            android:name=".WhyCryActivity"
+            android:hardwareAccelerated="false"
+            android:label="@string/title_activity_display_message"
+            android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="org.chatterbaby.chatterbaby.MainActivity" />
+        </activity>
+
+        <!-- WhyCryVisualization Activity -->
+        <activity
+            android:name=".WhyCryVisualization"
+            android:hardwareAccelerated="false"
+            android:label="@string/title_activity_why_cry_visualization"
+            android:parentActivityName=".WhyCryActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="org.chatterbaby.chatterbaby.WhyCryActivity" />
+        </activity>
+
+        <!-- NoCry Activity -->
+        <activity
+            android:name=".NoCryActivity"
+            android:hardwareAccelerated="false"
+            android:label="@string/title_activity_display_message"
+            android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="org.chatterbaby.chatterbaby.MainActivity" />
+        </activity>
+
+
+
         <!--
      ATTENTION: This was auto-generated to add Google Play services to your project for
      App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -36,24 +76,6 @@
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
 
-        <activity
-            android:name=".WhyCryActivity"
-            android:label="@string/title_activity_why_cry"
-            android:parentActivityName=".MainActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="MainActivity" />
-        </activity>
-        <activity
-            android:name=".NoCryActivity"
-            android:label="@string/title_activity_no_cry"
-            android:parentActivityName=".MainActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="MainActivity" />
-        </activity>
     </application>
 
 </manifest>

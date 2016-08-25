@@ -56,4 +56,5 @@
     </string>
     <string name="title_activity_why_cry">WhyCryActivity</string>
     <string name="title_activity_no_cry">NoCry</string>
+    <string name="title_activity_why_cry_visualization">WhyCryVisualization</string>
 </resources>
