@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-xmlns:tools="http://schemas.android.com/tools"
-android:layout_width="match_parent"
-android:layout_height="match_parent"
-android:fitsSystemWindows="true"
-tools:context="org.chatterbaby.chatterbaby.NoCryActivity"
-tools:showIn="@layout/content_no_cry">
-
-<include
-    layout="@layout/toolbar"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"/>
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    tools:context="org.chatterbaby.chatterbaby.NoCryActivity"
+    tools:showIn="@layout/content_no_cry">
+
+    <include
+        layout="@layout/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
@@ -34,50 +34,51 @@ tools:showIn="@layout/content_no_cry">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Cry or No Cry Recording"
+            android:text="Record to see probability that baby is crying"
             android:id="@+id/textView2"
             android:textColor="#9B99FF"
-            android:textSize="35dp"
+            android:textSize="40dp"
             android:layout_below="@+id/textView"
-            android:layout_centerHorizontal="true" />
+            android:layout_centerHorizontal="true"
+            android:paddingTop="30dp"
+            android:paddingBottom="30dp"/>
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/imageView"
-            android:src="@drawable/frequency"
+            android:src="@drawable/mic"
             android:layout_below="@+id/textView2"
             android:layout_alignLeft="@+id/textView2"
             android:layout_alignStart="@+id/textView2"
             android:layout_alignRight="@+id/textView2"
-            android:layout_alignEnd="@+id/textView2" />
+            android:layout_alignEnd="@+id/textView2"
+            android:paddingBottom="30dp"/>
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Record"
-            android:id="@+id/button"
+            android:id="@+id/recordbutton"
             android:layout_below="@+id/imageView"
             android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_marginTop="59dp" />
+            android:layout_alignParentStart="true" />
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Stop"
-            android:id="@+id/button2"
-            android:layout_alignTop="@+id/button"
-            android:layout_centerHorizontal="true" />
+            android:id="@+id/stopbutton"
+            android:layout_alignTop="@+id/recordbutton"
+            android:layout_centerHorizontal="true"  />
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Send"
-            android:id="@+id/button3"
-            android:layout_alignTop="@+id/button2"
+            android:id="@+id/sendaudio"
+            android:layout_alignTop="@+id/stopbutton"
             android:layout_alignRight="@+id/textView"
-            android:layout_alignEnd="@+id/textView" />
-
+            android:layout_alignEnd="@+id/textView"/>
     </RelativeLayout>
 </android.support.design.widget.CoordinatorLayout>

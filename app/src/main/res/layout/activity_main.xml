@@ -22,48 +22,85 @@
       android:orientation="vertical"
       android:layout_margin="30dp">
 
-      <Button
-      android:layout_width="fill_parent"
-      android:layout_height="0dp"
-      android:layout_marginTop="10dp"
-      android:text="Questionnaire"
-      android:id="@+id/questionBtn"
-      android:layout_gravity="center_vertical"
-      android:textColorHighlight="@color/colorPrimary"
-      android:layout_weight="1"
-      android:textSize="22sp"
-      android:clickable="true"
-      android:background="@color/button1"
-          android:elevation="12dp" />
-
-      <Button
-      android:layout_width="fill_parent"
-      android:layout_height="0dp"
-      android:layout_marginTop="10dp"
-      android:text="Why Cry?"
-      android:id="@+id/whyCryBtn"
-      android:layout_gravity="center_vertical"
-      android:textColorHighlight="@color/colorPrimary"
-      android:layout_weight="1"
-      android:textSize="22sp"
-      android:clickable="true"
-      android:background="@color/button1"
+        <Button
+          android:layout_width="fill_parent"
+          android:layout_height="0dp"
+          android:layout_marginTop="10dp"
+          android:text="Record to see: Why baby is crying"
+          android:id="@+id/whyCryBtn"
+          android:layout_gravity="center_vertical"
+          android:textColorHighlight="@color/colorPrimary"
+          android:layout_weight="1"
+          android:textSize="20sp"
+          android:clickable="true"
+          android:background="@color/button1"
           android:elevation="12dp"
-          android:elegantTextHeight="false" />
+            android:fontFamily="Ariel"
+            android:textAllCaps="false"/>
 
       <Button
-      android:layout_width="fill_parent"
-      android:layout_height="0dp"
-      android:layout_marginTop="10dp"
-      android:text="Cry / No Cry"
-      android:id="@+id/noCryBtn"
-      android:layout_gravity="center_vertical"
-      android:textColorHighlight="@color/colorPrimary"
-      android:layout_weight="1"
-      android:textSize="22sp"
-      android:clickable="true"
-      android:background="@color/button1"
-          android:elevation="12dp" />
+          android:layout_width="fill_parent"
+          android:layout_height="0dp"
+          android:layout_marginTop="10dp"
+          android:text="Record to see: If baby is crying"
+          android:id="@+id/noCryBtn"
+          android:layout_gravity="center_vertical"
+          android:textColorHighlight="@color/colorPrimary"
+          android:layout_weight="1"
+          android:textSize="20sp"
+          android:clickable="true"
+          android:background="@color/button1"
+          android:elevation="12dp"
+          android:fontFamily="Ariel"
+          android:textAllCaps="false"/>
 
-</LinearLayout>
+        <Button
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="10dp"
+            android:text="Record to see: If baby is in pain"
+            android:id="@+id/noPainBtn"
+            android:layout_gravity="center_vertical"
+            android:textColorHighlight="@color/colorPrimary"
+            android:layout_weight="1"
+            android:textSize="20sp"
+            android:clickable="true"
+            android:background="@color/button1"
+            android:elevation="12dp"
+            android:fontFamily="Ariel"
+            android:textAllCaps="false"/>
+
+        <Button
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="10dp"
+            android:text="Questionnaire"
+            android:id="@+id/questionBtn"
+            android:textColorHighlight="@color/colorPrimary"
+            android:layout_weight="1"
+            android:textSize="20sp"
+            android:clickable="true"
+            android:background="@color/button1"
+            android:elevation="12dp"
+            android:layout_gravity="center_vertical"
+            android:fontFamily="Ariel"
+            android:textAllCaps="false"/>
+
+        <Button
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="10dp"
+            android:text="About Us"
+            android:id="@+id/aboutUs"
+            android:layout_gravity="center_vertical"
+            android:textColorHighlight="@color/colorPrimary"
+            android:layout_weight="1"
+            android:textSize="20sp"
+            android:clickable="true"
+            android:background="@color/button1"
+            android:elevation="12dp"
+            android:fontFamily="Ariel"
+            android:textAllCaps="false"/>
+
+    </LinearLayout>
 </LinearLayout>

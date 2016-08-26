@@ -1,39 +1,35 @@
 package org.chatterbaby.chatterbaby;
 
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.media.MediaPlayer;
 import android.media.MediaRecorder;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
-
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
 import java.io.Writer;
-import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
 
 import javax.net.ssl.HttpsURLConnection;
 
-public class WhyCryActivity extends Activity {
+public class NoPainActivity extends Activity {
 
     Button play,stop,record, send;
     private MediaRecorder audioRecorder = new MediaRecorder();
@@ -127,7 +123,7 @@ public class WhyCryActivity extends Activity {
                 }
                 //new AsyncGetData(WhyCryActivity.this).execute(String.valueOf(sendjson));
                 //Toast.makeText(getApplicationContext(), "Retrieving result for record id: eventually sending audio", Toast.LENGTH_SHORT).show();
-                Intent visualizationIntent = new Intent(WhyCryActivity.this, WhyCryVisualization.class);
+                Intent visualizationIntent = new Intent(NoPainActivity.this, WhyCryVisualization.class);
                 startActivity(visualizationIntent);
             }
         });

@@ -27,9 +27,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     public final static String EXTRA_MESSAGE = "org.chatterbaby.chatterbaby.MESSAGE";
 
-    private Button[] btn = new Button[3];
+    private Button[] btn = new Button[5];
+    private int[] btn_id = {R.id.whyCryBtn, R.id.noCryBtn, R.id.noPainBtn, R.id.questionBtn, R.id.aboutUs};
     private Button btn_unfocus;
-    private int[] btn_id = {R.id.questionBtn, R.id.whyCryBtn, R.id.noCryBtn};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,49 +49,46 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             btn[i].setBackgroundColor(Color.rgb(155,153,255));
             btn[i].setOnClickListener(this);
         }
-
         btn_unfocus = btn[0];
+
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
     }
 
-    // Called when the user clicks the Send button
-    // Build intent to move to questionnaire
- /*   public void sendMessage(View view) {
-        Intent intent = new Intent(this, QuestionnaireActivity.class);
-        EditText editText = (EditText) findViewById(R.id.edit_message);
-        String message = editText.getText().toString();
-        intent.putExtra(EXTRA_MESSAGE, message);
-        startActivity(intent);
-    }
-*/
-
-
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.questionBtn:
+            case R.id.whyCryBtn:
                 setFocus(btn_unfocus, btn[0]);
                 btn_unfocus = btn[0];
-                Intent questionIntent = new Intent(this, QuestionnaireActivity.class);
-                startActivity(questionIntent);
-                break;
-
-            case R.id.whyCryBtn:
-                setFocus(btn_unfocus, btn[1]);
-                btn_unfocus = btn[1];
                 Intent whyCryIntent = new Intent(this, WhyCryActivity.class);
                 startActivity(whyCryIntent);
                 break;
-
             case R.id.noCryBtn:
-                setFocus(btn_unfocus, btn[2]);
-                btn_unfocus = btn[2];
+                setFocus(btn_unfocus, btn[1]);
+                btn_unfocus = btn[1];
                 Intent noCryIntent = new Intent(this, NoCryActivity.class);
                 startActivity(noCryIntent);
                 break;
-
+            case R.id.noPainBtn:
+                setFocus(btn_unfocus, btn[2]);
+                btn_unfocus = btn[2];
+                Intent noPainIntent = new Intent(this, NoPainActivity.class);
+                startActivity(noPainIntent);
+                break;
+            case R.id.questionBtn:
+                setFocus(btn_unfocus, btn[3]);
+                btn_unfocus = btn[3];
+                Intent questionIntent = new Intent(this, QuestionnaireActivity.class);
+                startActivity(questionIntent);
+                break;
+            case R.id.aboutUs:
+                setFocus(btn_unfocus, btn[4]);
+                btn_unfocus = btn[4];
+                Intent aboutUsIntent = new Intent(this, AboutUsActivity.class);
+                startActivity(aboutUsIntent);
+                break;
         }
     }
 
@@ -101,8 +98,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //122,213,198
         //191,169,245
         //191,201,245
-        btn_focus.setTextColor(Color.rgb(255, 255, 255));
-        btn_focus.setBackgroundColor(Color.rgb(191,169,245));
+       btn_focus.setTextColor(Color.rgb(255, 255, 255));
+       btn_focus.setBackgroundColor(Color.rgb(191,169,245));
     }
 
     @Override
