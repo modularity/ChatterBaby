@@ -2,31 +2,26 @@ package org.chatterbaby.chatterbaby;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toolbar;
 
-public class QuestionnaireActivity extends Activity {
+public class QuestionnaireActivity extends Activity implements View.OnClickListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_questionnaire);
-
+ setContentView(R.layout.activity_questionnaire);
 
         Intent intent = getIntent();
-        String message = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
-        TextView textView = new TextView(this);
-        textView.setTextSize(40);
-        textView.setText(message);
-
-        // RelativeLayout layout = (RelativeLayout) findViewById(R.id.class);
-        // layout.addView(textView);
     }
 
     @Override
@@ -40,5 +35,13 @@ public class QuestionnaireActivity extends Activity {
         }
         */
         return super.onOptionsItemSelected(item);
+    }
+
+    public void onClick(View v) {
+        Intent webQuestIntent = new Intent();
+        webQuestIntent.setAction(Intent.ACTION_VIEW);
+        webQuestIntent.addCategory(Intent.CATEGORY_BROWSABLE);
+        webQuestIntent.setData(Uri.parse("http://www.google.com"));
+        startActivity(webQuestIntent);
     }
 }
