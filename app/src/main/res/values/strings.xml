@@ -1,9 +1,54 @@
 <resources>
     <string name="app_name">Chatterbaby</string>
+    <string name="title_activity_display_message"></string>
 
     <!--Questionnaire-->
-    <string name="title_activity_display_message">Questionnaire</string>
+    <string name="questionnaire">Questionnaire</string>
+    <string name="questionnaire_explanation">"         The secondary purpose of this study is to collect infant vocalizations to identify vocal patterns associated with autism and other neurodevelopmental disorders.
+        Your questionnaire data will be stored in a secure HIPAA compliant server. You may also be given a followup survey(s) when your baby is older regarding whether your infant has been diagnosed with a neurodevelopmental disorder."
+    </string>
 
+    <!--About Us-->
+    <string name="about_us_title">About Us</string>
+    <string name="about_us">This project is led by Dr. Ariana Anderson, research faculty in the
+        Department of Psychiatry at UCLA, and Don Vaughn, a neuroscience graduate student. The
+        investigators have donated their time to create the mathematical predictive models.
+        Although a beta-version is complete, further work and funding is needed to refine this
+        sound-interpretation technology.
+        \n\n
+        Android development: Lauren Dunlap
+        \n\n
+        Collaborators:
+        \n\n
+        Usha Amrutha Nookala and Yining Zhao
+        UCLA Computer Technologies Research Lab
+        UCLA Clinical and Translational Science Institute.
+        UCLA Department of Psychiatry and Biobehavioral Sciences
+        UCLA Department of Statistics
+        Burroughs Wellcome Fund
+        Malibu Methodist Nursery School
+        \n\n
+        The research described was supported by NIH/National Center for Advancing Translational
+        Science (NCATS) UCLA CTSI Grant Number UL1TR000124.</string>
+
+    <!--Contact Info-->
+    <string name="contact_title"> Contact Us </string>
+    <string name="contact_info">• If you have any questions, comments or concerns about the research, you can talk to the one of the researchers. Please contact:
+        \n\n
+        \t Ariana Anderson, Ph.D. \n
+        \t University of California, Los Angeles \n
+        \t Department of Psychiatry and Biobehavioral Sciences \n
+        \t 760 Westwood Plaza, Ste C8-734 \n
+        \t Los Angeles, CA \n
+        \t 90095-1406 \n
+        \t ariana82@ucla.edu \n
+        \t (310) 254-5680 \n
+        \n
+        • If you have questions about your rights while taking part in this study, or you have concerns or suggestions and you want to talk to someone other than the researchers about the study, please call the OHRPP at (310) 825-7122 or write to:
+        \n\n
+        \t UCLA Office of the Human Research Protection Program (OHRPP) \n
+        \t 11000 Kinross Avenue, Suite 211, Box 951694 \n
+        \t Los Angeles, CA 90095-1694</string>
 
     <!--EULA-->
     <string name="accept">Accept</string>
@@ -17,11 +62,11 @@
         Dr. Ariana Anderson from Department of Psychiatry and Biobehavioral Sciences at the University of California, Los Angeles (UCLA) is conducting a research study.
         You were selected as a possible participant in this study because you are responsible for a child. Your participation in this research study is voluntary.
         \n\n
-        ◉ Why is this study being done?
+        • Why is this study being done?
         "The purpose of the study is to create a baby monitor smart-phone app for hearing impaired parents, which will allow infant vocalizations to be transmitted and "translated" into both a visualization modality and labeled states on the smart-phone of hearing impaired parents. The study may help us understand how infant vocalizations change over time and with different needs, and how to visually "translate" this information so that a hearing-impaired parent may interpret a child's vocal cues."
         The secondary purpose of this study is to collect infant vocalizations to identify vocal patterns associated with autism and other neurodevelopmental disorders. Your uploaded audio samples will be stored in a secure HIPAA compliant server along with your Infant History Questionnaire. You may also be given a followup survey(s) when your baby is older regarding whether your infant has been diagnosed with a neurodevelopmental disorder.
         \n\n
-        ◉ What will happen if I take part in this research study?
+        • What will happen if I take part in this research study?
         If you volunteer to participate in this study, the researcher will ask you to do the following:
         \n
         \n • Take audio recordings of your child
@@ -44,7 +89,7 @@
         ariana82@ucla.edu
         (310) 254-5680
         \n\n
-        	• UCLA Office of the Human Research Protection Program (OHRPP):
+        • UCLA Office of the Human Research Protection Program (OHRPP):
         If you have questions about your rights while taking part in this study, or you have concerns or suggestions and you want to talk to someone other than the researchers about the study, please call the OHRPP at (310) 825-7122 or write to:
         \n\n
         UCLA Office of the Human Research Protection Program
@@ -59,4 +104,5 @@
     <string name="title_activity_why_cry_visualization">WhyCryVisualization</string>
     <string name="title_activity_no_pain">NoPainActivity</string>
     <string name="title_activity_about_us">AboutUsActivity</string>
+    <string name="title_activity_contact">ContactActivity</string>
 </resources>

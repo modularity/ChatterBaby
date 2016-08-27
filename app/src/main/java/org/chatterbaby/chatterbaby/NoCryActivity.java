@@ -50,7 +50,7 @@ public class NoCryActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_why_cry);
+        setContentView(R.layout.activity_no_cry);
 
         //play=(Button)findViewById(R.id.play_button);
         stop=(Button)findViewById(R.id.stopbutton);

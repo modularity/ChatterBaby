@@ -34,7 +34,8 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Record to see probability that baby is crying"
+            android:text="Record to see the probability that baby is crying"
+            android:textAlignment="center"
             android:id="@+id/textView2"
             android:textColor="#9B99FF"
             android:textSize="40dp"
