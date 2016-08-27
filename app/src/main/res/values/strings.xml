@@ -10,26 +10,8 @@
 
     <!--About Us-->
     <string name="about_us_title">About Us</string>
-    <string name="about_us">This project is led by Dr. Ariana Anderson, research faculty in the
-        Department of Psychiatry at UCLA, and Don Vaughn, a neuroscience graduate student. The
-        investigators have donated their time to create the mathematical predictive models.
-        Although a beta-version is complete, further work and funding is needed to refine this
-        sound-interpretation technology.
-        \n\n
-        Android development: Lauren Dunlap
-        \n\n
-        Collaborators:
-        \n\n
-        Usha Amrutha Nookala and Yining Zhao
-        UCLA Computer Technologies Research Lab
-        UCLA Clinical and Translational Science Institute.
-        UCLA Department of Psychiatry and Biobehavioral Sciences
-        UCLA Department of Statistics
-        Burroughs Wellcome Fund
-        Malibu Methodist Nursery School
-        \n\n
-        The research described was supported by NIH/National Center for Advancing Translational
-        Science (NCATS) UCLA CTSI Grant Number UL1TR000124.</string>
+    <string name="about_us">"       The ChatterBaby project is led by Dr. Ariana Anderson along with the Code for the Mission Team: Lauren Dunlap (Android developer), Yining Zhao (iOS developer), Usha Nookala (signal processing), with additional support from the Computing Technologies Research Laboratory (CTRL), the Clinical and Translational Science Institute (CTSI), the Burroughs Wellcome Fund, and the Semel Institute for Neuroscience and Human Behavior at UCLA.
+        We gratefully acknowledge the many contributions of Abeer Alwan, Delbert Whetter, Sanaz Whetter, Brianna Shaul, Susan Bookheimer, Mirella Dapretto, Don Vaughn, Carol Han, Mahtash Esfandiari, Sherry Eyer, Anne Jackson, UCLA Department of Statistics, UCLA Department of Electrical Engineering, and the OxVoc Team: Christine Parsons and Michelle Craske.</string>
 
     <!--Contact Info-->
     <string name="contact_title"> Contact Us </string>
