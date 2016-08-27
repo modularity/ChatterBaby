@@ -19,9 +19,14 @@ public class QuestionnaireActivity extends Activity implements View.OnClickListe
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
- setContentView(R.layout.activity_questionnaire);
+        setContentView(R.layout.activity_webquestionnaire);
 
         Intent intent = getIntent();
+
+        // Questionnaire link button
+        Button contactBtn = (Button) findViewById(R.id.questionBtn);
+        contactBtn.setOnClickListener(this);
+        contactBtn.setBackgroundColor(Color.rgb(155,153,255));
     }
 
     @Override
@@ -41,7 +46,7 @@ public class QuestionnaireActivity extends Activity implements View.OnClickListe
         Intent webQuestIntent = new Intent();
         webQuestIntent.setAction(Intent.ACTION_VIEW);
         webQuestIntent.addCategory(Intent.CATEGORY_BROWSABLE);
-        webQuestIntent.setData(Uri.parse("http://www.google.com"));
+        webQuestIntent.setData(Uri.parse("http://www.chatterbaby.org"));
         startActivity(webQuestIntent);
     }
 }
