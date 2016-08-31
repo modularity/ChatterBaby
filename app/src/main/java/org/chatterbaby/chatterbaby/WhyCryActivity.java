@@ -1,46 +1,16 @@
 package org.chatterbaby.chatterbaby;
 
 import android.app.Activity;
-import android.content.Context;
-import android.content.Intent;
-import android.media.MediaPlayer;
 import android.media.MediaRecorder;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Debug;
 import android.os.Environment;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.io.PrintWriter;
-import java.io.UnsupportedEncodingException;
-import java.io.Writer;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.ProtocolException;
-import java.net.URL;
-import java.net.URLConnection;
-import java.net.UnknownHostException;
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.net.ssl.HttpsURLConnection;
-import javax.net.ssl.SSLContext;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -51,7 +21,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
-import okhttp3.ResponseBody;
+
 
 
 public class WhyCryActivity extends Activity {
@@ -179,7 +149,11 @@ public class WhyCryActivity extends Activity {
 
             RequestBody requestBody = new MultipartBody.Builder()
                     .setType(MultipartBody.FORM)
-                    .addFormDataPart("record_id", "103")
+             //       .addFormDataPart("record_id", "103")
+                    .addFormDataPart("mode", mode)
+                    .addFormDataPart("token", "")
+                    .addFormDataPart("data", filePath,
+                            RequestBody.create(MediaType.parse("audio/wav"), sourceFile))
                     .build();
             System.out.println("1");
 
@@ -197,14 +171,14 @@ public class WhyCryActivity extends Activity {
                 }
 
                 @Override public void onResponse(Call call, Response response) throws IOException {
+                    System.out.println(response.body().string());
                     if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
 
                     Headers responseHeaders = response.headers();
                     for (int i = 0, size = responseHeaders.size(); i < size; i++) {
                         System.out.println(responseHeaders.name(i) + ": " + responseHeaders.value(i));
                     }
-
-                    System.out.println(response.body().string());
+                    response.body().close();
                 }
             });
         } catch (Exception e) {
