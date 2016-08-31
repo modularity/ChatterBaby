@@ -7,6 +7,7 @@ import android.media.MediaPlayer;
 import android.media.MediaRecorder;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Debug;
 import android.os.Environment;
 import android.util.Log;
 import android.view.View;
@@ -20,25 +21,48 @@ import org.json.JSONObject;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.io.Writer;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
+import java.net.URLConnection;
+import java.net.UnknownHostException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.net.ssl.HttpsURLConnection;
+import javax.net.ssl.SSLContext;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.Headers;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
+import okhttp3.ResponseBody;
+
 
 public class WhyCryActivity extends Activity {
 
-    Button play,stop,record, send;
+    Button play, stop, record, send;
     private MediaRecorder audioRecorder = new MediaRecorder();
     private String outputFile = null;
-    String responseServer;
+    private static final String TAG = "WhyCryActivity";
+   //static String serverURL = "https://staging5.ctrl.ucla.edu:7423/app-ws/app/get-data";
+    static String serverURL = "https://staging5.ctrl.ucla.edu:7423/app-ws/app/process-data";
+    static String mode = "whyCry";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,14 +70,14 @@ public class WhyCryActivity extends Activity {
         setContentView(R.layout.activity_why_cry);
 
         //play=(Button)findViewById(R.id.play_button);
-        stop=(Button)findViewById(R.id.stopbutton);
-        record=(Button)findViewById(R.id.recordbutton);
-        send=(Button)findViewById(R.id.sendaudio);
+        stop = (Button) findViewById(R.id.stopbutton);
+        record = (Button) findViewById(R.id.recordbutton);
+        send = (Button) findViewById(R.id.sendaudio);
 
         stop.setEnabled(false);
         //play.setEnabled(false);
         send.setEnabled(false);
-        outputFile = Environment.getExternalStorageDirectory().getAbsolutePath() + "/recording.3gp";
+        outputFile = Environment.getExternalStorageDirectory().getAbsolutePath() + "/recording.wav";
 
         audioRecorder.reset();
         audioRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
@@ -83,7 +107,7 @@ public class WhyCryActivity extends Activity {
         stop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(audioRecorder != null){
+                if (audioRecorder != null) {
                     audioRecorder.stop();
                     audioRecorder.release();
                     audioRecorder = null;
@@ -92,7 +116,7 @@ public class WhyCryActivity extends Activity {
                 //play.setEnabled(true);
                 send.setEnabled(true);
 
-                Toast.makeText(getApplicationContext(), "Audio recorded successfully",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Audio recorded successfully", Toast.LENGTH_SHORT).show();
             }
         });
 /*
@@ -119,101 +143,74 @@ public class WhyCryActivity extends Activity {
         send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                JSONObject sendjson = new JSONObject();
-                try {
-                    sendjson.put("record_id", "103");
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                //new AsyncGetData(WhyCryActivity.this).execute(String.valueOf(sendjson));
+                String recordID = "record_id";
+                String recordRequest = "103";
+
+                //new AsyncGetData(WhyCryActivity.this, recordID, recordRequest).execute();
+                uploadFile(outputFile);
+
+
                 //Toast.makeText(getApplicationContext(), "Retrieving result for record id: eventually sending audio", Toast.LENGTH_SHORT).show();
-                Intent visualizationIntent = new Intent(WhyCryActivity.this, WhyCryVisualization.class);
-                startActivity(visualizationIntent);
+                //Intent visualizationIntent = new Intent(WhyCryActivity.this, WhyCryVisualization.class);
+                //startActivity(visualizationIntent);
             }
         });
     }
 
-    class AsyncGetData extends AsyncTask<String, String, String> {
-        private Context acontext;
-        public AsyncGetData(Context context) {
-            acontext = context;
-        }
+    ///////////////////////////////////////////////
+    ////////////////////////////////////////
+    /////////////////////////////////////
 
-        @Override
-        protected String doInBackground(String... params) {
-            // Create GetData Method to retrieve JSON structure for specific record_id
-            // db fail returns result=0 and blank data
-            // success returns result=1 and corresponding data
+    ////////////////////////////////////////////////
+    ///////////////////////////////////////////////
+    //////////////////////////////////////////////
 
-            // "{\"record_id\":\"103\",\"mode\":\"{This is a mode test.}\",\"data\":\"\"}"
+        // Create GetData Method to retrieve JSON structure for specific record_id
+        // db fail returns result=0 and blank data
+        // success returns result=1 and corresponding data
 
-            String jsonData = params[0];
-            URL url;
-            HttpsURLConnection conn;
-            BufferedReader reader;
-            String jsonResponse;
+        // "{\"record_id\":\"103\",\"mode\":\"{This is a mode test.}\",\"data\":\"\"}"
 
-            int bytesRead, bytesAvailable, bufferSize;
-            byte[] bytebuffer;
-            int maxBufferSize = 1*1004*1024;
 
-            // Send data
-            try {
-                // Defined URL  where to send data
-                url = new URL("https://staging5.ctrl.ucla.edu:7423/app/get-data");
-                // after testing, switch to app/process-data-v2
+    public static void uploadFile(String filePath) {
+        try {
+            File sourceFile = new File(filePath);
+            Log.d(TAG, "File...::::" + sourceFile + " : " + sourceFile.exists());
 
-                long contentLength;
-                int serverResponseCode;
-                String serverResponseMessage;
-//                File file = new File(OutputFile);
+            RequestBody requestBody = new MultipartBody.Builder()
+                    .setType(MultipartBody.FORM)
+                    .addFormDataPart("record_id", "103")
+                    .build();
+            System.out.println("1");
 
-                // Send POST data request
-                conn = (HttpsURLConnection) url.openConnection();
-                conn.setDoOutput(true);
-                conn.setRequestMethod("POST");
-                conn.setRequestProperty("Content-Type", "multipart/form-data");
-
-                // Append parameters to URL
-                // Uri.Builder builder = new Uri.Builder()
-                //          .appendQueryParameter("record_id", record_ID);
-                //   String query = builder.build().getEncodedQuery();
-
-                // Open connection for sending data
-                Writer writer = new BufferedWriter(new OutputStreamWriter(conn.getOutputStream(), "UTF-8"));
-                writer.write(jsonData);
-                writer.close();
-
-                // Get the server response
-                InputStream input = conn.getInputStream();
-                StringBuilder buffer = new StringBuilder();
-                String line;
-                reader = new BufferedReader(new InputStreamReader(input));
-
-                // Read Server Response
-                while ((line = reader.readLine()) != null) {
-                    // Append server response in string
-                    buffer.append(line + "\n");
+            Request request = new Request.Builder()
+                    .url(serverURL)
+                    .post(requestBody)
+                    .build();
+            System.out.println("2");
+            OkHttpClient client = new OkHttpClient();
+            System.out.println("3");
+            Response response;
+                    client.newCall(request).enqueue(new Callback() {
+                @Override public void onFailure(Call call, IOException e) {
+                    e.printStackTrace();
                 }
 
-                jsonResponse = buffer.toString();
-                //response data
-                //send to post execute
-                return jsonResponse;
-            } catch (UnsupportedEncodingException e1) {
-                e1.printStackTrace();
-            } catch (ProtocolException e1) {
-                e1.printStackTrace();
-            } catch (MalformedURLException e1) {
-                e1.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            return null;
-        }
-        @Override
-        protected void onPostExecute(String result) {
-            Toast.makeText(acontext, "Results: " + result, Toast.LENGTH_SHORT).show();
+                @Override public void onResponse(Call call, Response response) throws IOException {
+                    if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
+
+                    Headers responseHeaders = response.headers();
+                    for (int i = 0, size = responseHeaders.size(); i < size; i++) {
+                        System.out.println(responseHeaders.name(i) + ": " + responseHeaders.value(i));
+                    }
+
+                    System.out.println(response.body().string());
+                }
+            });
+        } catch (Exception e) {
+            Log.e(TAG, "Other Error: " + e.toString());
         }
     }
+
+
 }
