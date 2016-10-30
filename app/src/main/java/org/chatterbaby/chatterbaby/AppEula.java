@@ -6,7 +6,6 @@ package org.chatterbaby.chatterbaby; /**
  * so next time this will not show, until next upgrade.
  */
 
-
 //import android.support.v7.appcompat.R;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -17,22 +16,22 @@ import android.content.pm.ActivityInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.preference.PreferenceManager;
-
-
+import android.webkit.WebView;
 
 public class AppEula {
     private String EULA_PREFIX = "appeula";
-    private Activity mContext;
+    private Activity mActivity;
+    private String appEULAlink = "https://docs.google.com/a/g.ucla.edu/document/d/1Kk5sS_TZco67vvpb4SCk9bvGAR89szXWqlye-AhISpo/edit?usp=sharing";
 
     public AppEula(Activity context) {
-        mContext = context;
+        mActivity = context;
     }
 
     private PackageInfo getPackageInfo() {
         PackageInfo info = null;
         try {
-            info = mContext.getPackageManager().getPackageInfo(
-                    mContext.getPackageName(), PackageManager.GET_ACTIVITIES);
+            info = mActivity.getPackageManager().getPackageInfo(
+                    mActivity.getPackageName(), PackageManager.GET_ACTIVITIES);
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }
@@ -42,63 +41,50 @@ public class AppEula {
     public void show() {
         PackageInfo versionInfo = getPackageInfo();
 
-        // The eulaKey changes every time you increment the version number in
-        // the AndroidManifest.xml
+        // The eulaKey changes every time you increment the version number in the AndroidManifest.xml
         final String eulaKey = EULA_PREFIX + versionInfo.versionCode;
-        final SharedPreferences prefs = PreferenceManager
-                .getDefaultSharedPreferences(mContext);
-
-        boolean bAlreadyAccepted = prefs.getBoolean(eulaKey, false);
-        if (bAlreadyAccepted == false) {
-
-
-
+        final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(mActivity);
+        boolean hasAccepted = prefs.getBoolean(eulaKey, false);
+        if (!hasAccepted) {
             // EULA title
-            String title = mContext.getString(R.string.app_name);
-                    //+ " v" + versionInfo.versionName;
-
-            // EULA text
-            String message = mContext.getString(R.string.eula_string);
-            //message.setText(Html.fromHtml)
+            String title = mActivity.getString(R.string.app_name);
+            //+ " v" + versionInfo.versionName;
 
             // Disable orientation changes, to prevent parent activity
-            // reinitialization
-            mContext.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+            mActivity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
-            AlertDialog.Builder builder = new AlertDialog.Builder(mContext)
+            // create a WebView with the current EULA
+            WebView webView = new WebView(mActivity);
+            webView.loadUrl(appEULAlink);
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(mActivity)
                     .setTitle(title)
-                    .setMessage(message)
+                    .setView(webView)
                     .setCancelable(false)
-                    .setPositiveButton(R.string.accept,
-                            new Dialog.OnClickListener() {
-
+                    .setPositiveButton(R.string.accept, new Dialog.OnClickListener() {
                                 @Override
                                 public void onClick(
                                         DialogInterface dialogInterface, int i) {
                                     // Mark this version as read.
-                                    SharedPreferences.Editor editor = prefs
-                                            .edit();
+                                    SharedPreferences.Editor editor = prefs.edit();
                                     editor.putBoolean(eulaKey, true);
                                     editor.commit();
 
                                     // Close dialog
                                     dialogInterface.dismiss();
 
-                                    // Enable orientation changes based on
-                                    // device's sensor
-                                    mContext.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
+                                    // Enable orientation changes based on device's sensor
+                                    mActivity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
+
+                                    /// move to email activity
                                 }
                             })
-                    .setNegativeButton(android.R.string.cancel,
-                            new Dialog.OnClickListener() {
-
+                    .setNegativeButton(android.R.string.cancel, new Dialog.OnClickListener() {
                                 @Override
-                                public void onClick(DialogInterface dialog,
-                                                    int which) {
-                                    // Close the activity as they have declined
-                                    // the EULA
-                                    mContext.finish();
-                                    mContext.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
+                                public void onClick(DialogInterface dialog, int which) {
+                                    // Close the activity as they have declined the EULA
+                                    mActivity.finish();
+                                    mActivity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
                                 }
 
                             });
