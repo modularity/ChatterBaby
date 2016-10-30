@@ -83,6 +83,10 @@
             android:layout_alignTop="@+id/stopbutton"
             android:layout_alignRight="@+id/textView"
             android:layout_alignEnd="@+id/textView"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/countdown"/>
 
     </RelativeLayout>
 </android.support.design.widget.CoordinatorLayout>
