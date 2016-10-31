@@ -1,9 +1,11 @@
 apply plugin: 'com.android.application'
-
 android {
+    signingConfigs {
+        config {
+        }
+    }
     compileSdkVersion 24
     buildToolsVersion "24.0.0"
-
     defaultConfig {
         applicationId "org.chatterbaby.chatterbaby"
         minSdkVersion 21
@@ -21,18 +23,18 @@ android {
 
         }
     }
-
     dependencies {
         compile fileTree(dir: 'libs', include: ['*.jar'])
         testCompile 'junit:junit:4.12'
 
         compile 'com.android.support:appcompat-v7:24.0.0'
-        compile 'com.google.android.gms:play-services-appindexing:8.1.0'
         compile 'com.android.support:design:24.0.0'
+
+        compile 'com.github.PhilJay:MPAndroidChart:v3.0.0-beta1'
 
         compile 'com.squareup.okhttp3:okhttp:3.3.0'
         compile 'com.squareup.okio:okio:1.6.0'
-
-
     }
+}
+dependencies {
 }
