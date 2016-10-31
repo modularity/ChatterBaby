@@ -3,22 +3,21 @@
     package="org.chatterbaby.chatterbaby">
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
-        android:allowBackup="true"
+        android:allowBackup="false"
         android:icon="@mipmap/logo_chatterbaby"
         android:label="@string/app_name"
-        android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
 
         <!-- Main Activity -->
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -33,7 +32,6 @@
                 android:value="org.chatterbaby.chatterbaby.MainActivity" />
         </activity>
 
-        <!-- WhyCry Activity -->
         <activity
             android:name=".WhyCryActivity"
             android:hardwareAccelerated="false"
@@ -44,7 +42,6 @@
                 android:value="org.chatterbaby.chatterbaby.MainActivity" />
         </activity>
 
-        <!-- WhyCryVisualization Activity -->
         <activity
             android:name=".WhyCryVisualization"
             android:hardwareAccelerated="false"
@@ -55,7 +52,6 @@
                 android:value="org.chatterbaby.chatterbaby.WhyCryActivity" />
         </activity>
 
-        <!-- NoCry Activity -->
         <activity
             android:name=".NoCryActivity"
             android:hardwareAccelerated="false"
@@ -66,14 +62,6 @@
                 android:value="org.chatterbaby.chatterbaby.MainActivity" />
         </activity>
 
-        <!--
-     ATTENTION: This was auto-generated to add Google Play services to your project for
-     App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information.
-        -->
-        <meta-data
-            android:name="com.google.android.gms.version"
-            android:value="@integer/google_play_services_version" />
-
         <activity
             android:name=".NoPainActivity"
             android:label="@string/title_activity_no_pain"
@@ -83,6 +71,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="MainActivity" />
         </activity>
+
         <activity
             android:name=".AboutUsActivity"
             android:label="@string/title_activity_about_us"
@@ -92,6 +81,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="MainActivity" />
         </activity>
+
         <activity
             android:name=".ContactActivity"
             android:label="@string/title_activity_contact"
@@ -101,6 +91,15 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="org.chatterbaby.chatterbaby.AboutUsActivity" />
         </activity>
-    </application>
 
+        <activity
+            android:name=".RegisterEmail"
+            android:label="@string/title_activity_register_email"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="org.chatterbaby.chatterbaby.MainActivity" />
+        </activity>
+    </application>
 </manifest>

@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.media.MediaRecorder;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -13,6 +14,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import java.io.File;
 import java.io.IOException;
+import java.io.OutputStream;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.MediaType;
@@ -147,7 +149,7 @@ public class WhyCryActivity extends Activity {
                         String jsonStr = response.body().string();
                         System.out.println(jsonStr);
                         try {
-                            JSONObject jsonObj = new JSONObject(jsonStr);
+                            final JSONObject jsonObj = new JSONObject(jsonStr);
                             if ( jsonObj.getString("errmsg").equals("")) {
 
                                 // pass json to visualization activity
@@ -157,9 +159,14 @@ public class WhyCryActivity extends Activity {
                                 visualizationIntent.putExtra("json", jsonObj.toString());
                                 startActivity(visualizationIntent);
                             } else {
-                                System.out.println(jsonObj.getString("errmsg"));
-                                Toast.makeText(getApplicationContext(), "Sound analysis error. Please try again!", Toast.LENGTH_LONG).show();
-                                //TO DO: generate error logs
+                                //System.out.println(jsonObj.getString("errmsg"));
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        Toast.makeText(getApplicationContext(), "Sound analysis error. Please try again!", Toast.LENGTH_LONG).show();
+                                        //TO DO: generate error logs
+                                    }
+                                });
                             }
                         } catch (JSONException e) {e.printStackTrace();}
                     }
