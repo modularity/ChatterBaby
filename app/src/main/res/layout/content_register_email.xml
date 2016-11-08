@@ -33,6 +33,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="42dp"
         android:id="@+id/submitEmail"
+        android:background="@color/colorPrimary"
         style="@android:style/Widget.ActionButton"
         android:elevation="10dp" />
 </RelativeLayout>

@@ -3,6 +3,7 @@ package org.chatterbaby.chatterbaby;
         import android.content.Context;
         import android.content.Intent;
         import android.os.AsyncTask;
+        import android.support.v7.app.ActionBar;
         import android.support.v7.app.AppCompatActivity;
         import android.support.v7.widget.Toolbar;
 
@@ -12,6 +13,7 @@ package org.chatterbaby.chatterbaby;
         import android.os.Bundle;
         import android.os.Environment;
 
+        import android.util.Log;
         import android.view.Menu;
         import android.view.MenuItem;
         import android.view.View;
@@ -27,6 +29,7 @@ package org.chatterbaby.chatterbaby;
 
         import java.io.BufferedReader;
         import java.io.BufferedWriter;
+        import java.io.File;
         import java.io.IOException;
         import java.io.InputStream;
         import java.io.InputStreamReader;
@@ -39,34 +42,39 @@ package org.chatterbaby.chatterbaby;
 
         import javax.net.ssl.HttpsURLConnection;
 
+        import okhttp3.Call;
+        import okhttp3.Callback;
+        import okhttp3.MediaType;
+        import okhttp3.MultipartBody;
+        import okhttp3.OkHttpClient;
+        import okhttp3.Request;
+        import okhttp3.RequestBody;
+        import okhttp3.Response;
+
 
 public class NoCryActivity extends AppCompatActivity {
 
-    Button play,stop,record, send;
-    private MediaRecorder audioRecorder = new MediaRecorder();
+    Button record, stop, send;
+    private static final String TAG = "NoActivity";
+
+    // Server variables
+    static String serverURL = "http://chatterbaby.org/app-ws/app/process-data-v2";
+    static String mode = "cryNoCry";
+
+    // audiorecord variables
     private String outputFile = null;
-    String responseServer;
+    private MediaRecorder audioRecorder = new MediaRecorder();
+    private static final int SAMPLE_RATE = 44100;
+    private static final int ENCODING_BITRATE = 16000;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_no_cry);
 
-        //play=(Button)findViewById(R.id.play_button);
-        stop=(Button)findViewById(R.id.stopbutton);
-        record=(Button)findViewById(R.id.recordbutton);
-        send=(Button)findViewById(R.id.sendaudio);
-
-        stop.setEnabled(false);
-        //play.setEnabled(false);
-        send.setEnabled(false);
-        outputFile = Environment.getExternalStorageDirectory().getAbsolutePath() + "/recording.3gp";
-
-        audioRecorder.reset();
-        audioRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
-        audioRecorder.setOutputFormat(MediaRecorder.OutputFormat.DEFAULT);
-        audioRecorder.setAudioEncoder(MediaRecorder.OutputFormat.DEFAULT);
-        audioRecorder.setOutputFile(outputFile);
+        setToolbar();
+        setButtonHandlers();
+        prepAudioComponents();
 
         record.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -74,12 +82,9 @@ public class NoCryActivity extends AppCompatActivity {
                 try {
                     audioRecorder.prepare();
                     audioRecorder.start();
-                } catch (IllegalStateException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                } catch (IOException e) {e.printStackTrace();}
 
+                //update buttons
                 record.setEnabled(false);
                 stop.setEnabled(true);
 
@@ -95,132 +100,124 @@ public class NoCryActivity extends AppCompatActivity {
                     audioRecorder.release();
                     audioRecorder = null;
                 }
+                //update buttons
+                record.setEnabled(false);
                 stop.setEnabled(false);
-                //play.setEnabled(true);
                 send.setEnabled(true);
 
-                Toast.makeText(getApplicationContext(), "Audio recorded successfully",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Audio recorded successfully", Toast.LENGTH_SHORT).show();
             }
         });
-/*
-        play.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) throws IllegalArgumentException,SecurityException,IllegalStateException {
-                MediaPlayer m = new MediaPlayer();
 
-                try {
-                    m.setDataSource(outputFile);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } try {
-                    m.prepare();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-
-                m.start();
-                Toast.makeText(getApplicationContext(), "Playing audio", Toast.LENGTH_SHORT).show();
-            }
-        });
-*/
         send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                JSONObject sendjson = new JSONObject();
-                try {
-                    sendjson.put("record_id", "103");
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                //new AsyncGetData(WhyCryActivity.this).execute(String.valueOf(sendjson));
-                //Toast.makeText(getApplicationContext(), "Retrieving result for record id: eventually sending audio", Toast.LENGTH_SHORT).show();
-                Intent visualizationIntent = new Intent(NoCryActivity.this, WhyCryVisualization.class);
-                startActivity(visualizationIntent);
+                uploadFile(outputFile);
+                Toast.makeText(getApplicationContext(), "Retrieving results...", Toast.LENGTH_SHORT).show();
+
+                record.setEnabled(true);
+                send.setEnabled(false);
             }
         });
     }
 
-    class AsyncGetData extends AsyncTask<String, String, String> {
-        private Context acontext;
-        public AsyncGetData(Context context) {
-            acontext = context;
-        }
+    private void setToolbar() {
+        // Attaching the layout to the toolbar object
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        // Setting toolbar as the ActionBar with setSupportActionBar() call
+        setSupportActionBar(toolbar);
+        ActionBar ab = getSupportActionBar();
+        ab.setDisplayHomeAsUpEnabled(true);
+    }
 
-        @Override
-        protected String doInBackground(String... params) {
-            // Create GetData Method to retrieve JSON structure for specific record_id
-            // db fail returns result=0 and blank data
-            // success returns result=1 and corresponding data
+    private void setButtonHandlers() {
+        stop = (Button) findViewById(R.id.stopbutton);
+        record = (Button) findViewById(R.id.recordbutton);
+        send = (Button) findViewById(R.id.sendaudio);
 
-            // "{\"record_id\":\"103\",\"mode\":\"{This is a mode test.}\",\"data\":\"\"}"
+        record.setEnabled(true);
+        stop.setEnabled(false);
+        send.setEnabled(false);
+    }
 
-            String jsonData = params[0];
-            URL url;
-            HttpsURLConnection conn;
-            BufferedReader reader;
-            String jsonResponse;
+    private void prepAudioComponents() {
+        outputFile = Environment.getExternalStorageDirectory().getAbsolutePath() + "/recording.ACC";
+        audioRecorder.reset();
+        audioRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
+        audioRecorder.setOutputFormat(MediaRecorder.OutputFormat.AAC_ADTS);
+        audioRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
+        audioRecorder.setAudioEncodingBitRate(ENCODING_BITRATE);
+        audioRecorder.setAudioSamplingRate(SAMPLE_RATE);
+        audioRecorder.setAudioChannels(1);
+        audioRecorder.setOutputFile(outputFile);
+    }
 
-            int bytesRead, bytesAvailable, bufferSize;
-            byte[] bytebuffer;
-            int maxBufferSize = 1*1004*1024;
+    // submits algorithm mode and audio file to server
+    // parses json response for probabilities and passes them to visualization(generate histogram)
+    public void uploadFile(final String filePath) {
+        try {
+            File sourceFile = new File(filePath);
+            Log.d(TAG, "File...::::" + sourceFile + " : " + sourceFile.exists());
 
-            // Send data
-            try {
-                // Defined URL  where to send data
-                url = new URL("https://staging5.ctrl.ucla.edu:7423/app/get-data");
-                // after testing, switch to app/process-data-v2
+            RequestBody requestBody = new MultipartBody.Builder()
+                    .setType(MultipartBody.FORM)
+                    .addFormDataPart("mode", mode)
+                    .addFormDataPart("token", "")
+                    .addFormDataPart("data", filePath, RequestBody.create(MediaType.parse("audio/ogg"), sourceFile))
+                    .build();
+            System.out.println("1");
 
-                long contentLength;
-                int serverResponseCode;
-                String serverResponseMessage;
-//                File file = new File(OutputFile);
-
-                // Send POST data request
-                conn = (HttpsURLConnection) url.openConnection();
-                conn.setDoOutput(true);
-                conn.setRequestMethod("POST");
-                conn.setRequestProperty("Content-Type", "multipart/form-data");
-
-                // Append parameters to URL
-                // Uri.Builder builder = new Uri.Builder()
-                //          .appendQueryParameter("record_id", record_ID);
-                //   String query = builder.build().getEncodedQuery();
-
-                // Open connection for sending data
-                Writer writer = new BufferedWriter(new OutputStreamWriter(conn.getOutputStream(), "UTF-8"));
-                writer.write(jsonData);
-                writer.close();
-
-                // Get the server response
-                InputStream input = conn.getInputStream();
-                StringBuilder buffer = new StringBuilder();
-                String line;
-                reader = new BufferedReader(new InputStreamReader(input));
-
-                // Read Server Response
-                while ((line = reader.readLine()) != null) {
-                    // Append server response in string
-                    buffer.append(line + "\n");
+            Request request = new Request.Builder()
+                    .url(serverURL)
+                    .addHeader("Content-Type", "image/jpeg")
+                    .post(requestBody)
+                    .build();
+            System.out.println("2");
+            OkHttpClient client = new OkHttpClient();
+            System.out.println("3");
+            client.newCall(request).enqueue(new Callback() {
+                @Override public void onFailure(Call call, IOException e) {
+                    e.printStackTrace();
                 }
 
-                jsonResponse = buffer.toString();
-                //response data
-                //send to post execute
-                return jsonResponse;
-            } catch (UnsupportedEncodingException e1) {
-                e1.printStackTrace();
-            } catch (ProtocolException e1) {
-                e1.printStackTrace();
-            } catch (MalformedURLException e1) {
-                e1.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            return null;
-        }
-        @Override
-        protected void onPostExecute(String result) {
-            Toast.makeText(acontext, "Results: " + result, Toast.LENGTH_SHORT).show();
-        }
+                @Override public void onResponse(Call call, Response response) throws IOException {
+
+                    // Use the response.
+                    int responseCode = response.code();
+                    System.out.println("Response code: " + response.code());
+                    String jsonStr="";
+                    if (responseCode == 200) {
+                        jsonStr = response.body().string();
+                        System.out.println(jsonStr);
+                        try {
+                            final JSONObject jsonObj = new JSONObject(jsonStr);
+                            if ( jsonObj.getString("errmsg").equals("")) {
+
+                                // pass json to visualization activity
+                                System.out.println("Starting visualization...");
+                                System.out.println(jsonObj.getString("result"));
+                                Intent visualizationIntent = new Intent(NoCryActivity.this, WhyCryVisualization.class);
+                                visualizationIntent.putExtra("json", jsonObj.toString());
+                                startActivity(visualizationIntent);
+                            } else {
+                                //System.out.println(jsonObj.getString("errmsg"));
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        Toast.makeText(getApplicationContext(), "Sound analysis error. Please try again!", Toast.LENGTH_LONG).show();
+                                        //TO DO: generate error logs
+                                    }
+                                });
+                            }
+                        } catch (JSONException e) {e.printStackTrace();}
+                    }
+                    else {
+                        Toast.makeText(getApplicationContext(), "Server connection error. Please try again!", Toast.LENGTH_LONG).show();
+                        System.out.println("Json: " + jsonStr);
+                        //TO DO: generate error logs
+                    }
+                }
+            });
+        } catch (Exception e) {Log.e(TAG, "Other Error: " + e.toString());}
     }
 }

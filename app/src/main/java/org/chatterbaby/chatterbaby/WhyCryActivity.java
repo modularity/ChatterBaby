@@ -6,6 +6,9 @@ import android.media.MediaRecorder;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -24,7 +27,7 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-public class WhyCryActivity extends Activity {
+public class WhyCryActivity extends AppCompatActivity {
     Button record, stop, send;
     private static final String TAG = "WhyCryActivity";
 
@@ -43,6 +46,7 @@ public class WhyCryActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_why_cry);
 
+        setToolbar();
         setButtonHandlers();
         prepAudioComponents();
 
@@ -91,6 +95,15 @@ public class WhyCryActivity extends Activity {
         });
     }
 
+    private void setToolbar() {
+        // Attaching the layout to the toolbar object
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        // Setting toolbar as the ActionBar with setSupportActionBar() call
+        setSupportActionBar(toolbar);
+        ActionBar ab = getSupportActionBar();
+        ab.setDisplayHomeAsUpEnabled(true);
+    }
+
     private void setButtonHandlers() {
         stop = (Button) findViewById(R.id.stopbutton);
         record = (Button) findViewById(R.id.recordbutton);
@@ -102,13 +115,14 @@ public class WhyCryActivity extends Activity {
     }
 
     private void prepAudioComponents() {
-        outputFile = Environment.getExternalStorageDirectory().getAbsolutePath() + "/recording.GPP";
+        outputFile = Environment.getExternalStorageDirectory().getAbsolutePath() + "/recording.ACC";
         audioRecorder.reset();
         audioRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
-        audioRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
+        audioRecorder.setOutputFormat(MediaRecorder.OutputFormat.AAC_ADTS);
         audioRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
         audioRecorder.setAudioEncodingBitRate(ENCODING_BITRATE);
         audioRecorder.setAudioSamplingRate(SAMPLE_RATE);
+        audioRecorder.setAudioChannels(1);
         audioRecorder.setOutputFile(outputFile);
     }
 
@@ -145,8 +159,9 @@ public class WhyCryActivity extends Activity {
                     // Use the response.
                     int responseCode = response.code();
                     System.out.println("Response code: " + response.code());
+                    String jsonStr="";
                     if (responseCode == 200) {
-                        String jsonStr = response.body().string();
+                        jsonStr = response.body().string();
                         System.out.println(jsonStr);
                         try {
                             final JSONObject jsonObj = new JSONObject(jsonStr);
@@ -172,6 +187,7 @@ public class WhyCryActivity extends Activity {
                     }
                     else {
                         Toast.makeText(getApplicationContext(), "Server connection error. Please try again!", Toast.LENGTH_LONG).show();
+                        System.out.println("Json: " + jsonStr);
                         //TO DO: generate error logs
                     }
                 }

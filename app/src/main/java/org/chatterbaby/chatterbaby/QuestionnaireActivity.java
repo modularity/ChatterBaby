@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -14,7 +16,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toolbar;
 
-public class QuestionnaireActivity extends Activity implements View.OnClickListener {
+public class QuestionnaireActivity extends AppCompatActivity implements View.OnClickListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,24 +24,19 @@ public class QuestionnaireActivity extends Activity implements View.OnClickListe
         setContentView(R.layout.activity_webquestionnaire);
 
         Intent intent = getIntent();
+        setToolbar();
 
         // Questionnaire link button
         Button contactBtn = (Button) findViewById(R.id.questionBtn);
         contactBtn.setOnClickListener(this);
-        contactBtn.setBackgroundColor(Color.rgb(155,153,255));
     }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle app bar item clicks here. The app bar
-        // automatically handles clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-        /*if (id == R.id.action_settings) {
-            return true;
-        }
-        */
-        return super.onOptionsItemSelected(item);
+    private void setToolbar() {
+        // Attaching the layout to the toolbar object
+        android.support.v7.widget.Toolbar toolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.toolbar);
+        // Setting toolbar as the ActionBar with setSupportActionBar() call
+        setSupportActionBar(toolbar);
+        ActionBar ab = getSupportActionBar();
+        ab.setDisplayHomeAsUpEnabled(true);
     }
 
     public void onClick(View v) {

@@ -2,37 +2,18 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
-    android:gravity="center"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_gravity="center"
     android:fitsSystemWindows="true"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity"
+    android:orientation="vertical">
 
-
-    <Button
+    <include
+        layout="@layout/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Link to Questionnaire"
-        android:id="@+id/questionBtn"
-        android:textSize="25sp"
-        android:layout_margin="25dp"
-        android:layout_marginTop="20dp"
+        android:layout_height="wrap_content"/>
 
-        android:layout_gravity="center_vertical"
-        android:textColorHighlight="@color/colorPrimary"
-        android:clickable="true"
-        android:background="@color/button1"
-        android:elevation="12dp"
-        android:fontFamily="Ariel"
-        android:textAllCaps="false"
-        />
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/questionnaire_explanation"
-        android:id="@+id/aboutUsTextView"
-        android:layout_margin="25dp" />
-
+    <include layout="@layout/content_webquestionnaire" />
 
 </LinearLayout>
