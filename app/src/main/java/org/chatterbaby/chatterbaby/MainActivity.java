@@ -6,6 +6,7 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -27,10 +28,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Attaching the layout to the toolbar object
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        // Setting toolbar as the ActionBar with setSupportActionBar() call
-        setSupportActionBar(toolbar);
+        setToolbar();
 
         // First time opening app: Show EULA and save email
         // The eulaKey changes every time you increment the version number in the AndroidManifest.xml
@@ -44,10 +42,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         for (int i = 0; i < btn.length; i++) {
             btn[i] = (Button) findViewById(btn_id[i]);
-            btn[i].setBackgroundColor(Color.rgb(155,153,255));
             btn[i].setOnClickListener(this);
         }
-        btn_unfocus = btn[0];
+    }
+
+    private void setToolbar() {
+        // Attaching the layout to the toolbar object
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        // Setting toolbar as the ActionBar with setSupportActionBar() call
+        setSupportActionBar(toolbar);
+        toolbar.setLogo(R.mipmap.logo_chatterbaby);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        getSupportActionBar().setHomeButtonEnabled(true);
     }
 
     private PackageInfo getPackageInfo() {
@@ -65,45 +71,42 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.whyCryBtn:
-                setFocus(btn_unfocus, btn[0]);
-                btn_unfocus = btn[0];
                 Intent whyCryIntent = new Intent(this, WhyCryActivity.class);
                 startActivity(whyCryIntent);
                 break;
             case R.id.noCryBtn:
-                setFocus(btn_unfocus, btn[1]);
-                btn_unfocus = btn[1];
                 Intent noCryIntent = new Intent(this, NoCryActivity.class);
                 startActivity(noCryIntent);
                 break;
             case R.id.noPainBtn:
-                setFocus(btn_unfocus, btn[2]);
-                btn_unfocus = btn[2];
                 Intent noPainIntent = new Intent(this, NoPainActivity.class);
                 startActivity(noPainIntent);
                 break;
             case R.id.questionBtn:
-                setFocus(btn_unfocus, btn[3]);
-                btn_unfocus = btn[3];
                 Intent questionIntent = new Intent(this, QuestionnaireActivity.class);
                 startActivity(questionIntent);
                 break;
             case R.id.aboutUs:
-                setFocus(btn_unfocus, btn[4]);
-                btn_unfocus = btn[4];
                 Intent aboutUsIntent = new Intent(this, AboutUsActivity.class);
                 startActivity(aboutUsIntent);
                 break;
         }
     }
 
-    private void setFocus(Button btn_unfocus, Button btn_focus) {
-       btn_unfocus.setTextColor(Color.rgb(49, 50, 51));
-       btn_unfocus.setBackgroundColor(Color.rgb(191,201,245));
+    private void setFocus(Button btn_focus) {
+        //btn_focus.setTextColor(Color.rgb(49, 50, 51));
+        btn_focus.setBackgroundColor(Color.rgb(191,201,245));
         //122,213,198
         //191,169,245
         //191,201,245
-       btn_focus.setTextColor(Color.rgb(255, 255, 255));
-       btn_focus.setBackgroundColor(Color.rgb(191,169,245));
+        btn_focus.setTextColor(Color.rgb(255, 255, 255));
+        //btn_focus.setBackgroundColor(Color.rgb(191,169,245));
+        // UCLA official blue: 50, 132, 191
+        /*
+        #6ec4f5
+        #7047e1
+        #bfc9f5
+         */
+        btn_focus.setBackgroundColor(Color.rgb(155,153,255));
     }
 }

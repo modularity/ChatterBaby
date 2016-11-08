@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
 import com.github.mikephil.charting.charts.BarChart;
@@ -20,7 +21,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class WhyCryVisualization extends Activity {
+public class WhyCryVisualization extends AppCompatActivity {
     Float painProb;
     Float hungryProb;
     Float fussyProb;
@@ -91,9 +92,14 @@ public class WhyCryVisualization extends Activity {
 
         // create dataset
         ArrayList<BarEntry> entries = new ArrayList<>();
-        entries.add(new BarEntry(0f, painProb));
-        entries.add(new BarEntry(1f, hungryProb));
-        entries.add(new BarEntry(2f, fussyProb));
+
+        entries.add(new BarEntry(0f, .23f));
+        entries.add(new BarEntry(1f, .35f));
+        entries.add(new BarEntry(2f, .12f));
+
+        //entries.add(new BarEntry(0f, painProb));
+        //entries.add(new BarEntry(1f, hungryProb));
+        //entries.add(new BarEntry(2f, fussyProb));
 
         BarDataSet barDataSet = new BarDataSet(entries, "Probability of state");
         //barDataSet.setValueFormatter(new PercentFormatter());

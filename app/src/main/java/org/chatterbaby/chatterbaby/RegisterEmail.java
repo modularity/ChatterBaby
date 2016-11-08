@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
+import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
@@ -27,7 +28,7 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-public class RegisterEmail extends Activity {
+public class RegisterEmail extends AppCompatActivity {
     private String emailValue;
     private EditText inputEmail;
     static String serverURL = "http://chatterbaby.org/app-ws/app/process-data";

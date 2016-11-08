@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.method.ScrollingMovementMethod;
@@ -19,6 +20,8 @@ public class AboutUsActivity extends AppCompatActivity implements View.OnClickLi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_about_us);
 
+        setToolbar();
+
         // About Us text
         String aboutUsText = this.getString(R.string.about_us);
         TextView aboutUsTV = new TextView(this);
@@ -28,10 +31,17 @@ public class AboutUsActivity extends AppCompatActivity implements View.OnClickLi
         // Contact button
         Button contactBtn = (Button) findViewById(R.id.contactBtn);
         contactBtn.setOnClickListener(this);
-        contactBtn.setBackgroundColor(Color.rgb(155,153,255));
     }
     public void onClick(View v) {
         Intent contactIntent = new Intent(this, ContactActivity.class);
         startActivity(contactIntent);
+    }
+    private void setToolbar() {
+        // Attaching the layout to the toolbar object
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        // Setting toolbar as the ActionBar with setSupportActionBar() call
+        setSupportActionBar(toolbar);
+        ActionBar ab = getSupportActionBar();
+        ab.setDisplayHomeAsUpEnabled(true);
     }
 }

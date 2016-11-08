@@ -1,30 +1,25 @@
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_margin="60dp"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="org.chatterbaby.chatterbaby.AboutUsActivity"
-    tools:showIn="@layout/activity_about_us"
     android:gravity="center"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:weightSum="1">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/about_us"
-        android:id="@+id/aboutUsTextView"
-        android:scrollbars = "vertical"
+        android:text="@string/questionnaire_explanation"
+        android:id="@+id/questionaireTextView"
         android:layout_marginBottom="50dp" />
 
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:text="Questionnaire"
+        android:id="@+id/questionBtn"
         android:textSize="25sp"
-        android:text="@string/contact_title"
-        android:id="@+id/contactBtn"
         android:layout_marginLeft="60dp"
         android:layout_marginRight="60dp"
 
@@ -34,6 +29,6 @@
         android:background="@color/azureButton"
         android:elevation="12dp"
         android:fontFamily="Ariel"
-        android:textAllCaps="false"
-        />
+        android:textAllCaps="false" />
+
 </LinearLayout>

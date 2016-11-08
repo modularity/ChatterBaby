@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#6ec4f5</color>
-    <color name="colorPrimaryDark">#7047e1</color>
-    <color name="colorAccent">#52ea30</color>
-    <color name="button1">#bfc9f5</color>
-    <color name="button2">#7ad5c6</color>
+    <color name="colorPrimary">#00A5E5</color>
+    <color name="colorPrimaryDark">#0055A6</color>
+    <color name="colorAccent">#FFFFFF</color>
+    <color name="azureButton">#00A5E5</color>
+    <color name="menuButton">#3284BF</color>
+    <color name="altButton">#9B99FF</color>
 </resources>
