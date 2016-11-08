@@ -23,6 +23,7 @@ import java.util.Calendar;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.MediaType;
+import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
@@ -31,7 +32,10 @@ import okhttp3.Response;
 public class RegisterEmail extends AppCompatActivity {
     private String emailValue;
     private EditText inputEmail;
-    static String serverURL = "http://chatterbaby.org/app-ws/app/process-data";
+
+    // Server variables
+    static String serverURL = "http://chatterbaby.org/app-ws/app/process-data-v2";
+    static String mode = "survey";
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,10 +68,17 @@ public class RegisterEmail extends AppCompatActivity {
     private void submitForm() {
         if (validateEmail()) {
             String json = createEmailjson();
-            RequestBody body = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), json);
+            RequestBody requestBody = new MultipartBody.Builder()
+                    .setType(MultipartBody.FORM)
+                    .addFormDataPart("mode", mode)
+                    .addFormDataPart("token", "")
+                    .addFormDataPart("data", json)
+                    .build();
+            //RequestBody body = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), json);
             Request request = new Request.Builder()
                     .url(serverURL)
-                    .post(body)
+                    .addHeader("Content-Type", "application/json")
+                    .post(requestBody)
                     .build();
             System.out.println("1");
             OkHttpClient client = new OkHttpClient();
@@ -85,6 +96,8 @@ public class RegisterEmail extends AppCompatActivity {
                     // Use the response.
                     int responseCode = response.code();
                     System.out.println("Response code: " + response.code());
+                    String result = response.body().string();
+                    System.out.println(result);
                     if (responseCode == 200) {
                         runOnUiThread(new Runnable() {
                             @Override
@@ -94,6 +107,7 @@ public class RegisterEmail extends AppCompatActivity {
                                 editor.putString("Email", emailValue);
                                 editor.apply();
                                 Toast.makeText(getApplicationContext(), "Thank you!", Toast.LENGTH_SHORT).show();
+                                finish();
                             }
                         });
                     } else {
