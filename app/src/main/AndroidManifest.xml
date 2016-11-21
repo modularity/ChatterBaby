@@ -18,6 +18,7 @@
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -31,7 +32,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="org.chatterbaby.chatterbaby.MainActivity" />
         </activity>
-
         <activity
             android:name=".WhyCryActivity"
             android:hardwareAccelerated="false"
@@ -41,7 +41,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="org.chatterbaby.chatterbaby.MainActivity" />
         </activity>
-
         <activity
             android:name=".WhyCryVisualization"
             android:hardwareAccelerated="false"
@@ -51,7 +50,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="org.chatterbaby.chatterbaby.WhyCryActivity" />
         </activity>
-
         <activity
             android:name=".NoCryActivity"
             android:hardwareAccelerated="false"
@@ -61,7 +59,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="org.chatterbaby.chatterbaby.MainActivity" />
         </activity>
-
         <activity
             android:name=".NoPainActivity"
             android:label="@string/title_activity_no_pain"
@@ -71,7 +68,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="MainActivity" />
         </activity>
-
         <activity
             android:name=".AboutUsActivity"
             android:label="@string/title_activity_about_us"
@@ -81,7 +77,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="MainActivity" />
         </activity>
-
         <activity
             android:name=".ContactActivity"
             android:label="@string/title_activity_contact"
@@ -91,7 +86,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="org.chatterbaby.chatterbaby.AboutUsActivity" />
         </activity>
-
         <activity
             android:name=".RegisterEmail"
             android:label="@string/title_activity_register_email"
@@ -102,4 +96,5 @@
                 android:value="org.chatterbaby.chatterbaby.MainActivity" />
         </activity>
     </application>
+
 </manifest>
