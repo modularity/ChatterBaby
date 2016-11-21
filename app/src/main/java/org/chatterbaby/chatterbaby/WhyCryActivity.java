@@ -1,5 +1,6 @@
 package org.chatterbaby.chatterbaby;
 
+import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.content.Intent;
 import android.media.MediaRecorder;
@@ -11,13 +12,18 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.DecelerateInterpolator;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.Timer;
+import java.util.TimerTask;
+
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.MediaType;
@@ -26,6 +32,8 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
+
+import static org.chatterbaby.chatterbaby.R.id.recordButton;
 
 public class WhyCryActivity extends AppCompatActivity {
     Button record, stop, send;
@@ -41,6 +49,9 @@ public class WhyCryActivity extends AppCompatActivity {
     private static final int SAMPLE_RATE = 44100;
     private static final int ENCODING_BITRATE = 16000;
 
+    // circular progress bar
+    ProgressBar progressBar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,46 +64,47 @@ public class WhyCryActivity extends AppCompatActivity {
         record.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                record.setVisibility(View.INVISIBLE);
                 try {
                     audioRecorder.prepare();
                     audioRecorder.start();
+                    startProgressBar();
                 } catch (IOException e) {e.printStackTrace();}
-
-                //update buttons
-                record.setEnabled(false);
-                stop.setEnabled(true);
 
                 Toast.makeText(getApplicationContext(), "Recording started", Toast.LENGTH_SHORT).show();
             }
         });
+    }
 
-        stop.setOnClickListener(new View.OnClickListener() {
+    // circular progress bar
+    // tracks 5 seconds of audio collection
+    private void startProgressBar() {
+        progressBar = (ProgressBar) findViewById(R.id.circular_progress_bar);
+        progressBar.setVisibility(View.VISIBLE);
+        ObjectAnimator anim = ObjectAnimator.ofInt(progressBar, "progress", 0, 100);
+        anim.setDuration(15000);
+        anim.setInterpolator(new DecelerateInterpolator());
+
+        // handler to send audio and display result
+        // execute code after 5000 ms i.e after 5 Seconds.
+        new Timer().schedule(new TimerTask() {
             @Override
-            public void onClick(View v) {
-                if(audioRecorder != null){
-                    audioRecorder.stop();
-                    audioRecorder.release();
-                    audioRecorder = null;
-                }
-                //update buttons
-                record.setEnabled(false);
-                stop.setEnabled(false);
-                send.setEnabled(true);
-
-                Toast.makeText(getApplicationContext(), "Audio recorded successfully", Toast.LENGTH_SHORT).show();
+            public void run() {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        audioRecorder.stop();
+                        audioRecorder.reset();
+                        audioRecorder.release();
+                        Toast.makeText(getApplicationContext(), "Audio recorded successfully", Toast.LENGTH_SHORT).show();
+                        uploadFile(outputFile);
+                        record.setVisibility(View.VISIBLE);
+                    }
+                });
             }
-        });
+        }, 5000);
 
-        send.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                uploadFile(outputFile);
-                Toast.makeText(getApplicationContext(), "Retrieving results...", Toast.LENGTH_SHORT).show();
-
-                record.setEnabled(true);
-                send.setEnabled(false);
-            }
-        });
+        anim.start();
     }
 
     private void setToolbar() {
@@ -105,13 +117,8 @@ public class WhyCryActivity extends AppCompatActivity {
     }
 
     private void setButtonHandlers() {
-        stop = (Button) findViewById(R.id.stopbutton);
-        record = (Button) findViewById(R.id.recordbutton);
-        send = (Button) findViewById(R.id.sendaudio);
-
+        record = (Button) findViewById(recordButton);
         record.setEnabled(true);
-        stop.setEnabled(false);
-        send.setEnabled(false);
     }
 
     private void prepAudioComponents() {
