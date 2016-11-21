@@ -10,16 +10,6 @@
     tools:context=".MainActivity">
 
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="@color/colorAccent"
-        android:background="@drawable/mic"
-        android:id="@+id/recordButton"
-        android:layout_alignTop="@+id/circular_progress_bar"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="22dp" />
-
     <ProgressBar
         android:id="@+id/circular_progress_bar"
         style="?android:attr/progressBarStyleHorizontal"
@@ -49,6 +39,16 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true"
         android:layout_marginTop="21dp" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/colorAccent"
+        android:background="@drawable/mic"
+        android:id="@+id/recordButton"
+        android:layout_marginTop="33dp"
+        android:layout_alignTop="@+id/circular_progress_bar"
+        android:layout_centerHorizontal="true" />
 
 </RelativeLayout>
 

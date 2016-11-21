@@ -9,30 +9,6 @@
     tools:context=".MainActivity">
 
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="@color/colorAccent"
-        android:background="@drawable/mic"
-        android:id="@+id/recordButton"
-        android:layout_alignTop="@+id/circular_progress_bar"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="22dp" />
-
-    <ProgressBar
-        android:id="@+id/circular_progress_bar"
-        style="?android:attr/progressBarStyleHorizontal"
-        android:visibility="invisible"
-        android:layout_width="200dp"
-        android:layout_height="200dp"
-        android:indeterminate="false"
-        android:max="48"
-        android:progress="1"
-        android:progressDrawable="@drawable/circular_progressbar"
-        android:layout_below="@+id/recordText"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="23dp" />
-
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -47,5 +23,29 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true"
         android:layout_marginTop="21dp" />
+
+    <ProgressBar
+        android:id="@+id/circular_progress_bar"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:visibility="invisible"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:indeterminate="false"
+        android:max="48"
+        android:progress="1"
+        android:progressDrawable="@drawable/circular_progressbar"
+        android:layout_marginTop="25dp"
+        android:layout_below="@+id/recordText"
+        android:layout_centerHorizontal="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/colorAccent"
+        android:background="@drawable/mic"
+        android:id="@+id/recordButton"
+        android:layout_marginTop="33dp"
+        android:layout_alignTop="@+id/circular_progress_bar"
+        android:layout_centerHorizontal="true" />
 
 </RelativeLayout>

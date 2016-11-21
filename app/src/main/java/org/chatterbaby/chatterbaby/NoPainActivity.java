@@ -78,7 +78,7 @@ public class NoPainActivity extends AppCompatActivity {
         record.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                record.setVisibility(View.INVISIBLE);
+                record.setAlpha((float) .8);
                 try {
                     audioRecorder.prepare();
                     audioRecorder.start();
@@ -112,6 +112,9 @@ public class NoPainActivity extends AppCompatActivity {
                         audioRecorder.release();
                         Toast.makeText(getApplicationContext(), "Audio recorded successfully", Toast.LENGTH_SHORT).show();
                         uploadFile(outputFile);
+                        //reset icon settings
+                        progressBar.setVisibility(View.INVISIBLE);
+                        record.setAlpha((float) 1);
                     }
                 });
             }
@@ -132,7 +135,6 @@ public class NoPainActivity extends AppCompatActivity {
     private void setButtonHandlers() {
         record = (Button) findViewById(R.id.recordButton);
         record.setEnabled(true);
-
     }
 
     private void prepAudioComponents() {

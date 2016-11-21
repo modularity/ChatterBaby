@@ -87,7 +87,7 @@ public class NoCryActivity extends AppCompatActivity {
         record.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                record.setVisibility(View.INVISIBLE);
+                record.setAlpha((float) .8);
                 try {
                     audioRecorder.prepare();
                     audioRecorder.start();
@@ -121,6 +121,9 @@ public class NoCryActivity extends AppCompatActivity {
                         audioRecorder.release();
                         Toast.makeText(getApplicationContext(), "Audio recorded successfully", Toast.LENGTH_SHORT).show();
                         uploadFile(outputFile);
+                        //reset icon settings
+                        progressBar.setVisibility(View.INVISIBLE);
+                        record.setAlpha((float) 1);
                     }
                 });
             }
