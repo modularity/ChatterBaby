@@ -65,8 +65,6 @@ public class WhyCryVisualization extends AppCompatActivity {
         chart.setDescriptionPosition(0,0);
         chart.animateY(2400);
         chart.setFitBars(true); // make the x-axis fit exactly all bars
-        //chart.setTouchEnabled(false);
-        //chart.setDrawGridBackground(false);
 
         chart.setHardwareAccelerationEnabled(true);
         chart.setDrawValueAboveBar(false);
@@ -106,7 +104,7 @@ public class WhyCryVisualization extends AppCompatActivity {
         barDataSet.setColors(new int[]{Color.rgb(246, 18, 18), Color.rgb(0, 135, 0), Color.rgb(0, 102, 204)});
         barDataSet.setValueTextSize(14f);
         barDataSet.setValueTextColor(Color.rgb(255,255,255));
-        //barDataSet.setBarShadowColor(Color.rgb(215, 215, 215));
+        barDataSet.setBarShadowColor(Color.rgb(215, 215, 215));
 
         return barDataSet;
     }
