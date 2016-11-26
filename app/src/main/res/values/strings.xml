@@ -2,6 +2,16 @@
     <string name="app_name">Chatterbaby</string>
     <string name="title_activity_display_message"></string>
 
+    <!--Name of pages-->
+    <string-array name="pages_array">
+        <item>Record: why is baby crying?</item>
+        <item>Record: is baby crying?</item>
+        <item>Record: is baby in pain?</item>
+        <item>Questionnaire</item>
+        <item>About Us</item>
+        <item>Contact Us</item>
+    </string-array>
+
     <!--Questionnaire-->
     <string name="questionnaire">Questionnaire</string>
     <string name="questionnaire_explanation">"         The secondary purpose of this study is to collect infant vocalizations to identify vocal patterns associated with autism and other neurodevelopmental disorders.
@@ -104,4 +114,10 @@
     <string name="title_activity_about_us">About Us</string>
     <string name="title_activity_contact">Contact Us</string>
     <string name="title_activity_register_email">Register Email</string>
+    <string name="title_activity_main2">Main2Activity</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
 </resources>

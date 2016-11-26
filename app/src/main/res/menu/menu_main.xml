@@ -3,7 +3,23 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="org.chatterbaby.MainActivity">
     <item
-        android:id="@+id/action_settings"
-        android:orderInCategory="100"
-        app:showAsAction="never" />
+        android:id="@+id/nav_whycry"
+        android:icon="@drawable/mic"
+        android:title="Record: why cry?"/>
+    <item
+        android:id="@+id/nav_iscry"
+        android:icon="@drawable/mic"
+        android:title="Record: is cry?"/>
+    <item
+        android:id="@+id/nav_ispain"
+        android:icon="@drawable/mic"
+        android:title="Record: is pain?"/>
+    <item
+        android:id="@+id/nav_questionnaire"
+        android:icon="@drawable/mic"
+        android:title="Questionnaire"/>
+    <item
+        android:id="@+id/nav_aboutus"
+        android:icon="@drawable/mic"
+        android:title="About Us"/>
 </menu>
