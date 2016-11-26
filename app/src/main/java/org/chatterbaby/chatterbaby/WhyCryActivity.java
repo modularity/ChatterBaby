@@ -1,12 +1,10 @@
 package org.chatterbaby.chatterbaby;
 
 import android.animation.ObjectAnimator;
-import android.app.Activity;
 import android.content.Intent;
 import android.media.MediaRecorder;
 import android.os.Bundle;
 import android.os.Environment;
-import android.os.Handler;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -20,7 +18,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import java.io.File;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -179,7 +176,7 @@ public class WhyCryActivity extends AppCompatActivity {
                                 // pass json to visualization activity
                                 System.out.println("Starting visualization...");
                                 System.out.println(jsonObj.getString("result"));
-                                Intent visualizationIntent = new Intent(WhyCryActivity.this, WhyCryVisualization.class);
+                                Intent visualizationIntent = new Intent(WhyCryActivity.this, VisualizationActivity.class);
                                 visualizationIntent.putExtra("json", jsonObj.toString());
                                 startActivity(visualizationIntent);
                             } else {

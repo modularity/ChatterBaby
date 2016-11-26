@@ -54,9 +54,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
 
-
-
-
         // The eulaKey changes every time you increment the version number in the AndroidManifest.xml
         PackageInfo versionInfo = getPackageInfo();
         final String eulaKey = EULA_PREFIX + versionInfo.versionCode;
@@ -132,15 +129,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_whycry) {
-            Intent whyCryIntent = new Intent(this, WhyCryActivity.class);
-            startActivity(whyCryIntent);
-        } else if (id == R.id.nav_iscry) {
-            Intent noCryIntent = new Intent(this, NoCryActivity.class);
-            startActivity(noCryIntent);
-        } else if (id == R.id.nav_ispain) {
-            Intent noPainIntent = new Intent(this, NoPainActivity.class);
-            startActivity(noPainIntent);
+        if (id == R.id.nav_record) {
+            Intent recordingIntent = new Intent(this, RecordingActivity.class);
+            startActivity(recordingIntent);
         } else if (id == R.id.nav_questionnaire) {
             Intent questionIntent = new Intent(this, QuestionnaireActivity.class);
             startActivity(questionIntent);
