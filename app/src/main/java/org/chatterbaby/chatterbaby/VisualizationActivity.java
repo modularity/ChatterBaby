@@ -4,7 +4,9 @@ import android.app.Activity;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 
 import com.github.mikephil.charting.charts.BarChart;
@@ -21,7 +23,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class WhyCryVisualization extends AppCompatActivity {
+public class VisualizationActivity extends AppCompatActivity {
     Float painProb;
     Float hungryProb;
     Float fussyProb;
@@ -30,6 +32,8 @@ public class WhyCryVisualization extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_why_cry_visualization);
+
+        setToolbar();
 
         // retrieve json from algorithm response
         String jsonStr = getIntent().getStringExtra("json");
@@ -71,6 +75,16 @@ public class WhyCryVisualization extends AppCompatActivity {
         chart.invalidate(); // refresh
 
         Log.i("Visualization", "displayed image result");
+    }
+
+
+    private void setToolbar() {
+        // Attaching the layout to the toolbar object
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        // Setting toolbar as the ActionBar with setSupportActionBar() call
+        setSupportActionBar(toolbar);
+        ActionBar ab = getSupportActionBar();
+        ab.setDisplayHomeAsUpEnabled(true);
     }
 
     private void parseJson(String jsonStr) {

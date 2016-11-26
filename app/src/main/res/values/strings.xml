@@ -114,10 +114,13 @@
     <string name="title_activity_about_us">About Us</string>
     <string name="title_activity_contact">Contact Us</string>
     <string name="title_activity_register_email">Register Email</string>
-    <string name="title_activity_main2">Main2Activity</string>
+    <string name="title_activity_record">Record</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="action_settings">Settings</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

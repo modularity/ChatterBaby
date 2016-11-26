@@ -2,11 +2,8 @@ package org.chatterbaby.chatterbaby;
 
 
 import android.animation.ObjectAnimator;
-import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.media.MediaRecorder;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v7.app.ActionBar;
@@ -22,22 +19,10 @@ import android.widget.Toast;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.io.UnsupportedEncodingException;
-import java.io.Writer;
-import java.net.MalformedURLException;
-import java.net.ProtocolException;
-import java.net.URL;
 import java.util.Timer;
 import java.util.TimerTask;
-
-import javax.net.ssl.HttpsURLConnection;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -85,7 +70,7 @@ public class NoPainActivity extends AppCompatActivity {
                     startProgressBar();
                 } catch (IOException e) {e.printStackTrace();}
 
-                Toast.makeText(getApplicationContext(), "Recording started", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "RecordingActivity started", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -193,7 +178,7 @@ public class NoPainActivity extends AppCompatActivity {
                                 // pass json to visualization activity
                                 System.out.println("Starting visualization...");
                                 System.out.println(jsonObj.getString("result"));
-                                Intent visualizationIntent = new Intent(NoPainActivity.this, WhyCryVisualization.class);
+                                Intent visualizationIntent = new Intent(NoPainActivity.this, VisualizationActivity.class);
                                 visualizationIntent.putExtra("json", jsonObj.toString());
                                 startActivity(visualizationIntent);
                             } else {

@@ -1,50 +1,47 @@
 package org.chatterbaby.chatterbaby;
 
-        import android.animation.ObjectAnimator;
-        import android.content.Intent;
-        import android.support.v7.app.ActionBar;
-        import android.support.v7.app.AppCompatActivity;
-        import android.support.v7.widget.Toolbar;
+import android.animation.ObjectAnimator;
+import android.content.Intent;
+import android.media.MediaRecorder;
+import android.os.Environment;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
+import android.util.Log;
+import android.view.View;
+import android.view.animation.DecelerateInterpolator;
+import android.widget.Button;
+import android.widget.ProgressBar;
+import android.widget.Toast;
 
-        import android.media.MediaRecorder;
+import org.json.JSONException;
+import org.json.JSONObject;
 
-        import android.os.Bundle;
-        import android.os.Environment;
+import java.io.File;
+import java.io.IOException;
+import java.util.Timer;
+import java.util.TimerTask;
 
-        import android.util.Log;
-        import android.view.View;
-        import android.view.animation.DecelerateInterpolator;
-        import android.widget.Button;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
-        import android.widget.ProgressBar;
-        import android.widget.Toast;
+import static org.chatterbaby.chatterbaby.R.id.recordButton;
 
-        import org.json.JSONException;
-        import org.json.JSONObject;
-
-        import java.io.File;
-        import java.io.IOException;
-        import java.util.Timer;
-        import java.util.TimerTask;
-
-        import okhttp3.Call;
-        import okhttp3.Callback;
-        import okhttp3.MediaType;
-        import okhttp3.MultipartBody;
-        import okhttp3.OkHttpClient;
-        import okhttp3.Request;
-        import okhttp3.RequestBody;
-        import okhttp3.Response;
-
-
-public class NoCryActivity extends AppCompatActivity {
+public class RecordingActivity extends AppCompatActivity {
 
     Button record, stop, send;
-    private static final String TAG = "NoActivity";
+    private static final String TAG = "WhyCryActivity";
 
     // Server variables
     static String serverURL = "http://chatterbaby.org/app-ws/app/process-data-v2";
-    static String mode = "cryNoCry";
+    static String mode = "whyCry";
 
     // audiorecord variables
     private String outputFile = null;
@@ -58,7 +55,7 @@ public class NoCryActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_no_cry);
+        setContentView(R.layout.activity_recording);
 
         setToolbar();
         setButtonHandlers();
@@ -74,7 +71,7 @@ public class NoCryActivity extends AppCompatActivity {
                     startProgressBar();
                 } catch (IOException e) {e.printStackTrace();}
 
-                Toast.makeText(getApplicationContext(), "RecordingActivity started", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Recording started", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -122,7 +119,7 @@ public class NoCryActivity extends AppCompatActivity {
     }
 
     private void setButtonHandlers() {
-        record = (Button) findViewById(R.id.recordButton);
+        record = (Button) findViewById(recordButton);
         record.setEnabled(true);
     }
 
@@ -182,7 +179,7 @@ public class NoCryActivity extends AppCompatActivity {
                                 // pass json to visualization activity
                                 System.out.println("Starting visualization...");
                                 System.out.println(jsonObj.getString("result"));
-                                Intent visualizationIntent = new Intent(NoCryActivity.this, VisualizationActivity.class);
+                                Intent visualizationIntent = new Intent(RecordingActivity.this, VisualizationActivity.class);
                                 visualizationIntent.putExtra("json", jsonObj.toString());
                                 startActivity(visualizationIntent);
                             } else {

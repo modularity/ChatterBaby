@@ -2,29 +2,17 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_whycry"
+            android:id="@+id/nav_record"
             android:icon="@drawable/mic"
-            android:title="Record: why cry?" />
+            android:title="Record" />
         <item
-            android:id="@+id/nav_iscry"
-            android:icon="@drawable/mic"
-            android:title="Record: is cry?" />
+            android:id="@+id/nav_questionnaire"
+            android:icon="@drawable/ic_menu_share"
+            android:title="Questionnaire" />
         <item
-            android:id="@+id/nav_ispain"
-            android:icon="@drawable/mic"
-            android:title="Record: is pain?" />
+            android:id="@+id/nav_aboutus"
+            android:icon="@drawable/ic_menu_send"
+            android:title="About Us" />
     </group>
 
-    <item android:title="Communicate">
-        <menu>
-            <item
-                android:id="@+id/nav_questionnaire"
-                android:icon="@drawable/ic_menu_share"
-                android:title="Questionnaire" />
-            <item
-                android:id="@+id/nav_aboutus"
-                android:icon="@drawable/ic_menu_send"
-                android:title="About Us" />
-        </menu>
-    </item>
 </menu>
