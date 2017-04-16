@@ -1,9 +1,13 @@
 package org.chatterbaby.chatterbaby;
 
+import android.Manifest;
 import android.animation.ObjectAnimator;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.media.MediaRecorder;
+import android.os.Build;
 import android.os.Environment;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -14,15 +18,14 @@ import android.view.animation.DecelerateInterpolator;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.Toast;
-
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
-
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.MediaType;
@@ -31,49 +34,132 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
-
 import static org.chatterbaby.chatterbaby.R.id.recordButton;
 
 public class RecordingActivity extends AppCompatActivity {
 
-    Button record, stop, send;
-    private static final String TAG = "WhyCryActivity";
+    private static final String TAG = "RecordingActivity";
 
-    // Server variables
+    // permission variables
+    final int PERMISSIONS_REQUEST = 444;
+    String[] PERMISSIONS = new String[]{Manifest.permission.RECORD_AUDIO,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE};
+
+    // server variables
     static String serverURL = "http://chatterbaby.org/app-ws/app/process-data-v2";
     static String mode = "whyCry";
 
-    // audiorecord variables
+    // record variables
     private String outputFile = null;
     private MediaRecorder audioRecorder = new MediaRecorder();
     private static final int SAMPLE_RATE = 44100;
     private static final int ENCODING_BITRATE = 16000;
 
-    // circular progress bar
+    // UI variables
     ProgressBar progressBar;
+    Button record;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_recording);
-
-        setToolbar();
-        setButtonHandlers();
-        prepAudioComponents();
+        setUI();
 
         record.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // change on press
                 record.setAlpha((float) .8);
-                try {
-                    audioRecorder.prepare();
-                    audioRecorder.start();
-                    startProgressBar();
-                } catch (IOException e) {e.printStackTrace();}
-
-                Toast.makeText(getApplicationContext(), "Recording started", Toast.LENGTH_SHORT).show();
+                // only record if permissions ok
+                permissionsWrapper(PERMISSIONS);
             }
         });
+    }
+
+    private void setUI() {
+        setContentView(R.layout.activity_recording);
+
+        // Attaching the layout to the toolbar object
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        // Setting toolbar as the ActionBar with setSupportActionBar() call
+        setSupportActionBar(toolbar);
+        ActionBar ab = getSupportActionBar();
+        ab.setDisplayHomeAsUpEnabled(true);
+
+        record = (Button) findViewById(recordButton);
+        record.setEnabled(true);
+    }
+
+    private boolean permissionsWrapper(String... permissions) {
+        final List<String> permissionsList = new ArrayList<>();
+
+        for (String perm : permissions) {
+            addPermission(permissionsList, perm);
+        }
+
+        if (permissionsList.size() > 0) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+                requestPermissions(permissionsList.toArray(new String[permissionsList.size()]),
+                        PERMISSIONS_REQUEST);
+            else
+                ActivityCompat.requestPermissions(this, permissionsList.toArray(new String[permissionsList.size()]),
+                        PERMISSIONS_REQUEST);
+            return false;
+        } else
+            beginRecording();
+            return true;
+    }
+
+    private boolean addPermission(List<String> permissionList, String permission) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (checkSelfPermission(permission) != PackageManager.PERMISSION_GRANTED)
+                permissionList.add(permission);
+                if (!shouldShowRequestPermissionRationale(permission))
+                    return false;
+        }
+        return true;
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case PERMISSIONS_REQUEST: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+                    // permission was granted, yay!
+                    // logic here
+                    beginRecording();
+
+                } else {
+                    // permission denied, boo!
+                    Toast.makeText(this, "Please enable permissions for this feature", Toast.LENGTH_SHORT)
+                            .show();
+                }
+            }
+        }
+    }
+
+    private void beginRecording() {
+        prepAudioComponents();
+        try {
+            audioRecorder.prepare();
+            audioRecorder.start();
+            startProgressBar();
+        } catch (IOException e) {e.printStackTrace();}
+        Toast.makeText(getApplicationContext(), "Recording started", Toast.LENGTH_SHORT).show();
+    }
+
+    private void prepAudioComponents() {
+        outputFile = Environment.getExternalStorageDirectory().getAbsolutePath() + "/recording.ACC";
+        audioRecorder.reset();
+        audioRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
+        audioRecorder.setOutputFormat(MediaRecorder.OutputFormat.AAC_ADTS);
+        audioRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
+        audioRecorder.setAudioEncodingBitRate(ENCODING_BITRATE);
+        audioRecorder.setAudioSamplingRate(SAMPLE_RATE);
+        audioRecorder.setAudioChannels(1);
+        audioRecorder.setOutputFile(outputFile);
     }
 
     // circular progress bar
@@ -107,32 +193,6 @@ public class RecordingActivity extends AppCompatActivity {
         }, 5000);
 
         anim.start();
-    }
-
-    private void setToolbar() {
-        // Attaching the layout to the toolbar object
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        // Setting toolbar as the ActionBar with setSupportActionBar() call
-        setSupportActionBar(toolbar);
-        ActionBar ab = getSupportActionBar();
-        ab.setDisplayHomeAsUpEnabled(true);
-    }
-
-    private void setButtonHandlers() {
-        record = (Button) findViewById(recordButton);
-        record.setEnabled(true);
-    }
-
-    private void prepAudioComponents() {
-        outputFile = Environment.getExternalStorageDirectory().getAbsolutePath() + "/recording.ACC";
-        audioRecorder.reset();
-        audioRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
-        audioRecorder.setOutputFormat(MediaRecorder.OutputFormat.AAC_ADTS);
-        audioRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
-        audioRecorder.setAudioEncodingBitRate(ENCODING_BITRATE);
-        audioRecorder.setAudioSamplingRate(SAMPLE_RATE);
-        audioRecorder.setAudioChannels(1);
-        audioRecorder.setOutputFile(outputFile);
     }
 
     // submits algorithm mode and audio file to server
@@ -174,6 +234,7 @@ public class RecordingActivity extends AppCompatActivity {
                         System.out.println(jsonStr);
                         try {
                             final JSONObject jsonObj = new JSONObject(jsonStr);
+                            /*
                             if ( jsonObj.getString("errmsg").equals("")) {
 
                                 // pass json to visualization activity
@@ -192,6 +253,15 @@ public class RecordingActivity extends AppCompatActivity {
                                     }
                                 });
                             }
+                            */
+
+                            //test
+                            System.out.println("Starting visualization...");
+                            System.out.println(jsonObj.getString("result"));
+                            Intent visualizationIntent = new Intent(RecordingActivity.this, VisualizationActivity.class);
+                            visualizationIntent.putExtra("json", jsonObj.toString());
+                            startActivity(visualizationIntent);
+
                         } catch (JSONException e) {e.printStackTrace();}
                     }
                     else {

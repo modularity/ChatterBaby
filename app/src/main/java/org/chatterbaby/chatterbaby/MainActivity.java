@@ -12,17 +12,15 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.method.ScrollingMovementMethod;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ListView;
+import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     public final static String EXTRA_MESSAGE = "org.chatterbaby.chatterbaby.MESSAGE";
-/*
-    private Button[] btn = new Button[5];
-    private int[] btn_id = {R.id.whyCryBtn, R.id.noCryBtn, R.id.noPainBtn, R.id.questionBtn, R.id.aboutUs};
-*/
 
     // Drawer components
     private String[] pageTitles;
@@ -51,9 +49,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-
-
-
         // The eulaKey changes every time you increment the version number in the AndroidManifest.xml
         PackageInfo versionInfo = getPackageInfo();
         final String eulaKey = EULA_PREFIX + versionInfo.versionCode;
@@ -62,22 +57,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (!hasAccepted) {
             new AppEula(this, eulaKey, prefs).show();
         }
-/*
-        for (int i = 0; i < btn.length; i++) {
-            btn[i] = (Button) findViewById(btn_id[i]);
-            btn[i].setOnClickListener(this);
-        }
- */
-    }
-
-    private void setToolbar() {
-        // Attaching the layout to the toolbar object
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        // Setting toolbar as the ActionBar with setSupportActionBar() call
-        setSupportActionBar(toolbar);
-        toolbar.setLogo(R.mipmap.logo_chatterbaby);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
-        getSupportActionBar().setHomeButtonEnabled(true);
     }
 
     private PackageInfo getPackageInfo() {
@@ -117,6 +96,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            //Intent intent = new Intent(this, FaqActivity.java);
+            //startActivity(intent);
             return true;
         }
 
@@ -138,6 +119,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         } else if (id == R.id.nav_aboutus) {
             Intent aboutUsIntent = new Intent(this, AboutUsActivity.class);
             startActivity(aboutUsIntent);
+        } else if (id == R.id.nav_faq) {
+            Intent faqIntent = new Intent(this, FAQActivity.class);
+            startActivity(faqIntent);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

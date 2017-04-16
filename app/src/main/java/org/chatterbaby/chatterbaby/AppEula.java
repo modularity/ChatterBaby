@@ -31,8 +31,7 @@ public class AppEula {
     public void show() {
 
         // EULA title
-        String title = mActivity.getString(R.string.app_name);
-        //+ " v" + versionInfo.versionName;
+        String title = mActivity.getString(R.string.app_name); //+ " v" + versionInfo.versionName;
 
         // Disable orientation changes, to prevent parent activity
         mActivity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
@@ -47,7 +46,7 @@ public class AppEula {
                 .setTitle(title)
                 .setView(webView)
                 .setCancelable(false)
-                .setIcon(R.mipmap.logo_chatterbaby)
+                .setIcon(R.mipmap.ic_launcher)
                 .setPositiveButton(R.string.accept, new Dialog.OnClickListener() {
                     @Override
                     public void onClick(

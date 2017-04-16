@@ -31,7 +31,7 @@ public class VisualizationActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_why_cry_visualization);
+        setContentView(R.layout.activity_visualization);
 
         setToolbar();
 
@@ -115,7 +115,7 @@ public class VisualizationActivity extends AppCompatActivity {
 
         BarDataSet barDataSet = new BarDataSet(entries, "Probability of state");
         //barDataSet.setValueFormatter(new PercentFormatter());
-        barDataSet.setColors(new int[]{Color.rgb(246, 18, 18), Color.rgb(0, 135, 0), Color.rgb(0, 102, 204)});
+        barDataSet.setColors(new int[]{Color.rgb(245, 131, 87), Color.rgb(253, 186, 49), Color.rgb(95, 151, 203)});
         barDataSet.setValueTextSize(14f);
         barDataSet.setValueTextColor(Color.rgb(255,255,255));
         barDataSet.setBarShadowColor(Color.rgb(215, 215, 215));

@@ -1,10 +1,7 @@
 package org.chatterbaby.chatterbaby;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -32,10 +29,12 @@ public class AboutUsActivity extends AppCompatActivity implements View.OnClickLi
         Button contactBtn = (Button) findViewById(R.id.contactBtn);
         contactBtn.setOnClickListener(this);
     }
+
     public void onClick(View v) {
         Intent contactIntent = new Intent(this, ContactActivity.class);
         startActivity(contactIntent);
     }
+
     private void setToolbar() {
         // Attaching the layout to the toolbar object
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);

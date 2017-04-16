@@ -3,7 +3,7 @@
     android:layout_height="wrap_content"
     android:background="?android:attr/activatedBackgroundIndicator"
     android:minHeight="?android:attr/listPreferredItemHeightSmall"
-    android:padding="10dp" >
+    android:padding="@dimen/activity_horizontal_margin" >
 
     <ImageView
         android:id="@+id/imageViewIcon"
@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:paddingRight="10dp" />
+        android:paddingRight="@dimen/activity_horizontal_margin" />
 
     <TextView
         android:id="@android:id/text1"
@@ -20,6 +20,7 @@
         android:layout_centerVertical="true"
         android:layout_toRightOf="@+id/imageViewIcon"
         android:textAppearance="?android:attr/textAppearanceListItemSmall"
-        android:paddingRight="10dp"
-        android:textColor="@android:color/black" />
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:textColor="@android:color/black"
+        android:textSize="30sp"/>
     </RelativeLayout>

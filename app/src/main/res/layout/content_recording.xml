@@ -3,10 +3,10 @@
     android:id="@+id/activity_recording"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:layout_margin="@dimen/activity_horizontal_margin"
+    android:weightSum="1"
     tools:context="org.chatterbaby.chatterbaby.RecordingActivity">
 
     <TextView
@@ -16,7 +16,7 @@
         android:textAlignment="center"
         android:gravity="center"
         android:id="@+id/recordText"
-        android:textColor="@color/colorPrimary"
+        android:textColor="@color/blueFont"
         android:textSize="30sp"
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true"
@@ -27,37 +27,50 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/recordText"
-        android:layout_centerHorizontal="true">
+        android:layout_centerHorizontal="true"
+        android:checkedButton="@+id/radioButton_whyCry" >
 
         <RadioButton
+            android:id="@+id/radioButton_isCry"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:text="Is baby crying?"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/radioButton_isCry" />
+            android:gravity="center"
+            android:textSize="20sp"
+            android:padding="10dp"
+            android:layout_weight="1"
+            android:buttonTint="@color/progressWheel" />
 
         <RadioButton
-            android:text="Is baby in pain?"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:id="@+id/radioButton_ispain"
-            style="@style/AppTheme" />
-
-        <RadioButton
-            android:text="Is baby hungry, fussy or in pain?"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="Is baby in pain?"
+            android:gravity="center"
+            android:textSize="20sp"
+            android:padding="10dp"
+            android:layout_weight="1"
+            android:buttonTint="@color/progressWheel"/>
+
+        <RadioButton
             android:id="@+id/radioButton_whyCry"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:checked="true"
-            style="@style/AppTheme" />
+            android:text="Is baby hungry, fussy or in pain?"
+            android:gravity="center"
+            android:textSize="20sp"
+            android:padding="8dp"
+            android:layout_weight="1"
+            android:buttonTint="@color/progressWheel"/>
     </RadioGroup>
 
     <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="@color/colorAccent"
-        android:background="@drawable/mic"
+        android:layout_width="80dp"
+        android:layout_height="140dp"
+        android:background="@drawable/microphone"
         android:id="@+id/recordButton"
-        android:layout_marginBottom="28dp"
+        android:layout_marginBottom="@dimen/nav_header_vertical_spacing"
         android:layout_centerInParent="false"
         android:layout_alignBottom="@+id/circular_progress_bar"
         android:layout_centerHorizontal="true" />

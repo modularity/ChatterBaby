@@ -26,14 +26,15 @@
         android:layout_marginTop="177dp" />
 
     <Button
-        android:text="Send"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        android:text="Create account via your email"
+        android:background="@drawable/buttonshape"
         android:layout_below="@+id/editEmail"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="42dp"
         android:id="@+id/submitEmail"
-        android:background="@color/colorPrimary"
         style="@android:style/Widget.ActionButton"
-        android:elevation="10dp" />
+        android:elevation="12dp" />
 </RelativeLayout>

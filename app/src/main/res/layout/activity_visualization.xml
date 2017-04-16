@@ -12,13 +12,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
-
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:padding="@dimen/activity_horizontal_margin"
-        android:layout_marginTop="50dp">
+        android:layout_marginTop="64dp"
+        android:layout_marginBottom="@dimen/activity_horizontal_margin">
 
         <com.github.mikephil.charting.charts.BarChart
             android:id="@+id/chart"
