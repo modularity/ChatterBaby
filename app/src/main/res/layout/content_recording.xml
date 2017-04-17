@@ -5,9 +5,10 @@
     android:layout_height="match_parent"
     android:gravity="center"
     android:orientation="vertical"
+    android:screenOrientation="portrait"
     android:layout_margin="@dimen/activity_horizontal_margin"
     android:weightSum="1"
-    tools:context="org.chatterbaby.chatterbaby.RecordingActivity">
+    tools:context="org.chatterbaby.chatterbaby.MainActivity">
 
     <TextView
         android:layout_width="wrap_content"
@@ -20,26 +21,25 @@
         android:textSize="30sp"
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="64dp"
-        android:layout_marginBottom="64dp" />
+        android:layout_marginTop="64dp" />
 
     <RadioGroup
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/recordText"
-        android:layout_centerHorizontal="true"
-        android:checkedButton="@+id/radioButton_whyCry" >
+        android:checkedButton="@+id/radioButton_whyCry"
+        android:layout_above="@+id/circular_progress_bar"
+        android:layout_centerHorizontal="true">
 
         <RadioButton
             android:id="@+id/radioButton_isCry"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Is baby crying?"
-            android:gravity="center"
-            android:textSize="20sp"
-            android:padding="10dp"
             android:layout_weight="1"
-            android:buttonTint="@color/progressWheel" />
+            android:buttonTint="@color/progressWheel"
+            android:gravity="center"
+            android:padding="10dp"
+            android:text="Is baby crying?"
+            android:textSize="20sp" />
 
         <RadioButton
             android:id="@+id/radioButton_ispain"
@@ -73,7 +73,8 @@
         android:layout_marginBottom="@dimen/nav_header_vertical_spacing"
         android:layout_centerInParent="false"
         android:layout_alignBottom="@+id/circular_progress_bar"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        style="?android:attr/borderlessButtonStyle"/>
 
     <ProgressBar
         android:id="@+id/circular_progress_bar"
