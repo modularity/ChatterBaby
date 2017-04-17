@@ -142,7 +142,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         int id = item.getItemId();
 
         if (id == R.id.nav_record) {
-            Intent recordingIntent = new Intent(this, RecordingActivity.class);
+            Intent recordingIntent = new Intent(this, MainActivity.class);
             startActivity(recordingIntent);
         } else if (id == R.id.nav_questionnaire) {
             Intent questionIntent = new Intent(this, QuestionnaireActivity.class);
