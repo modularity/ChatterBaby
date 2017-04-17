@@ -20,6 +20,7 @@
         android:ems="10"
         android:id="@+id/editEmail"
         android:hint='"yourname@gmail.com"'
+        android:theme="@color/colorPrimary"
         style="@android:style/Widget.Material.EditText"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"

@@ -85,7 +85,12 @@
         <activity
             android:name=".FAQActivity"
             android:label="@string/title_activity_faq"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"></activity>
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="org.chatterbaby.chatterbaby.MainActivity" />
+        </activity>
     </application>
 
 </manifest>
