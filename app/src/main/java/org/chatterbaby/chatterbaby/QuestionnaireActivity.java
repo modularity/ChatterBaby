@@ -35,7 +35,7 @@ public class QuestionnaireActivity extends AppCompatActivity implements View.OnC
         Intent webQuestIntent = new Intent();
         webQuestIntent.setAction(Intent.ACTION_VIEW);
         webQuestIntent.addCategory(Intent.CATEGORY_BROWSABLE);
-        webQuestIntent.setData(Uri.parse("http://www.chatterbaby.org"));
+        webQuestIntent.setData(Uri.parse("https://www.chatterbaby.org/survey-consented-start"));
         startActivity(webQuestIntent);
     }
 }

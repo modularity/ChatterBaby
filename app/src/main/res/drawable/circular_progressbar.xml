@@ -5,5 +5,5 @@
     android:shape="ring"
     android:thickness="15dp"
     android:useLevel="true">
-    <solid android:color="@color/progressWheel" />
+    <solid android:color="@color/colorPrimary" />
 </shape>
