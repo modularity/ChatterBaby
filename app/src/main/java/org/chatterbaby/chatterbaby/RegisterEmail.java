@@ -29,7 +29,8 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-public class RegisterEmail extends AppCompatActivity {
+public class
+RegisterEmail extends AppCompatActivity {
     private String emailValue;
     private EditText inputEmail;
 
