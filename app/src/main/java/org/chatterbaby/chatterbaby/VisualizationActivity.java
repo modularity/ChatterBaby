@@ -1,6 +1,5 @@
 package org.chatterbaby.chatterbaby;
 
-import android.app.Activity;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -31,9 +30,11 @@ public class VisualizationActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_why_cry_visualization);
+        setContentView(R.layout.activity_visualization);
 
         setToolbar();
+        System.gc();
+
 
         // retrieve json from algorithm response
         String jsonStr = getIntent().getStringExtra("json");
@@ -105,9 +106,9 @@ public class VisualizationActivity extends AppCompatActivity {
         // create dataset
         ArrayList<BarEntry> entries = new ArrayList<>();
 
-        entries.add(new BarEntry(0f, .23f));
-        entries.add(new BarEntry(1f, .35f));
-        entries.add(new BarEntry(2f, .12f));
+        entries.add(new BarEntry(0f, .1f));
+        entries.add(new BarEntry(1f, .65f));
+        entries.add(new BarEntry(2f, .25f));
 
         //entries.add(new BarEntry(0f, painProb));
         //entries.add(new BarEntry(1f, hungryProb));
@@ -115,7 +116,8 @@ public class VisualizationActivity extends AppCompatActivity {
 
         BarDataSet barDataSet = new BarDataSet(entries, "Probability of state");
         //barDataSet.setValueFormatter(new PercentFormatter());
-        barDataSet.setColors(new int[]{Color.rgb(246, 18, 18), Color.rgb(0, 135, 0), Color.rgb(0, 102, 204)});
+        barDataSet.setDrawValues(false);
+        barDataSet.setColors(new int[]{Color.rgb(245, 131, 87), Color.rgb(253, 186, 49), Color.rgb(95, 151, 203)});
         barDataSet.setValueTextSize(14f);
         barDataSet.setValueTextColor(Color.rgb(255,255,255));
         barDataSet.setBarShadowColor(Color.rgb(215, 215, 215));

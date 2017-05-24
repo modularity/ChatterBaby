@@ -1,15 +1,14 @@
 <resources>
-    <string name="app_name">Chatterbaby</string>
+    <string name="app_name">ChatterBaby</string>
     <string name="title_activity_display_message"></string>
 
     <!--Name of pages-->
     <string-array name="pages_array">
-        <item>Record: why is baby crying?</item>
-        <item>Record: is baby crying?</item>
-        <item>Record: is baby in pain?</item>
+        <item>Record</item>
         <item>Questionnaire</item>
         <item>About Us</item>
         <item>Contact Us</item>
+        <item>FAQ</item>
     </string-array>
 
     <!--Questionnaire-->
@@ -26,24 +25,28 @@
         \n
         We gratefully acknowledge the many contributions of Abeer Alwan, Delbert Whetter, Sanaz Whetter, Brianna Shaul, Susan Bookheimer, Mirella Dapretto, Don Vaughn, Carol Han, Mahtash Esfandiari, Sherry Eyer, Anne Jackson, UCLA Department of Statistics, UCLA Department of Electrical Engineering, and the OxVoc Team: Christine Parsons and Michelle Craske.</string>
 
+    <!--FAQ2-->
+    <string name="faq">
+        https://docs.google.com/document/d/1wXELtFDXSxVaVlRl8HBGEXSfKu1JYgLBEcH2dYJmL50/edit?usp=sharing
+    </string>
+
     <!--Contact Info-->
     <string name="contact_title"> Contact Us </string>
-    <string name="contact_info1">• If you have any questions, comments or concerns about the research, you can talk to the one of the researchers. Please contact:
+    <string name="contact_info1">If you have any questions, comments or concerns about the research, you can talk to the one of the researchers. Please contact:
     </string>
     <string name="contact_info2">
-        Ariana Anderson, Ph.D. \n
+        <b>Ariana Anderson, Ph.D. \n
         University of California, Los Angeles \n
-        Department of Psychiatry and Biobehavioral Sciences \n
+        Department of Psychiatry and Biobehavioral Sciences</b> \n
         760 Westwood Plaza, Ste C8-734 \n
-        Los Angeles, CA \n
-        90095-1406 \n
+        Los Angeles, CA 90095-1406 \n
         ariana82@ucla.edu \n
-        (310) 254-5680 \n
+        (213) 973-7465 \n
     </string>
-    <string name="contact_info3">• If you have questions about your rights while taking part in this study, or you have concerns or suggestions and you want to talk to someone other than the researchers about the study, please call the OHRPP at (310) 825-7122 or write to:
+    <string name="contact_info3">If you have questions about your rights while taking part in this study, or you have concerns or suggestions and you want to talk to someone other than the researchers about the study, please call the OHRPP at (310) 825-7122 or write to:
     </string>
     <string name="contact_info4">
-        UCLA Office of the Human Research Protection Program (OHRPP) \n
+        <b>UCLA Office of the Human Research Protection Program (OHRPP)</b> \n
         11000 Kinross Avenue \n
         Suite 211, Box 951694 \n
         Los Angeles, CA 90095-1694</string>
@@ -94,7 +97,7 @@
         Los Angeles, CA
         90095-1406
         ariana82@ucla.edu
-        (310) 254-5680
+        (213) 973-7465
         \n\n
         • UCLA Office of the Human Research Protection Program (OHRPP):
         If you have questions about your rights while taking part in this study, or you have concerns or suggestions and you want to talk to someone other than the researchers about the study, please call the OHRPP at (310) 825-7122 or write to:
@@ -115,12 +118,12 @@
     <string name="title_activity_contact">Contact Us</string>
     <string name="title_activity_register_email">Register Email</string>
     <string name="title_activity_record">Record</string>
+    <string name="title_activity_faq">FAQ</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="action_settings">Settings</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+
 </resources>

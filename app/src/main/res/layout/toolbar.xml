@@ -1,14 +1,24 @@
-<android.support.v7.widget.Toolbar
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/toolbar"
+<android.support.design.widget.AppBarLayout
     android:layout_width="match_parent"
-    android:layout_height="?attr/actionBarSize"
-    android:minHeight="?attr/actionBarSize"
-    android:background="@color/colorPrimary"
-    android:layout_gravity="center"
-    android:gravity="center_vertical"
-    android:elevation="4dp"
-    android:theme="@style/AppBarOverlay">
+    android:layout_height="wrap_content"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
-</android.support.v7.widget.Toolbar>
+    <android.support.v7.widget.Toolbar
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:minHeight="?attr/actionBarSize"
+        android:background="@color/blueFont"
+        android:layout_gravity="center"
+        android:gravity="center_vertical"
+        android:elevation="4dp"
+        android:theme="@style/AppBarOverlay" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/graphYellow" />
+
+</android.support.design.widget.AppBarLayout>
