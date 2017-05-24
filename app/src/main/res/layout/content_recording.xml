@@ -24,7 +24,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:buttonTint="@color/progressWheel"
+            android:buttonTint="@color/colorPrimary"
             android:checked="true"
             android:gravity="center"
             android:padding="@dimen/radioBtn"
@@ -36,7 +36,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:buttonTint="@color/progressWheel"
+            android:buttonTint="@color/colorPrimary"
             android:gravity="center"
             android:padding="@dimen/radioBtn"
             android:text="Is baby crying?"
@@ -51,7 +51,7 @@
             android:textSize="20sp"
             android:padding="@dimen/radioBtn"
             android:layout_weight="1"
-            android:buttonTint="@color/progressWheel"/>
+            android:buttonTint="@color/colorPrimary"/>
 
     </RadioGroup>
 
