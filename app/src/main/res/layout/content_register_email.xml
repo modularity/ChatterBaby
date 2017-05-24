@@ -21,6 +21,7 @@
         android:id="@+id/editEmail"
         android:hint='"yourname@gmail.com"'
         android:theme="@color/colorPrimary"
+        android:backgroundTint="@color/colorPrimary"
         style="@android:style/Widget.Material.EditText"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
