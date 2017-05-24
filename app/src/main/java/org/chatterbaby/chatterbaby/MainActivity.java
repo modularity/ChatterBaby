@@ -66,7 +66,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     // record variables
     private String outputFile = null;
-    private MediaRecorder audioRecorder = new MediaRecorder();
+    private MediaRecorder audioRecorder = null;
     private static final int SAMPLE_RATE = 44100;
     private static final int ENCODING_BITRATE = 16000;
 
@@ -80,6 +80,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setContentView(R.layout.drawer_layout);
 
         setUI();
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
         record.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -90,9 +92,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 permissionsWrapper(PERMISSIONS);
             }
         });
-
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
 
         // Set drawer components
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -162,7 +161,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
     private void setUI() {
-
         // Attaching the layout to the toolbar object
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         // Setting toolbar as the ActionBar with setSupportActionBar() call
@@ -180,7 +178,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         for (String perm : permissions) {
             addPermission(permissionsList, perm);
         }
-
         if (permissionsList.size() > 0) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
                 requestPermissions(permissionsList.toArray(new String[permissionsList.size()]),
@@ -211,40 +208,39 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 // If request is cancelled, the result arrays are empty.
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-
                     // permission was granted, yay!
                     // logic here
                     beginRecording();
-
                 } else {
                     // permission denied, boo!
-                    Toast.makeText(this, "Please enable permissions for this feature", Toast.LENGTH_SHORT)
-                            .show();
+                    Toast.makeText(this, "Please enable permissions for this feature", Toast.LENGTH_SHORT).show();
                 }
             }
         }
     }
 
     private void beginRecording() {
-        prepAudioComponents();
-        try {
-            audioRecorder.prepare();
-            audioRecorder.start();
-            startProgressBar();
-        } catch (IOException e) {e.printStackTrace();}
-        Toast.makeText(getApplicationContext(), "Recording started", Toast.LENGTH_SHORT).show();
-    }
-
-    private void prepAudioComponents() {
+        System.out.println("1: prep audio components");
         outputFile = Environment.getExternalStorageDirectory().getAbsolutePath() + "/recording.ACC";
-        audioRecorder.reset();
+        audioRecorder = new MediaRecorder();
         audioRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
         audioRecorder.setOutputFormat(MediaRecorder.OutputFormat.AAC_ADTS);
-        audioRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
+        audioRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AAC);
         audioRecorder.setAudioEncodingBitRate(ENCODING_BITRATE);
         audioRecorder.setAudioSamplingRate(SAMPLE_RATE);
-        audioRecorder.setAudioChannels(1);
         audioRecorder.setOutputFile(outputFile);
+        System.out.println("2: finish prep audio components");
+
+        try {
+            audioRecorder.prepare();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        audioRecorder.start();
+        System.out.println("3: start");
+        startProgressBar();
+
+        Toast.makeText(getApplicationContext(), "Recording started", Toast.LENGTH_SHORT).show();
     }
 
     // circular progress bar
@@ -256,6 +252,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         anim.setDuration(15000);
         anim.setInterpolator(new DecelerateInterpolator());
 
+        System.out.println("4: start timer");
         // handler to send audio and display result
         // execute code after 5000 ms i.e after 5 Seconds.
         new Timer().schedule(new TimerTask() {
@@ -264,10 +261,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+                        System.out.println("5: stop recording");
                         audioRecorder.stop();
                         audioRecorder.reset();
                         audioRecorder.release();
-                        Toast.makeText(getApplicationContext(), "Audio recorded successfully", Toast.LENGTH_SHORT).show();
                         uploadFile(outputFile);
                         //reset icon settings
                         progressBar.setVisibility(View.INVISIBLE);
@@ -283,6 +280,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     // submits algorithm mode and audio file to server
     // parses json response for probabilities and passes them to visualization(generate histogram)
     public void uploadFile(final String filePath) {
+
         try {
             File sourceFile = new File(filePath);
             Log.d(TAG, "File...::::" + sourceFile + " : " + sourceFile.exists());
@@ -291,13 +289,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     .setType(MultipartBody.FORM)
                     .addFormDataPart("mode", mode)
                     .addFormDataPart("token", "")
-                    .addFormDataPart("data", filePath, RequestBody.create(MediaType.parse("audio/ogg"), sourceFile))
+                    .addFormDataPart("data", filePath, RequestBody.create(MediaType.parse("audio/*"), sourceFile))
                     .build();
             System.out.println("1");
 
             Request request = new Request.Builder()
                     .url(serverURL)
-                    .addHeader("Content-Type", "image/jpeg")
                     .post(requestBody)
                     .build();
             System.out.println("2");
@@ -343,15 +340,20 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                             //test
                             System.out.println("Starting visualization...");
                             System.out.println(jsonObj.getString("result"));
+                            response.body().close();
                             Intent visualizationIntent = new Intent(MainActivity.this, VisualizationActivity.class);
                             visualizationIntent.putExtra("json", jsonObj.toString());
                             startActivity(visualizationIntent);
 
-                        } catch (JSONException e) {e.printStackTrace();}
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            response.body().close();
+                        }
                     }
                     else {
                         Toast.makeText(getApplicationContext(), "Server connection error. Please try again!", Toast.LENGTH_LONG).show();
                         System.out.println("Json: " + jsonStr);
+                        response.body().close();
                         //TO DO: generate error logs
                     }
                 }

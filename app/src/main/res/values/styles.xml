@@ -19,6 +19,11 @@
         <item name="android:windowBackground">@drawable/splash</item>
     </style>
 
+    <style name="NavigationTheme">
+        <item name="android:textSize">16sp</item>
+        <item name="android:layout_marginBottom">10dp</item>
+    </style>
+
     <style name="PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
 </resources>

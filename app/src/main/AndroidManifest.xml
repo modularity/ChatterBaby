@@ -25,8 +25,7 @@
         </activity>
 
         <!-- Main Activity -->
-        <activity android:name=".MainActivity">
-        </activity>
+        <activity android:name=".MainActivity"></activity>
 
         <!-- Questionnaire Activity -->
         <activity
