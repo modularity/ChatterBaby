@@ -16,7 +16,9 @@
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
         <activity
             android:name=".SplashActivity"
-            android:theme="@style/SplashTheme">
+            android:theme="@style/SplashTheme"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -25,13 +27,20 @@
         </activity>
 
         <!-- Main Activity -->
-        <activity android:name=".MainActivity"></activity>
+        <activity android:name=".MainActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"
+            >
+        </activity>
 
         <!-- Questionnaire Activity -->
         <activity
             android:name=".QuestionnaireActivity"
             android:label="@string/title_activity_questionnaire"
-            android:parentActivityName=".MainActivity">
+            android:parentActivityName=".MainActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"
+            >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="org.chatterbaby.chatterbaby.MainActivity" />
@@ -40,7 +49,9 @@
             android:name=".VisualizationActivity"
             android:hardwareAccelerated="false"
             android:label="@string/title_activity_why_cry_visualization"
-            android:parentActivityName=".MainActivity">
+            android:parentActivityName=".MainActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="org.chatterbaby.chatterbaby.MainActivity" />
@@ -49,7 +60,9 @@
             android:name=".AboutUsActivity"
             android:label="@string/title_activity_about_us"
             android:parentActivityName=".MainActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="MainActivity" />
@@ -58,7 +71,9 @@
             android:name=".ContactActivity"
             android:label="@string/title_activity_contact"
             android:parentActivityName=".AboutUsActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="org.chatterbaby.chatterbaby.AboutUsActivity" />
@@ -67,7 +82,9 @@
             android:name=".RegisterEmail"
             android:label="@string/title_activity_register_email"
             android:parentActivityName=".MainActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="org.chatterbaby.chatterbaby.MainActivity" />
@@ -76,7 +93,9 @@
             android:name=".FAQActivity"
             android:label="@string/title_activity_faq"
             android:parentActivityName=".MainActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="org.chatterbaby.chatterbaby.MainActivity" />

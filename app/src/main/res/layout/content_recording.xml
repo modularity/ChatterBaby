@@ -11,6 +11,7 @@
     tools:context="org.chatterbaby.chatterbaby.MainActivity">
 
     <RadioGroup
+        android:id="@+id/record_radioBtns"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:checkedButton="@+id/radioButton_whyCry"
@@ -28,7 +29,7 @@
             android:checked="true"
             android:gravity="center"
             android:padding="@dimen/radioBtn"
-            android:text="Is baby hungry, fussy or in pain?"
+            android:text="@string/whyCryText"
             android:textSize="20sp" />
 
         <RadioButton
@@ -39,14 +40,14 @@
             android:buttonTint="@color/colorPrimary"
             android:gravity="center"
             android:padding="@dimen/radioBtn"
-            android:text="Is baby crying?"
+            android:text="@string/isCryText"
             android:textSize="20sp" />
 
         <RadioButton
             android:id="@+id/radioButton_ispain"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Is baby in pain?"
+            android:text="@string/isPainText"
             android:gravity="center"
             android:textSize="20sp"
             android:padding="@dimen/radioBtn"
@@ -69,15 +70,22 @@
     <ProgressBar
         android:id="@+id/circular_progress_bar"
         style="?android:attr/progressBarStyleHorizontal"
-        android:visibility="invisible"
         android:layout_width="200dp"
         android:layout_height="200dp"
+        android:layout_centerHorizontal="true"
         android:indeterminate="false"
         android:max="48"
         android:progress="1"
         android:progressDrawable="@drawable/circular_progressbar"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-         />
+        android:visibility="invisible" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Record"
+        android:layout_alignBottom="@+id/circular_progress_bar"
+        android:layout_centerInParent="true"/>
+
 
 </RelativeLayout>

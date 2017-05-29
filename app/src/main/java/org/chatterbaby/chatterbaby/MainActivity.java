@@ -25,6 +25,8 @@ import android.view.View;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.Button;
 import android.widget.ProgressBar;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import org.json.JSONException;
@@ -46,6 +48,7 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
+import static org.chatterbaby.chatterbaby.R.id.radioButton_isCry;
 import static org.chatterbaby.chatterbaby.R.id.recordButton;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -54,7 +57,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     // Drawer components
     private DrawerLayout drawerLayout;
 
-    private String EULA_PREFIX = "appeula";
     // permission variables
     final int PERMISSIONS_REQUEST = 444;
     String[] PERMISSIONS = new String[]{Manifest.permission.RECORD_AUDIO,
@@ -93,7 +95,34 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         });
 
-        // Set drawer components
+
+        RadioGroup radioBtns  = (RadioGroup) findViewById(R.id.record_radioBtns);
+        radioBtns.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                // update server variable for algorithm type
+                int selectedID = group.getCheckedRadioButtonId();
+                RadioButton radioButton = (RadioButton) findViewById(selectedID);
+                String modeCheck = (String) radioButton.getText();
+                System.out.println("modeCheck: " + modeCheck);
+                switch (modeCheck) {
+                    case "@string/whyCryText":
+                        mode = "whyCry";
+                        break;
+                    case "@string/isPainText":
+                        mode = "isPain";
+                        break;
+                    case "@string/isCryText":
+                        mode = "isCry";
+                        break;
+                    default:
+                        mode = "whyCry";
+                }
+                System.out.println("mode " + mode);
+            }
+        });
+
+    // Set drawer components
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -105,7 +134,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         // The eulaKey changes every time you increment the version number in the AndroidManifest.xml
         PackageInfo versionInfo = getPackageInfo();
-        final String eulaKey = EULA_PREFIX + versionInfo.versionCode;
+        final String eulaKey = "appeula" + versionInfo.versionCode;
         final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         boolean hasAccepted = prefs.getBoolean(eulaKey, false);
         if (!hasAccepted) {
@@ -316,14 +345,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         System.out.println(jsonStr);
                         try {
                             final JSONObject jsonObj = new JSONObject(jsonStr);
-                            /*
+/*
                             if ( jsonObj.getString("errmsg").equals("")) {
 
                                 // pass json to visualization activity
                                 System.out.println("Starting visualization...");
                                 System.out.println(jsonObj.getString("result"));
-                                Intent visualizationIntent = new Intent(RecordingActivity.this, VisualizationActivity.class);
-                                visualizationIntent.putExtra("json", jsonObj.toString());
+                                Intent visualizationIntent = new Intent(MainActivity.this, VisualizationActivity.class);
+                                visualizationIntent.putExtra("json", jsonObj.getString("result"));
                                 startActivity(visualizationIntent);
                             } else {
                                 //System.out.println(jsonObj.getString("errmsg"));
@@ -337,13 +366,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                             }
                             */
 
-                            //test
-                            System.out.println("Starting visualization...");
-                            System.out.println(jsonObj.getString("result"));
-                            response.body().close();
-                            Intent visualizationIntent = new Intent(MainActivity.this, VisualizationActivity.class);
-                            visualizationIntent.putExtra("json", jsonObj.toString());
-                            startActivity(visualizationIntent);
+
+
 
                         } catch (JSONException e) {
                             e.printStackTrace();
