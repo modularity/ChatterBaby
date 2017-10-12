@@ -1,3 +1,3 @@
-# chatterbaby
+# ChatterBaby
 
 Android version
