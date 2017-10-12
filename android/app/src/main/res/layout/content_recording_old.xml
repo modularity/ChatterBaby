@@ -1,0 +1,102 @@
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_recording"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:screenOrientation="portrait"
+    android:weightSum="1"
+    tools:context="org.chatterbaby.chatterbaby.MainActivity">
+
+    <RadioGroup
+        android:id="@+id/record_radioBtns"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:checkedButton="@+id/radioButton_whyCry"
+        android:layout_above="@+id/circular_progress_bar"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="@dimen/recordingMargin"
+        >
+
+        <RadioButton
+            android:id="@+id/radioButton_whyCry"
+            android:text="@string/whyCryText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:buttonTint="@color/colorPrimary"
+            android:checked="true"
+            android:gravity="center"
+            android:padding="@dimen/radioBtn"
+            android:textSize="@dimen/text_size"
+            android:textColor="@color/colorPrimary"
+            android:fontFamily="sans-serif" />
+
+        <RadioButton
+            android:id="@+id/radioButton_isCry"
+            android:text="@string/isCryText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:buttonTint="@color/colorPrimary"
+            android:checked="true"
+            android:gravity="center"
+            android:padding="@dimen/radioBtn"
+            android:textSize="@dimen/text_size"
+            android:textColor="@color/colorPrimary"
+            android:fontFamily="sans-serif" />
+
+        <RadioButton
+            android:id="@+id/radioButton_isPain"
+            android:text="@string/isPainText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:buttonTint="@color/colorPrimary"
+            android:checked="true"
+            android:gravity="center"
+            android:padding="@dimen/radioBtn"
+            android:textSize="@dimen/text_size"
+            android:textColor="@color/colorPrimary"
+            android:fontFamily="sans-serif" />
+
+    </RadioGroup>
+
+    <Button
+        android:layout_width="80dp"
+        android:layout_height="140dp"
+        android:background="@drawable/mic_transp"
+        android:id="@+id/recordButton"
+        android:layout_marginBottom="@dimen/nav_header_vertical_spacing"
+        android:layout_centerInParent="false"
+        android:layout_alignBottom="@+id/circular_progress_bar"
+        android:layout_centerHorizontal="true"
+        style="?android:attr/borderlessButtonStyle"/>
+
+    <ProgressBar
+        android:id="@+id/circular_progress_bar"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_centerHorizontal="true"
+        android:indeterminate="false"
+        android:max="48"
+        android:progress="1"
+        android:progressDrawable="@drawable/circular_progressbar"
+        android:visibility="invisible" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Record"
+        android:textSize="20dp"
+        android:fontFamily="sans-serif"
+        android:textColor="@color/colorPrimary"
+        android:layout_alignBottom="@+id/circular_progress_bar"
+        android:layout_centerInParent="true"/>
+
+
+</RelativeLayout>
