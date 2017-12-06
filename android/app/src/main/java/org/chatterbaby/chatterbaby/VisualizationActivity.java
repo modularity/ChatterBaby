@@ -112,7 +112,7 @@ public class VisualizationActivity extends AppCompatActivity {
                     noProb = 1-yesProb;
                     labelValues = new String[]{"Pain", "No Pain"};
                 } else if (mode.equals("CryNoCry")) {
-                    yesProb = BigDecimal.valueOf(jsonObj.getDouble("Cry")).floatValue();
+                    yesProb = BigDecimal.valueOf(jsonObj.getDouble("Crying")).floatValue();
                     noProb = 1-yesProb;
                     labelValues = new String[]{"Cry", "No Cry"};
                 } else if (mode.equals("whyCry")) {
