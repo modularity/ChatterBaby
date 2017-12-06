@@ -12,7 +12,7 @@
 
     <RadioGroup
         android:id="@+id/record_radioBtns"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:checkedButton="@+id/radioButton_whyCry"
         android:layout_above="@+id/circular_progress_bar"
@@ -22,37 +22,43 @@
 
         <RadioButton
             android:id="@+id/radioButton_whyCry"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:buttonTint="@color/colorPrimary"
             android:checked="true"
-            android:gravity="center"
+            android:onClick="onAlgClickHandler"
+            android:gravity="left|center"
             android:padding="@dimen/radioBtn"
             android:text="@string/whyCryText"
-            android:textSize="20sp" />
+            android:textSize="@dimen/recordText"
+            android:textColor="#444"/>
 
         <RadioButton
             android:id="@+id/radioButton_isCry"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:buttonTint="@color/colorPrimary"
-            android:gravity="center"
+            android:onClick="onAlgClickHandler"
+            android:gravity="left|center"
             android:padding="@dimen/radioBtn"
             android:text="@string/isCryText"
-            android:textSize="20sp" />
+            android:textSize="@dimen/recordText"
+            android:textColor="#444"/>
 
         <RadioButton
-            android:id="@+id/radioButton_ispain"
-            android:layout_width="wrap_content"
+            android:id="@+id/radioButton_isPain"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/isPainText"
-            android:gravity="center"
-            android:textSize="20sp"
+            android:onClick="onAlgClickHandler"
+            android:gravity="left|center"
+            android:textSize="@dimen/recordText"
             android:padding="@dimen/radioBtn"
             android:layout_weight="1"
-            android:buttonTint="@color/colorPrimary"/>
+            android:buttonTint="@color/colorPrimary"
+            android:textColor="#444" />
 
     </RadioGroup>
 

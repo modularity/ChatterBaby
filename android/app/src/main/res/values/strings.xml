@@ -124,7 +124,7 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="action_settings">Settings</string>
-    <string name="whyCryText">Is baby hungry, fussy or in pain?</string>
+    <string name="whyCryText">Hungry, fussy, or in pain?</string>
     <string name="isCryText">Is baby crying?</string>
     <string name="isPainText">Is baby in pain?</string>
 

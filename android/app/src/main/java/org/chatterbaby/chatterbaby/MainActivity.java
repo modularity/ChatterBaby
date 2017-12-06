@@ -95,7 +95,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         });
 
-
+/*
         RadioGroup radioBtns  = (RadioGroup) findViewById(R.id.record_radioBtns);
         radioBtns.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
@@ -121,7 +121,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 System.out.println("mode " + mode);
             }
         });
-
+*/
     // Set drawer components
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -201,6 +201,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         record.setEnabled(true);
     }
 
+    // handle algorithm selection updates via RadioButton selectors
+    public void onAlgClickHandler(View view) {
+            switch (view.getId()) {
+                case R.id.radioButton_isPain:
+                    mode = "PainNoPain";
+                    break;
+                case R.id.radioButton_isCry:
+                    mode = "CryNoCry";
+                    break;
+                case R.id.radioButton_whyCry:default:
+                    mode = "whyCry";
+            }
+            System.out.println("mode " + mode);
+    }
+
     private boolean permissionsWrapper(String... permissions) {
         final List<String> permissionsList = new ArrayList<>();
 
@@ -250,7 +265,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private void beginRecording() {
         System.out.println("1: prep audio components");
-        outputFile = Environment.getExternalStorageDirectory().getAbsolutePath() + "/recording.ACC";
+        outputFile = Environment.getExternalStorageDirectory().getAbsolutePath() + "/recording.AAC";
         audioRecorder = new MediaRecorder();
         audioRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
         audioRecorder.setOutputFormat(MediaRecorder.OutputFormat.AAC_ADTS);
@@ -345,15 +360,20 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         System.out.println(jsonStr);
                         try {
                             final JSONObject jsonObj = new JSONObject(jsonStr);
-/*
+
                             if ( jsonObj.getString("errmsg").equals("")) {
 
                                 // pass json to visualization activity
                                 System.out.println("Starting visualization...");
-                                System.out.println(jsonObj.getString("result"));
+                                String result = jsonObj.getString("result");
+                                System.out.println(result);
+
+
                                 Intent visualizationIntent = new Intent(MainActivity.this, VisualizationActivity.class);
-                                visualizationIntent.putExtra("json", jsonObj.getString("result"));
+                                visualizationIntent.putExtra("json", result);
+                                visualizationIntent.putExtra("mode", mode);
                                 startActivity(visualizationIntent);
+
                             } else {
                                 //System.out.println(jsonObj.getString("errmsg"));
                                 runOnUiThread(new Runnable() {
@@ -364,7 +384,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                     }
                                 });
                             }
-                            */
+
 
 
 

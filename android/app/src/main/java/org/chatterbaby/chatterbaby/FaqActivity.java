@@ -8,7 +8,7 @@ import android.support.v7.widget.Toolbar;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
-public class FAQActivity extends AppCompatActivity {
+class FAQActivity extends AppCompatActivity {
 
     private String faqLink = "https://docs.google.com/document/d/1wXELtFDXSxVaVlRl8HBGEXSfKu1JYgLBEcH2dYJmL50/edit?usp=sharing";
 
