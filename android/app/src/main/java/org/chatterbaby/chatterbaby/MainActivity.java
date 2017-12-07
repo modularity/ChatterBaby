@@ -158,8 +158,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
+
         } else {
             super.onBackPressed();
+            System.out.println("reset mode onBackPressed");
+            mode = "whyCry";
         }
     }
 
@@ -309,6 +312,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         audioRecorder.stop();
                         audioRecorder.reset();
                         audioRecorder.release();
+                        audioRecorder = null;
                         uploadFile(outputFile);
                         //reset icon settings
                         progressBar.setVisibility(View.INVISIBLE);
@@ -372,6 +376,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                 Intent visualizationIntent = new Intent(MainActivity.this, VisualizationActivity.class);
                                 visualizationIntent.putExtra("json", result);
                                 visualizationIntent.putExtra("mode", mode);
+                                mode = "whyCry"; //reset mode, in case user hits back and runs algorithm again
                                 startActivity(visualizationIntent);
 
                             } else {

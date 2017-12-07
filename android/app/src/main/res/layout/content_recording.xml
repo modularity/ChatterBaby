@@ -32,7 +32,7 @@
             android:padding="@dimen/radioBtn"
             android:text="@string/whyCryText"
             android:textSize="@dimen/recordText"
-            android:textColor="#444"/>
+            android:textColor="@color/recordText"/>
 
         <RadioButton
             android:id="@+id/radioButton_isCry"
@@ -45,7 +45,7 @@
             android:padding="@dimen/radioBtn"
             android:text="@string/isCryText"
             android:textSize="@dimen/recordText"
-            android:textColor="#444"/>
+            android:textColor="@color/recordText"/>
 
         <RadioButton
             android:id="@+id/radioButton_isPain"
@@ -58,7 +58,7 @@
             android:padding="@dimen/radioBtn"
             android:layout_weight="1"
             android:buttonTint="@color/colorPrimary"
-            android:textColor="#444" />
+            android:textColor="@color/recordText" />
 
     </RadioGroup>
 
@@ -84,14 +84,6 @@
         android:progress="1"
         android:progressDrawable="@drawable/circular_progressbar"
         android:visibility="invisible" />
-
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Record"
-        android:layout_alignBottom="@+id/circular_progress_bar"
-        android:layout_centerInParent="true"/>
 
 
 </RelativeLayout>

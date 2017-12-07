@@ -12,19 +12,32 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:screenOrientation="portrait"
         android:padding="@dimen/activity_horizontal_margin"
         android:layout_marginTop="64dp"
         android:layout_marginBottom="@dimen/activity_horizontal_margin">
 
         <com.github.mikephil.charting.charts.BarChart
             android:id="@+id/chart"
+            android:layout_above="@+id/adImage"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_margin="@dimen/activity_vertical_margin"/>
 
-    </LinearLayout>
+        <!-- placeholder size: 280 x 143 -->
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:src="@drawable/menu_top"
+            android:layout_gravity="center|bottom"
+            android:id="@+id/adImage" />
+
+    </RelativeLayout>
 </android.support.design.widget.CoordinatorLayout>

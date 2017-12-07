@@ -151,7 +151,7 @@ public class VisualizationActivity extends AppCompatActivity {
         }
         BarDataSet barDataSet = new BarDataSet(entries, "Probability of state");
         barDataSet.setDrawValues(false);
-        barDataSet.setColors(new int[]{Color.rgb(245, 131, 87), Color.rgb(253, 186, 49), Color.rgb(95, 151, 203)});
+        barDataSet.setColors(new int[]{Color.rgb(253, 186, 49), Color.rgb(95, 151, 203), Color.rgb(245, 131, 87)});
         barDataSet.setValueTextSize(14f);
         barDataSet.setValueTextColor(Color.rgb(255,255,255));
         barDataSet.setBarShadowColor(Color.rgb(215, 215, 215));

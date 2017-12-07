@@ -2,23 +2,13 @@
 <resources>
     <color name="colorPrimary">#5f97cb</color>
     <color name="colorPrimaryDark">#fdba31</color>
-    <color name="colorAccent">#FFFFFF</color>
-    <color name="azureButton">#00A5E5</color>
-    <color name="menuButton">#3284BF</color>
-    <color name="altButton">#9B99FF</color>
 
-    <color name="graphOrange">#f58357</color>
     <color name="graphYellow">#fdba31</color>
-    <color name="graphBlue">#5f97cb</color>
-    <color name="buttons">#5f97cb</color>
     <color name="blueFont">#3185c0</color>
-    <color name="progressWheel">#96b6dc</color>
 
-    <color name="radioBtnUnselect">#a4a29e</color>
     <color name="radioBtnSelect">#5f97cb</color>
     <color name="white">#FFFFFF</color>
 
-    <color name="button_pressed">#5f97cb</color>
-    <color name="button_focused">#fff</color>
-    <color name="button_default">#a4a29e</color>
+    <color name="recordText">#667</color>
+
 </resources>
