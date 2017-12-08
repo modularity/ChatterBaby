@@ -6,3 +6,4 @@
 .DS_Store
 /android/build
 /android/captures
+.idea
