@@ -5,7 +5,8 @@ import {
   Text,
   View,
   TouchableOpacity,
-  Image
+  Image,
+  Dimensions
 } from 'react-native';
 // import library for navigation objects and routing
 import { StackNavigator, TabNavigator } from 'react-navigation';
@@ -28,18 +29,16 @@ export default class Record extends Component<{}> {
   constructor(props) {
     super(props);
     let path = AudioUtils.DocumentDirectoryPath + '/audioTest.AAC';
-    console.warn('audio path', path);
     this.state = {
       showChart: false,
       progress: 0,
       currentTime: 0.0,
       stoppedRecording: false,
-      finished: false,
       audioPath: path,
       hasPermission: undefined,
-      painResponse: .22,
-      hungryResponse: .50,
-      fussyResponse: .28,
+      painResponse: 22,
+      hungryResponse: 20,
+      fussyResponse: 58,
     }
   }
 
@@ -95,53 +94,46 @@ export default class Record extends Component<{}> {
       });
   }
 
-  // update state when recording is finished
   // send file to api for processing
   finishRecording(didSucceed, filePath) {
-    this.setState({ finished: didSucceed });
-    console.log('Finished recording of duration ${this.state.currentTime} seconds at path: ${filePath}');
+    // prep fetch API call with formData
+    var audioFile = { uri: filePath, type: 'audio/aac', name: 'audioSample.aac' };
+    let formData = new FormData();
+    formData.append('mode', 'whyCry');
+    formData.append('token', '');
+    formData.append('data', audioFile);
 
-    // current the API call is being sent the raw data and not a file(aac: name, header values)
-    RNFetchBlob.fs.readFile(this.state.audioPath, 'base64')
-    .then((audioData) => {
-      console.warn(audioData);
-      // handle the data ..
-      var data_values = {
-        mode: 'whyCry',
-        token: '',
-        data: audioData
-      };
-      console.warn('data values', data_values);
-      // call API w axios
-      axios({
-        url: 'https://chatterbaby.org/app-ws/app/process-data-v2',
-        method: 'post',
-        data: { mode: 'whyCry', token: '', data: this.state.audioPath }
-      })
-      .then((response) => {
-          console.warn('rnfetch audio response', response);
-          console.warn('rnfetch audio result', response.data.result);
-          // parse response to update state barchart values
-          // {"result":{"Fussy":0.398,"Hungry":0.316,"Pain":0.286},"record_id":"941","errmsg":""}
-          this.setState({
-            painResponse: response.data.result.Pain,
-            hungryResponse: response.data.result.Hungry,
-            fussyResponse: response.data.result.Fussy,
-          });
-      })
-      .catch((error) => {
-        console.warn('error sending recording to api', error);
-        console.warn(error);
-      });
-      //.done(() => {});
+    // send formData to server
+    fetch('https://chatterbaby.org/app-ws/app/process-data-v2', {
+      method: 'post',
+      headers: { 'Content-Type': 'multipart/form-data', 'Accept': 'application/json'},
+      body: formData
     })
-    .catch((err) => { console.warn('readFile error' + err ) })
+    .then((response) => {
+      console.log('audio response', response);
+      response.json().then((data) => {
+        this.updateGraph(data);
+      })
+    })
+    .catch((error) => {
+      console.log('audio error', error);
+    })
+  }
+
+  // parse response to update state barchart values
+  // data: {"result":{"Fussy":0.398,"Hungry":0.316,"Pain":0.286},"record_id":"941","errmsg":""}
+  updateGraph(data) {
+    console.log(data);
+    this.setState({
+      painResponse: data.result.Pain*100,
+      hungryResponse: data.result.Hungry*100,
+      fussyResponse: data.result.Fussy*100,
+    });
   }
 
   // button style factory: toggle record button style btw active and inactive mode
   renderButton(title, onPress, active) {
     var style = (active) ? styles.activeButtonText : styles.inactiveButtonText;
-
     return (
       <TouchableOpacity style={styles.button} onPress={onPress}>
         <Text style={style}>
@@ -194,19 +186,17 @@ export default class Record extends Component<{}> {
   }
 
   render() {
-
     var chartData = [
       [{"v": this.state.painResponse, "name": "Pain"}],
       [{"v": this.state.hungryResponse, "name": "Hungry"}],
       [{"v": this.state.fussyResponse, "name": "Fussy"}]
-    ]
-
+    ];
     var chartOptions = {
-        width: 300,
-        height: 300,
+        width: Dimensions.get('window').width*.7,
+        height: Dimensions.get('window').height*.5,
         margin: {
           top: 20,
-          left: 25,
+          left: 20,
           bottom: 50,
           right: 20
         },
@@ -247,6 +237,7 @@ export default class Record extends Component<{}> {
           }
         }
       }
+    // renderContent: conditional variable to render either recording UI or result graph
     var renderContent = (<View style={{flex: 1, justifyContent:'center', alignItems: 'center'}}>
                             <Bar data={chartData} options={chartOptions} accessorKey='v'
                                  pallete={[ { 'r': 245, 'g': 131, 'b': 87 },
@@ -259,6 +250,7 @@ export default class Record extends Component<{}> {
                             </View>
                         </View>);
 
+    // update renderContent to show recording UI
     if ( !this.state.showChart ) {
       renderContent = <View>
         <Progress.Circle style={{ justifyContent: 'center', alignItems: 'center' }}
@@ -272,7 +264,6 @@ export default class Record extends Component<{}> {
         </View>
       </View>
     };
-
 
     return (
       <View style={styles.container}>

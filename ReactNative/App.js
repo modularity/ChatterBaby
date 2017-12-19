@@ -68,8 +68,8 @@ export default class App extends Component {
   }
 
   render() {
-    return <TabNav navigator = {this.props.navigation} />
-    //return <RegisterNav navigator = {this.props.navigation} />
+    //return <TabNav navigator = {this.props.navigation} />
+    return <RegisterNav navigator = {this.props.navigation} />
   }
 }
 
@@ -129,21 +129,3 @@ const RegisterNav = StackNavigator({
       }),
     },
 });
-
-
-/*
-var TopLevelNav = StackNavigator({
-  Consent: { screen: Consent },
-  Register: { screen: Registration },
-  Main: { screen: TabNav }
-});
-
-navigation icons
-
-record: 'microphone'
-questionnaire: 'list-alt'
-about us: 'group'
-contact us: 'envelope' or 'envelope-o'
-faq: 'list'
-
-*/
