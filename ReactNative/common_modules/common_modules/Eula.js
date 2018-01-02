@@ -30,7 +30,9 @@ export default class Eula extends Component<{}> {
   async agreeBtn() {
     try {
       await AsyncStorage.setItem('consentResponse', 'agree');
+      console.log('just agreed to consent');
     } catch (error) {
+      console.log('error with saving consent');
       // error saving data
     }
     this.props.navigation.navigate('Register');

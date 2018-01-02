@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
 import {
   Platform,
-  StyleSheet,
   Text,
   View,
   WebView,
-  Dimensions
 } from 'react-native';
 // import library for navigation objects and routing
 import { StackNavigator, TabNavigator } from 'react-navigation';
+// import StyleSheet
+import styles from '../stylesheets/questionnaireStyle';
 
 export default class Questionnaire extends Component<{}> {
   constructor(props) {
@@ -26,21 +26,3 @@ export default class Questionnaire extends Component<{}> {
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-  },
-  webView: {
-    width: Dimensions.get('window').width,
-    height: Dimensions.get('window').height*.9,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
-  },
-});

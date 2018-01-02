@@ -18,10 +18,8 @@ import * as Progress from 'react-native-progress';
 import { Bar } from 'react-native-pathjs-charts';
 // import FontAwesome icons
 import Icon from 'react-native-vector-icons/FontAwesome';
-// import for web api call and process audio file from local storage
-import axios from 'axios';
-// import file manager for reading audio file and sending to server
-import RNFetchBlob from 'react-native-fetch-blob';
+// import Firebase for admob and analytics
+//import Firebase from 'react-native-firebase';
 // import style sheet
 import styles from '../stylesheets/recordStyle';
 

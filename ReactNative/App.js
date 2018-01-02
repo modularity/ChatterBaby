@@ -1,8 +1,3 @@
-/*
-  ChatterBaby mobile application
-  chatterbaby.org
-
- */
 
 import React, { Component } from 'react';
 import {
@@ -25,51 +20,45 @@ import { StackNavigator, TabNavigator } from 'react-navigation';
 // import FontAwesome icons for navigation objects
 import Icon from 'react-native-vector-icons/FontAwesome';
 
-/*
-// To see all the requests in the chrome Dev tools in the network tab.
-XMLHttpRequest = GLOBAL.originalXMLHttpRequest ?
-    GLOBAL.originalXMLHttpRequest :
-    GLOBAL.XMLHttpRequest;
-  // fetch logger
-global._fetch = fetch;
-global.fetch = function (uri, options, ...args) {
-  return global._fetch(uri, options, ...args).then((response) => {
-    console.log('Fetch', { request: { uri, options, ...args }, response });
-    return response;
-  });
-};
-*/
-
 export default class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { registered: false }
+  }
 
   componentDidMount() {
-    //need to check storage to determine routing
-    //route to consent until the agree
-    //route to questionnaire if they haven't completed it
-    //route to TabNav if they have already completed consent and questionnaire
-
+    // check storage to determine routing
+    this.checkConsent();
   }
 
   async checkConsent() {
     try {
-      const consentVal = await AsyncStorage.getItem('consentAgreed');
+      const consentVal = await AsyncStorage.getItem('consentResponse');
       if (consentVal !== null) {
-        // if (consentVal === 'agree')
         // they have agreed to consent form
+        this.setState({registered: true});
         // check if registration was completed
         const registerVal = await AsyncStorage.getItem('registered');
-        if (registerVal !== 'complete') {
-          this.props.navigation.navigate('TabNav');
+        if (registerVal === 'complete') {
+          //console.log('agreed to eula AND registered');
+        } else {
+          //console.log('agreed to eula, but not registered');
         }
       }
     } catch (error) {
-      // error retrieving data
+      // error retrieving AsyncStorage data
     }
   }
 
   render() {
-    //return <TabNav navigator = {this.props.navigation} />
-    return <RegisterNav navigator = {this.props.navigation} />
+    // dynamic route rendering based on consent/registration status
+    var route = this.state.registered ? <TabNav navigator = {this.props.navigation} />
+                           : <RegisterNav navigator = {this.props.navigation} />
+    return route
+    /* fixed nav obj render for testing
+      return <TabNav navigator = {this.props.navigation} />
+      return <RegisterNav navigator = {this.props.navigation} />
+    */
   }
 }
 
@@ -77,31 +66,36 @@ const TabNav = TabNavigator({
   Record: { screen: Record,
             navigationOptions: {
               tabBarLabel: 'Record',
-              tabBarIcon: ({ tintColor }) => <Icon name="microphone" size={25} color={tintColor} />
+              tabBarIcon: ({ tintColor }) =>
+                  <Icon name="microphone" size={25} color={tintColor} />
             }
           },
   Questionnaire: { screen: Questionnaire,
             navigationOptions: {
               tabBarLabel: 'Questionnaire',
-              tabBarIcon: ({ tintColor }) => <Icon name="list-alt" size={25} color={tintColor} />
+              tabBarIcon: ({ tintColor }) =>
+                  <Icon name="list-alt" size={25} color={tintColor} />
             }
          },
   AboutUs: { screen: AboutUs,
             navigationOptions: {
               tabBarLabel: 'AboutUs',
-              tabBarIcon: ({ tintColor }) => <Icon name="group" size={25} color={tintColor} />
+              tabBarIcon: ({ tintColor }) =>
+                  <Icon name="group" size={25} color={tintColor} />
             }
         },
   ContactUs: { screen: ContactUs,
             navigationOptions: {
               tabBarLabel: 'ContactUs',
-              tabBarIcon: ({ tintColor }) => <Icon name="envelope" size={25} color={tintColor} />
+              tabBarIcon: ({ tintColor }) =>
+                  <Icon name="envelope" size={25} color={tintColor} />
             }
         },
   Faq: { screen: Faq,
             navigationOptions: {
               tabBarLabel: 'Faq',
-              tabBarIcon: ({ tintColor }) => <Icon name="list" size={25} color={tintColor} />
+              tabBarIcon: ({ tintColor }) =>
+                  <Icon name="list" size={25} color={tintColor} />
             }
         },
 }, {
@@ -116,15 +110,18 @@ const TabNav = TabNavigator({
 // add navigation object to route to consent form
 // may also add registration form to follow EULA consent
 const RegisterNav = StackNavigator({
-  Eula: { screen: Eula, navigationOptions: ({ navigation }) => ({
+  Eula: { screen: Eula,
+    navigationOptions: ({ navigation }) => ({
       header: null,
       }),
     },
-  Register: { screen: Register, navigationOptions: ({ navigation }) => ({
+  Register: { screen: Register,
+    navigationOptions: ({ navigation }) => ({
       header: null,
       }),
     },
-  TabNav: { screen: TabNav, navigationOptions: ({ navigation }) => ({
+  TabNav: { screen: TabNav,
+    navigationOptions: ({ navigation }) => ({
       header: null,
       }),
     },

@@ -41,10 +41,10 @@ export default class Register extends Component {
       body: formData
     })
     .then((response) => {
-      console.log('audio response', response);
+      console.log('register API response', response);
       response.json().then((data) => {
         console.warn('successfully sent registration to server', data);
-        this.props.navigation.navigate('TabNav');
+        this.logAsRegistered();
       })
     })
     .catch((error) => {
@@ -55,10 +55,11 @@ export default class Register extends Component {
   async logAsRegistered() {
     try {
       await AsyncStorage.setItem('registered', 'complete');
+      console.log('just completed registration');
     } catch (error) {
-      // error saving data
+      console.log('error with saving registration');
     }
-    this.props.navigation.navigate('Register');
+    this.props.navigation.navigate('TabNav');
   }
 /*
 consider adding cross-platform date picker from react-native-calendars library

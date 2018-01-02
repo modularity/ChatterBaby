@@ -1,12 +1,9 @@
 import React, { Component } from 'react';
-import {
-  Platform,
-  StyleSheet,
-  Text,
-  View
-} from 'react-native';
+import { Platform, Text, View } from 'react-native';
 // import library for navigation objects and routing
 import { StackNavigator, TabNavigator } from 'react-navigation';
+// import stylesheets
+import styles from '../stylesheets/aboutusStyle';
 
 export default class AboutUs extends Component<{}> {
   render() {
@@ -22,25 +19,3 @@ export default class AboutUs extends Component<{}> {
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-  },
-  title: {
-    padding: 30,
-    fontSize: 20,
-    textAlign: 'center',
-    fontWeight: 'bold',
-  },
-  pageText: {
-    color: '#333333',
-    margin: 10,
-  },
-  boldText: {
-    fontWeight: 'bold'
-  }
-});

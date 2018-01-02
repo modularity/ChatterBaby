@@ -12,8 +12,6 @@ import {
 } from 'react-native';
 // import for icons in form field
 import Icon from 'react-native-vector-icons/FontAwesome';
-// import for web api calls
-import axios from 'axios';
 // import StyleSheet
 import styles from '../stylesheets/registerStyle';
 
@@ -30,31 +28,38 @@ export default class Register extends Component {
   // should validate the data first
   // just sending the form for now
   submitForm() {
-    var registerData = { gender: this.state.gender,
-                          dob: this.state.dob,
-                          email: this.state.email };
-    axios({
-      url: 'https://chatterbaby.org/app-ws/app/process-data-v2',
+    var registerData = { gender: this.state.gender, dob: this.state.dob, email: this.state.email };
+
+    // send formData to server
+    var formData = new FormData();
+    formData.append('mode', 'survey');
+    formData.append('token', '');
+    formData.append('data', registerData);
+    fetch('https://chatterbaby.org/app-ws/app/process-data-v2', {
       method: 'post',
-      data:{mode: 'survey', token: '', data: registerData }
+      headers: { 'Content-Type': 'multipart/form-data', 'Accept': 'application/json'},
+      body: formData
     })
     .then((response) => {
-      console.warn('successfully sent registration to server');
-      this.props.navigation.navigate('TabNav');
+      console.log('register API response', response);
+      response.json().then((data) => {
+        console.warn('successfully sent registration to server', data);
+        this.logAsRegistered();
+      })
     })
     .catch((error) => {
-      console.warn('error sending registration to server', error);
-    });
-    //.done(() => { });
+      console.log('error sending registration to server', error);
+    })
   }
 
   async logAsRegistered() {
     try {
       await AsyncStorage.setItem('registered', 'complete');
+      console.log('just completed registration');
     } catch (error) {
-      // error saving data
+      console.log('error with saving registration');
     }
-    this.props.navigation.navigate('Register');
+    this.props.navigation.navigate('TabNav');
   }
 /*
 consider adding cross-platform date picker from react-native-calendars library

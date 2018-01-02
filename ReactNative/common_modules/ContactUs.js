@@ -1,15 +1,17 @@
 import React, { Component } from 'react';
 import {
   Platform,
-  StyleSheet,
   Text,
   View,
   Linking
 } from 'react-native';
 // import library for navigation objects and routing
 import { StackNavigator, TabNavigator } from 'react-navigation';
+// import stylesheets
+import styles from '../stylesheets/contactusStyle';
 
 export default class ContactUs extends Component<{}> {
+  // currently hardcoded values but would be nice to make this dynamic
   render() {
     return (
       <View style={styles.container}>
@@ -39,25 +41,3 @@ export default class ContactUs extends Component<{}> {
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-  },
-  title: {
-    padding: 30,
-    fontSize: 20,
-    textAlign: 'center',
-    fontWeight: 'bold',
-  },
-  pageText: {
-    color: '#333333',
-    margin: 10,
-  },
-  boldText: {
-    fontWeight: 'bold'
-  }
-});
