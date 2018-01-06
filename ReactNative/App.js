@@ -19,16 +19,20 @@ import Register from './common_modules/Register';
 import { StackNavigator, TabNavigator } from 'react-navigation';
 // import FontAwesome icons for navigation objects
 import Icon from 'react-native-vector-icons/FontAwesome';
+// import Firebase for analytics and admob
+import firebase from 'react-native-firebase';
 
 export default class App extends Component {
   constructor(props) {
     super(props);
     this.state = { registered: false }
+    //firebase.analytics().setAnalyticsCollectionEnabled(true);
   }
 
   componentDidMount() {
     // check storage to determine routing
     this.checkConsent();
+
   }
 
   async checkConsent() {
@@ -72,28 +76,28 @@ const TabNav = TabNavigator({
           },
   Questionnaire: { screen: Questionnaire,
             navigationOptions: {
-              tabBarLabel: 'Questionnaire',
+              tabBarLabel: 'Survey',
               tabBarIcon: ({ tintColor }) =>
                   <Icon name="list-alt" size={25} color={tintColor} />
             }
          },
   AboutUs: { screen: AboutUs,
             navigationOptions: {
-              tabBarLabel: 'AboutUs',
+              tabBarLabel: 'About',
               tabBarIcon: ({ tintColor }) =>
                   <Icon name="group" size={25} color={tintColor} />
             }
         },
   ContactUs: { screen: ContactUs,
             navigationOptions: {
-              tabBarLabel: 'ContactUs',
+              tabBarLabel: 'Contact',
               tabBarIcon: ({ tintColor }) =>
                   <Icon name="envelope" size={25} color={tintColor} />
             }
         },
   Faq: { screen: Faq,
             navigationOptions: {
-              tabBarLabel: 'Faq',
+              tabBarLabel: 'FAQ',
               tabBarIcon: ({ tintColor }) =>
                   <Icon name="list" size={25} color={tintColor} />
             }

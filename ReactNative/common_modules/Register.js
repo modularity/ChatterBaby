@@ -14,6 +14,8 @@ import {
 import Icon from 'react-native-vector-icons/FontAwesome';
 // import StyleSheet
 import styles from '../stylesheets/registerStyle';
+// import firebase for analytics
+import firebase from 'react-native-firebase';
 
 export default class Register extends Component {
   constructor(props) {
@@ -23,8 +25,13 @@ export default class Register extends Component {
       dob: new Date(),
       email: ''
     }
+    firebase.analytics().setCurrentScreen('register');
   }
 
+  skipForm() {
+    //console.warn('skip');
+    this.props.navigation.navigate('TabNav');
+  }
   // should validate the data first
   // just sending the form for now
   submitForm() {
@@ -41,23 +48,24 @@ export default class Register extends Component {
       body: formData
     })
     .then((response) => {
-      console.log('register API response', response);
+      //console.log('register API response', response);
       response.json().then((data) => {
-        console.warn('successfully sent registration to server', data);
+        //console.warn('successfully sent registration to server', data);
         this.logAsRegistered();
       })
     })
     .catch((error) => {
-      console.log('error sending registration to server', error);
+      //console.log('error sending registration to server', error);
+      Alert.alert('Server error', 'Unable to send registration. Please try again.');
     })
   }
 
   async logAsRegistered() {
     try {
       await AsyncStorage.setItem('registered', 'complete');
-      console.log('just completed registration');
+      //console.log('just completed registration');
     } catch (error) {
-      console.log('error with saving registration');
+      //console.log('error with saving registration');
     }
     this.props.navigation.navigate('TabNav');
   }
@@ -116,34 +124,6 @@ consider adding cross-platform date picker from react-native-calendars library
       */
     }
   }
-  /* Gender picker
-  <Picker
-    selectedValue={this.state.gender}
-    style={styles.genderPicker}
-    onValueChange={(itemValue) => this.setState({gender: itemValue})}>
-    <Picker.Item label="Boy" value="male" />
-    <Picker.Item label="Girl" value="female" />
-  </Picker>
-  */
-
-
-/*
-   <Icon.Button name="circle-o" backgroundColor='#aaa' onPress={this.loginWithFacebook}>
-    Girl
-  </Icon.Button>
-
-  <TouchableOpacity style={styles.skipBtn} onPress={() => this.setState({gender: 'male'})}>
-  <Text style={styles.skipText}>
-    Boy
-  </Text>
-  </TouchableOpacity>
-  <TouchableOpacity style={styles.skipBtn} onPress={() => this.setState({gender: 'female'})}>
-  <Text style={styles.skipText}>
-    Girl
-  </Text>
-  </TouchableOpacity>
-*/
-
 
   render() {
     var boyIcon = this.state.gender === 'male' ? 'circle' : 'circle-o';
@@ -183,12 +163,14 @@ consider adding cross-platform date picker from react-native-calendars library
            </View>
         </View>
           <View style={styles.buttonRow}>
-            <TouchableOpacity style={styles.skipBtn} onPress={() => console.warn('skip')}>
+            <TouchableOpacity style={styles.skipBtn}
+                onPress={() => this.skipForm()}>
             <Text style={styles.skipText}>
               Skip
             </Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.submitBtn} onPress={() => this.submitForm()}>
+            <TouchableOpacity style={styles.submitBtn}
+                onPress={() => this.submitForm()}>
             <Text style={styles.submitText}>
               Submit
             </Text>

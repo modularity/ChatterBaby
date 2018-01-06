@@ -10,6 +10,7 @@
     "react": "^16.0.0",
     "react-native": "^0.51.0",
     "react-native-audio": "^3.5.0",
+    "react-native-firebase": "^3.2.0",
     "react-native-pathjs-charts": "0.0.33",
     "react-native-progress": "^3.4.0",
     "react-native-svg": "^5.5.1",

@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
 import {
+  Alert,
   Platform,
-  StyleSheet,
   Text,
   View,
   TouchableOpacity,
-  Image,
   Dimensions
 } from 'react-native';
 // import library for navigation objects and routing
@@ -19,9 +18,11 @@ import { Bar } from 'react-native-pathjs-charts';
 // import FontAwesome icons
 import Icon from 'react-native-vector-icons/FontAwesome';
 // import Firebase for admob and analytics
-//import Firebase from 'react-native-firebase';
+import Firebase from 'react-native-firebase';
 // import style sheet
 import styles from '../stylesheets/recordStyle';
+// import firebase for analytics
+import firebase from 'react-native-firebase';
 
 export default class Record extends Component<{}> {
   constructor(props) {
@@ -34,10 +35,11 @@ export default class Record extends Component<{}> {
       stoppedRecording: false,
       audioPath: path,
       hasPermission: undefined,
-      painResponse: 22,
-      hungryResponse: 20,
-      fussyResponse: 58,
+      painResponse: 25,
+      hungryResponse: 30,
+      fussyResponse: 45,
     }
+    firebase.analytics().setCurrentScreen('record');
   }
 
   // check permission, if okay then configure AudioRecorder
@@ -52,11 +54,11 @@ export default class Record extends Component<{}> {
           this.stop();
         } else {
           this.setState({progress: data.currentTime, currentTime: floorTime});
-          console.log("onProgress data", data);
+          //console.log("onProgress data", data);
         }
       };
       AudioRecorder.onFinished = (data) => {
-        console.log("onFinished data", data); // returning null on android
+        //console.log("onFinished data", data); // returning null on android
         if (Platform.OS === 'ios') {
           this.finishRecording(data.status === 'OK', data.audioFileURL);
         }
@@ -66,7 +68,7 @@ export default class Record extends Component<{}> {
 
   // wrapper for the AudioRecorder prepareRecordingAtPath method
   prepareRecordingAtPath(path) {
-    console.log('file path', path);
+    //console.log('file path', path);
 
     AudioRecorder.prepareRecordingAtPath(path, {
       SampleRate: 32000,
@@ -87,7 +89,7 @@ export default class Record extends Component<{}> {
     }
     return PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.RECORD_AUDIO, rationale)
       .then((result) => {
-        console.log('Permission result: ', result);
+        //console.log('Permission result: ', result);
         return (result === true || result === PermissionsAndroid.RESULTS.GRANTED);
       });
   }
@@ -108,20 +110,21 @@ export default class Record extends Component<{}> {
       body: formData
     })
     .then((response) => {
-      console.log('audio response', response);
+      //console.log('audio response', response);
       response.json().then((data) => {
         this.updateGraph(data);
       })
     })
     .catch((error) => {
-      console.log('audio error', error);
+      //console.log('audio error', error);
+      Alert.alert('Server error', 'Please check your internet connection and try again.')
     })
   }
 
   // parse response to update state barchart values
   // data: {"result":{"Fussy":0.398,"Hungry":0.316,"Pain":0.286},"record_id":"941","errmsg":""}
   updateGraph(data) {
-    console.log(data);
+    //console.log(data);
     this.setState({
       painResponse: data.result.Pain*100,
       hungryResponse: data.result.Hungry*100,
@@ -144,7 +147,7 @@ export default class Record extends Component<{}> {
   // update state and AudioRecorder object when recording stops
   async stop() {
       if ( !this.state.recording ) {
-        console.warn('Can\'t stop, not recording');
+        //console.warn('Can\'t stop, not recording');
         return
       }
       this.setState({ showChart: true, stoppedRecording: true, recording: false, progress: 0, currentTime: 0.0 });
@@ -155,19 +158,21 @@ export default class Record extends Component<{}> {
         }
         return filePath;
       } catch (error) {
-        console.error(error);
+        //console.error(error);
+        Alert.alert('Recording error', 'Unable to complete the recording on your device. Please try again.');
       }
   }
 
   // update state and call AudioRecorder startRecording method when recording begins
   async record() {
     if (this.state.recording) {
-      console.warn('Already recording!');
+      //console.warn('Already recording!');
       return;
     }
 
     if ( !this.state.hasPermission ) {
-      console.warn('Can\'t record, no permission granted!');
+      //console.warn('Can\'t record, no permission granted!');
+      Alert.alert('Permission error', 'Please enable audio permissions to the app and try again.')
       return;
     }
 
@@ -177,9 +182,12 @@ export default class Record extends Component<{}> {
     this.setState({ recording: true });
     try {
       const filePath = await AudioRecorder.startRecording();
-      console.log('startRecording');
+      //console.log('startRecording');
+      firebase.analytics().logEvent('start_recording');
+      //firebase.analytics().logEvent('start_recording', { id: _id });
     } catch (error) {
-      console.error(error);
+      Alert.alert('Recording error', 'Please review app permissions for audio and storage.');
+      //console.error(error);
     }
   }
 

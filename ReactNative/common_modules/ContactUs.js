@@ -9,8 +9,14 @@ import {
 import { StackNavigator, TabNavigator } from 'react-navigation';
 // import stylesheets
 import styles from '../stylesheets/contactusStyle';
+// import firebase for analytics
+import firebase from 'react-native-firebase';
 
 export default class ContactUs extends Component<{}> {
+  constructor(props) {
+    super(props);
+    firebase.analytics().setCurrentScreen('contactus');
+  }
   // currently hardcoded values but would be nice to make this dynamic
   render() {
     return (

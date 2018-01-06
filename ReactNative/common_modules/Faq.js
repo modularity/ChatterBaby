@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 import {
-  Platform,
-  Text,
   View,
   Linking,
   WebView,
@@ -10,6 +8,8 @@ import {
 import { StackNavigator, TabNavigator } from 'react-navigation';
 // import StyleSheet
 import styles from '../stylesheets/faqStyle';
+// import firebase for analytics
+import firebase from 'react-native-firebase';
 
 export default class Faq extends Component<{}> {
   constructor(props) {
@@ -17,16 +17,23 @@ export default class Faq extends Component<{}> {
     this.state = {
       faqUrl: 'https://docs.google.com/document/d/1wXELtFDXSxVaVlRl8HBGEXSfKu1JYgLBEcH2dYJmL50/edit?usp=sharing',
     }
+    firebase.analytics().setCurrentScreen('faq');
   }
 
   openFAQlink() {
     var url = this.state.faqUrl;
     Linking.canOpenURL(url).then(supported => {
-      if (!supported) { console.log('Can\'t handle url: ' + url);
+      if (!supported) {
+        //console.log('Can\'t handle url: ' + url);
+        Alert.alert('Connection error', 'Unable to retrieve content, please check your internet connection.');
       } else {
         return Linking.openURL(url);
       }
-    }).catch(err => console.error('An error occurred', err));
+    })
+    .catch(err => {
+        //console.error('An error occurred', err));
+        Alert.alert('Connection error', 'Unable to retrieve content, please check your internet connection.');
+    });
   }
 
   render() {

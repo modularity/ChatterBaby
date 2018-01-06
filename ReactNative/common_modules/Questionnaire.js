@@ -9,6 +9,8 @@ import {
 import { StackNavigator, TabNavigator } from 'react-navigation';
 // import StyleSheet
 import styles from '../stylesheets/questionnaireStyle';
+// import firebase for analytics
+import firebase from 'react-native-firebase';
 
 export default class Questionnaire extends Component<{}> {
   constructor(props) {
@@ -16,6 +18,7 @@ export default class Questionnaire extends Component<{}> {
     this.state = {
       questionURL: 'https://www.chatterbaby.org/survey-consented-start',
     }
+    firebase.analytics().setCurrentScreen('questionnaire');
   }
 
   render() {

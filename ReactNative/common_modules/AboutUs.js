@@ -4,8 +4,14 @@ import { Platform, Text, View } from 'react-native';
 import { StackNavigator, TabNavigator } from 'react-navigation';
 // import stylesheets
 import styles from '../stylesheets/aboutusStyle';
+// import firebase for analytics
+import firebase from 'react-native-firebase';
 
 export default class AboutUs extends Component<{}> {
+  constructor(props) {
+    super(props);
+    firebase.analytics().setCurrentScreen('aboutus');
+  }
   render() {
     return (
       <View style={styles.container}>
