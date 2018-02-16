@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>AD_UNIT_ID_FOR_BANNER_TEST</key>
+	<string>ca-app-pub-3940256099942544/2934735716</string>
+	<key>AD_UNIT_ID_FOR_INTERSTITIAL_TEST</key>
+	<string>ca-app-pub-3940256099942544/4411468910</string>
+	<key>CLIENT_ID</key>
+	<string>561430323633-3s280qihuscsoaekc4fq91g5llgnklr9.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.561430323633-3s280qihuscsoaekc4fq91g5llgnklr9</string>
+	<key>API_KEY</key>
+	<string>AIzaSyCJMlIfCKzhkwlnIDFTYGypyyL0Ih0Jbww</string>
+	<key>GCM_SENDER_ID</key>
+	<string>561430323633</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>org.uclahealth.chatterbaby</string>
+	<key>PROJECT_ID</key>
+	<string>chatterbaby-72edd</string>
+	<key>STORAGE_BUCKET</key>
+	<string>chatterbaby-72edd.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<true></true>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<false></false>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:561430323633:ios:3a2da059a62f119e</string>
+	<key>DATABASE_URL</key>
+	<string>https://chatterbaby-72edd.firebaseio.com</string>
+</dict>
+</plist>

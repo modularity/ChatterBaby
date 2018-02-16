@@ -7,21 +7,22 @@
     "test": "jest"
   },
   "dependencies": {
-    "react": "^16.0.0",
-    "react-native": "^0.51.0",
-    "react-native-audio": "^3.5.0",
-    "react-native-firebase": "^3.2.0",
+    "react": "16.2.0",
+    "react-native": "0.53.0",
+    "react-native-audio": "3.5.1",
+    "react-native-firebase": "3.2.4",
     "react-native-pathjs-charts": "0.0.33",
-    "react-native-progress": "^3.4.0",
-    "react-native-svg": "^5.5.1",
-    "react-native-vector-icons": "^4.4.2",
-    "react-navigation": "^1.0.0-beta.16"
+    "react-native-progress": "3.4.0",
+    "react-native-svg": "6.1.4",
+    "react-native-vector-icons": "4.5.0",
+    "react-navigation": "1.0.0",
+    "victory-native": "0.17.0"
   },
   "devDependencies": {
-    "babel-jest": "21.2.0",
+    "babel-jest": "22.2.0",
     "babel-preset-react-native": "4.0.0",
-    "jest": "21.2.1",
-    "react-test-renderer": "16.0.0-beta.5"
+    "jest": "22.2.1",
+    "react-test-renderer": "16.2.0"
   },
   "jest": {
     "preset": "react-native"

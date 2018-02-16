@@ -16,7 +16,9 @@ export default class Questionnaire extends Component<{}> {
   constructor(props) {
     super(props);
     this.state = {
-      questionURL: 'https://www.chatterbaby.org/survey-consented-start',
+      questionURL: 'https://chatterbaby.ctrl.ucla.edu/survey-consented-start',
+      // https://staging5.ctrl.ucla.edu:7423/ doesn't have a consented survey
+      // old link: https://www.chatterbaby.org/survey-consented-start
     }
     firebase.analytics().setCurrentScreen('questionnaire');
   }

@@ -29,7 +29,7 @@ export default class Eula extends Component<{}> {
   // route the user to the questionnaire page
   async agreeBtn() {
     try {
-      await AsyncStorage.setItem('consentResponse', 'agree');
+      await AsyncStorage.setItem('consentResponse', 'yes');
       //console.log('just agreed to consent');
       firebase.analytics().logEvent('consent_agreed');
     } catch (error) {

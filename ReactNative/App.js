@@ -25,8 +25,15 @@ import firebase from 'react-native-firebase';
 export default class App extends Component {
   constructor(props) {
     super(props);
-    this.state = { registered: false }
-    //firebase.analytics().setAnalyticsCollectionEnabled(true);
+    this.state = {
+      consented: false,
+      registered: false,
+      email: '',
+    }
+    firebase.analytics().setAnalyticsCollectionEnabled(true);
+
+    // init admob once per app lifecycle with app id
+    firebase.admob().initialize('ca-app-pub-4412913872988371/6451389174');
   }
 
   componentDidMount() {
@@ -35,34 +42,47 @@ export default class App extends Component {
 
   }
 
+  // pull list of all keys stored on device to determine routing
+  // store may include: ['consentResponse': 'yes'],['registered': 'yes'], ['email': 'something@gmail.com']
   async checkConsent() {
+    var consented = false;
+    var registered = false;
+    var email = '';
     try {
-      const consentVal = await AsyncStorage.getItem('consentResponse');
-      if (consentVal !== null) {
-        // they have agreed to consent form
-        this.setState({registered: true});
-        // check if registration was completed
-        const registerVal = await AsyncStorage.getItem('registered');
-        if (registerVal === 'complete') {
-          //console.log('agreed to eula AND registered');
-        } else {
-          //console.log('agreed to eula, but not registered');
-        }
-      }
+      AsyncStorage.getAllKeys((err, keys) => {
+        AsyncStorage.multiGet(keys, (err, stores) => {
+          stores.map((result, i, store) => {
+            var key = store[i][0];
+            var val = store[i][1];
+            if (key === 'email') {
+              if (val) email = val;
+            } else if (key === 'consentResponse') {
+              if (val === 'yes') consent = true;
+            } else if (key === 'registered') {
+              if (val==='yes') registered = true;
+            }
+          });
+        });
+      });
     } catch (error) {
       // error retrieving AsyncStorage data
     }
+    this.setState({consented, registered, email});
   }
 
   render() {
     // dynamic route rendering based on consent/registration status
-    var route = this.state.registered ? <TabNav navigator = {this.props.navigation} />
-                           : <RegisterNav navigator = {this.props.navigation} />
-    return route
-    /* fixed nav obj render for testing
-      return <TabNav navigator = {this.props.navigation} />
-      return <RegisterNav navigator = {this.props.navigation} />
-    */
+    // check if email and registered okay to access the app
+
+    var route = <ConsentNav navigator = {this.props.navigation} />;
+    if (this.state.registered && this.state.email !== '') {
+      route = <TabNav navigator = {this.props.navigation} />
+    } else if (this.state.consented) { // have they at least consented
+      route = <RegisterNav navigator = {this.props.navigation} />
+    }
+    return route;
+    //return <TabNav navigator={this.props.navigation} screenProps={{ email: this.state.email}} />
+    //return <RegisterNav navigator={this.props.navigation} screenProps={{ email: this.state.email}} />
   }
 }
 
@@ -111,14 +131,27 @@ const TabNav = TabNavigator({
   }
 });
 
-// add navigation object to route to consent form
-// may also add registration form to follow EULA consent
-const RegisterNav = StackNavigator({
+// navigation object to route to consent form
+const ConsentNav = StackNavigator({
   Eula: { screen: Eula,
     navigationOptions: ({ navigation }) => ({
       header: null,
       }),
     },
+  Register: { screen: Register,
+    navigationOptions: ({ navigation }) => ({
+      header: null,
+      }),
+    },
+  TabNav: { screen: TabNav,
+    navigationOptions: ({ navigation }) => ({
+      header: null,
+      }),
+    },
+});
+
+// navigation object to route to Register
+const RegisterNav = StackNavigator({
   Register: { screen: Register,
     navigationOptions: ({ navigation }) => ({
       header: null,

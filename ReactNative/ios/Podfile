@@ -1,0 +1,30 @@
+# Uncomment the next line to define a global platform for your project
+# platform :ios, '9.0'
+
+target 'ChatterBaby' do
+  # Uncomment the next line if you're using Swift or would like to use dynamic frameworks
+  # use_frameworks!
+
+
+
+  # Third party deps podspec link
+  pod 'Firebase/Core'
+  pod 'Firebase/Analytics'
+  pod 'Firebase/Auth'
+  pod 'Firebase/AdMob'
+  #pod 'RNSVG', :path => '../node_modules/react-native-svg'
+
+  # Pods for ChatterBaby
+
+  target 'ChatterBaby-tvOSTests' do
+    inherit! :search_paths
+    # Pods for testing
+
+  end
+
+  target 'ChatterBabyTests' do
+    inherit! :search_paths
+    # Pods for testing
+  end
+
+end
