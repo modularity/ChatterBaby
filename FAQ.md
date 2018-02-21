@@ -31,7 +31,7 @@ You can trust ChatterBaby to translate ~ 90% of the time whether your baby’s r
  
 
 ### 7)    What happens to my data?
-We store it for science on a server that is HIPAA-compliant; the data is “de-identified,” which means that we remove information that links your data to you individually. We are interested in discovering whether abnormal vocalization patterns in infants can predict neurodevelopmental delays such as autism. In order to do so, we need to analyze many thousands of audio samples from many thousands of babies, using a computer script to run some math(emagic) on it and throw the answers in a big spreadsheet to do even more math!  For more information, please refer to the Consent Form that you acknowledged and accepted when launching the app: [link to consent](https://docs.google.com/document/d/1Kk5sS_TZco67vvpb4SCk9bvGAR89szXWqlye-AhISpo/edit?usp=sharing).
+We store it for science on a server that is HIPAA-compliant; the data is “de-identified,” which means that we remove information that links your data to you individually. We are interested in discovering whether abnormal vocalization patterns in infants can predict neurodevelopmental delays such as autism. In order to do so, we need to analyze many thousands of audio samples from many thousands of babies, using a computer script to run some math(emagic) on it and throw the answers in a big spreadsheet to do even more math!  For more information, please refer to the Consent Form that you acknowledged and accepted when launching the app: [link to consent](https://github.com/modularity/ChatterBaby/blob/master/ConsentForm.md).
  
 
 ### 8)    Is there a warranty?
@@ -50,4 +50,4 @@ TBD.
 
 
 ### 11) Who do I contact for more information?
-ChatterBaby was born in 2013 to Dr. Ariana Anderson, a UCLA Professor with advanced degrees in mathematics and behavioral sciences, and a mother of four. This project was started as a baby monitor for Deaf parents, and was created to translate a baby’s cry.  She can be reached at <arianaanderson@mednet.ucla.edu>.  This project would not have been possible without the support of UCLA, the Burroughs Wellcome Fund, and our numerous collaborators.  Please visit <ChatterBaby.org> for a complete list of credits to whom ChatterBaby is indebted, as well as project updates, contact information, and lots more!
+ChatterBaby was born in 2013 to Dr. Ariana Anderson, a UCLA Professor with advanced degrees in mathematics and behavioral sciences, and a mother of four. This project was started as a baby monitor for Deaf parents, and was created to translate a baby’s cry.  She can be reached at <arianaanderson@mednet.ucla.edu>.  This project would not have been possible without the support of UCLA, the Burroughs Wellcome Fund, and our numerous collaborators.  Please visit [ChatterBaby.org](https://chatterbaby.org) for a complete list of credits to whom ChatterBaby is indebted, as well as project updates, contact information, and lots more!
