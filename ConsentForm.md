@@ -47,24 +47,24 @@ Any information that is obtained in connection with this study and that can iden
 ### Who can I contact if I have questions about this study?
 
 * #### The research team:  
-&nbsp;&nbsp;&nbsp;&nbsp;If you have any questions, comments or concerns about the research, you can talk to the one of the researchers. 
-&nbsp;&nbsp;&nbsp;&nbsp;Please contact: 
+  If you have any questions, comments or concerns about the research, you can talk to the one of the researchers. 
+  Please contact: 
 
-&nbsp;&nbsp;&nbsp;&nbsp;Ariana Anderson, Ph.D.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;University of California, Los Angeles<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;Department of Psychiatry and Biobehavioral Sciences<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;760 Westwood Plaza, Ste C8-734, <br/>
-&nbsp;&nbsp;&nbsp;&nbsp;Los Angeles, CA <br/>
-&nbsp;&nbsp;&nbsp;&nbsp;90095-1406 <br/>
-&nbsp;&nbsp;&nbsp;&nbsp;ariana82@ucla.edu <br/>
-&nbsp;&nbsp;&nbsp;&nbsp;(310) 254-5680 <br/>
+  Ariana Anderson, Ph.D.
+  University of California, Los Angeles
+  Department of Psychiatry and Biobehavioral Sciences
+  760 Westwood Plaza, Ste C8-734, 
+  Los Angeles, CA 
+  90095-1406 
+  ariana82@ucla.edu 
+  (310) 254-5680 
 
 * #### UCLA Office of the Human Research Protection Program (OHRPP):
-&nbsp;&nbsp;&nbsp;&nbsp;If you have questions about your rights while taking part in this study, or you have concerns or suggestions and you want to talk to someone other than the researchers about the study, please call the OHRPP at (310) 825-7122 or write to: 
+  If you have questions about your rights while taking part in this study, or you have concerns or suggestions and you want to talk to someone other than the researchers about the study, please call the OHRPP at (310) 825-7122 or write to: 
 
-&nbsp;&nbsp;&nbsp;&nbsp;UCLA Office of the Human Research Protection Program <br/>
-&nbsp;&nbsp;&nbsp;&nbsp;11000 Kinross Avenue, Suite 211, Box 951694 <br/>
-&nbsp;&nbsp;&nbsp;&nbsp;Los Angeles, CA 90095-1694 <br/>
+  UCLA Office of the Human Research Protection Program <br/>
+  11000 Kinross Avenue, Suite 211, Box 951694 <br/>
+  Los Angeles, CA 90095-1694 <br/>
 
 
 ## By clicking ‘OK’ you are providing your digital signature, indicating your informed consent to participate in this research study.
