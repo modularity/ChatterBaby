@@ -62,9 +62,9 @@ Any information that is obtained in connection with this study and that can iden
 * #### UCLA Office of the Human Research Protection Program (OHRPP):
   If you have questions about your rights while taking part in this study, or you have concerns or suggestions and you want to talk to someone other than the researchers about the study, please call the OHRPP at (310) 825-7122 or write to: 
 
-  UCLA Office of the Human Research Protection Program <br/>
-  11000 Kinross Avenue, Suite 211, Box 951694 <br/>
-  Los Angeles, CA 90095-1694 <br/>
+  UCLA Office of the Human Research Protection Program
+  11000 Kinross Avenue, Suite 211, Box 951694
+  Los Angeles, CA 90095-1694
 
 
 ## By clicking ‘OK’ you are providing your digital signature, indicating your informed consent to participate in this research study.
