@@ -50,10 +50,10 @@ Any information that is obtained in connection with this study and that can iden
   If you have any questions, comments or concerns about the research, you can talk to the one of the researchers. 
   Please contact: 
 
-  Ariana Anderson, Ph.D.     
+  Ariana Anderson, Ph.D.  
   University of California, Los Angeles  
   Department of Psychiatry and Biobehavioral Sciences  
-  760 Westwood Plaza, Ste C8-734,   
+  760 Westwood Plaza, Ste C8-734  
   Los Angeles, CA  
   90095-1406  
   ariana82@ucla.edu  
