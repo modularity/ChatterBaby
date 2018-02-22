@@ -1,5 +1,5 @@
 import {StyleSheet, Dimensions} from 'react-native';
-
+var width = Dimensions.get('window').width;
 module.exports =  StyleSheet.create({
   container: {
     flex: 1,
@@ -46,7 +46,7 @@ module.exports =  StyleSheet.create({
   },
   input: {
     height: 40,
-    width: Dimensions.get('window').width*.6,
+    width: width*.6,
   },
   buttonRow: {
     flexDirection: 'row',
@@ -71,13 +71,13 @@ module.exports =  StyleSheet.create({
    alignSelf: 'center',
  },
  modalClose: {
-   width: Dimensions.get('window').width*.8,
+   width: width*.8,
    backgroundColor: '#f1592a',
    padding: 5,
  },
  modalHeader: {
    flex: .6,
-   width: Dimensions.get('window').width*.8,
+   width: width*.8,
    backgroundColor: '#f1592a',
    justifyContent: 'center',
    alignItems: 'center',
@@ -93,7 +93,7 @@ module.exports =  StyleSheet.create({
    borderRadius:100,
  },
  modalTxtContainer: {
-   width: Dimensions.get('window').width*.8,
+   width: width*.8,
    backgroundColor: '#ecf0f1',
    flex: .3,
    justifyContent: 'center',

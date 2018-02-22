@@ -1,19 +1,24 @@
 import {StyleSheet, Dimensions} from 'react-native';
-
+var width = Dimensions.get('window').width;
+var height = Dimensions.get('window').height;
 module.exports =  StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#F5FCFF',
+    padding: 30,
   },
-  webView: {
-    width: Dimensions.get('window').width,
-    height: Dimensions.get('window').height*.9,
+  scrollView: {
+    paddingBottom: 25,
   },
-  instructions: {
+  title: {
+    padding: 30,
+    fontSize: 20,
+    fontWeight: 'bold',
+    fontFamily: 'Avenir',
     textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
+    alignSelf: 'center',
+    margin: 3,
+    color: '#34495e',
   },
 });

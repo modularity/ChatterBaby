@@ -1,6 +1,6 @@
 {
   "name": "ChatterBaby",
-  "version": "0.0.1",
+  "version": "1.0.3",
   "private": true,
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
@@ -11,6 +11,7 @@
     "react-native": "0.53.0",
     "react-native-audio": "3.5.1",
     "react-native-firebase": "3.2.4",
+    "react-native-markdown-renderer": "^3.0.2",
     "react-native-pathjs-charts": "0.0.33",
     "react-native-progress": "3.4.0",
     "react-native-svg": "6.1.4",

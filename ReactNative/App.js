@@ -1,13 +1,13 @@
 
 import React, { Component } from 'react';
 import {
+  Alert,
   AsyncStorage,
-  Platform,
-  StyleSheet,
-  Text,
+  ActivityIndicator,
   View
 } from 'react-native';
 // import other pages to load into the navigation objects
+import Graph from './common_modules/Graph';
 import Record from './common_modules/Record';
 import Questionnaire from './common_modules/Questionnaire';
 import AboutUs from './common_modules/AboutUs';
@@ -27,8 +27,8 @@ export default class App extends Component {
     super(props);
     this.state = {
       consented: false,
-      registered: false,
       email: '',
+      appReady: false,
     }
     firebase.analytics().setAnalyticsCollectionEnabled(true);
 
@@ -38,56 +38,78 @@ export default class App extends Component {
 
   componentDidMount() {
     // check storage to determine routing
-    this.checkConsent();
-
+    this.checkRegistration();
   }
 
-  // pull list of all keys stored on device to determine routing
-  // store may include: ['consentResponse': 'yes'],['registered': 'yes'], ['email': 'something@gmail.com']
-  async checkConsent() {
-    var consented = false;
-    var registered = false;
-    var email = '';
-    try {
-      AsyncStorage.getAllKeys((err, keys) => {
-        AsyncStorage.multiGet(keys, (err, stores) => {
-          stores.map((result, i, store) => {
-            var key = store[i][0];
-            var val = store[i][1];
-            if (key === 'email') {
-              if (val) email = val;
-            } else if (key === 'consentResponse') {
-              if (val === 'yes') consent = true;
-            } else if (key === 'registered') {
-              if (val==='yes') registered = true;
-            }
-          });
-        });
-      });
-    } catch (error) {
-      // error retrieving AsyncStorage data
-    }
-    this.setState({consented, registered, email});
+  async checkRegistration() {
+    var consentLoading = true;
+    var emailLoading = true;
+    // uncomment line below to wipe storage for testing
+    // AsyncStorage.clear();
+    await AsyncStorage.getItem('consented')
+      .then(val => this.setState({consented: val}))
+      .catch(e => {
+        Alert.alert('Start Error', 'Hmm something went wrong initializing the app.');
+        firebase.analytics().logEvent('accessing_consent_init_error');
+      })
+      .done(() => consentLoading = false);
+    await AsyncStorage.getItem('email')
+      .then(val => this.setState({email: val}))
+      .catch(e => {
+        Alert.alert('Start Error', 'Hmm something went wrong initializing the app.');
+        firebase.analytics().logEvent('accessing_email_init_error');
+      })
+      .done(() => emailLoading = false);
+      if (consentLoading && emailLoading) this.setState({appReady: true});
   }
 
   render() {
-    // dynamic route rendering based on consent/registration status
-    // check if email and registered okay to access the app
+    // spinner if still loading
+    if (!this.state.appReady) return (
+      <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+        <ActivityIndicator size="large" color="#5f97cb" />
+      </View>
+    );
+    // otherwise route to app
+    return this.getRoute();
+  }
 
-    var route = <ConsentNav navigator = {this.props.navigation} />;
-    if (this.state.registered && this.state.email !== '') {
-      route = <TabNav navigator = {this.props.navigation} />
-    } else if (this.state.consented) { // have they at least consented
-      route = <RegisterNav navigator = {this.props.navigation} />
+  // dynamic route rendering based on consent/registration status
+  getRoute() {
+    var route = <ConsentNav navigator = {this.props.navigation} screenProps={{email: this.state.email}} />;
+    if (this.state.email) { // email implies consent/registration completed
+      route = <TabNav navigator={this.props.navigation} screenProps={{email: this.state.email}} />;
+    } else if (this.state.consented) { // if consented but not registered
+      route = <RegisterNav navigator={this.props.navigation} screenProps={{email: this.state.email}} />;
     }
     return route;
-    //return <TabNav navigator={this.props.navigation} screenProps={{ email: this.state.email}} />
-    //return <RegisterNav navigator={this.props.navigation} screenProps={{ email: this.state.email}} />
   }
 }
 
-const TabNav = TabNavigator({
+const RecordNav = StackNavigator({
   Record: { screen: Record,
+    navigationOptions: ({ navigation }) => ({
+      header: null,
+      }),
+    },
+  //Graph: { screen: Graph },
+  Graph: { screen: Graph,
+    navigationOptions: ({ navigation }) => ({
+      title: 'Results',
+      headerStyle: { backgroundColor: '#5f97cb' },
+      headerTintColor: '#fff',
+      headerTitleStyle: {
+        fontSize: 20,
+        fontWeight: 'bold',
+        fontFamily: 'Avenir',
+        color: '#fff',
+      },
+    }),
+  }
+});
+
+const TabNav = TabNavigator({
+  Record: { screen: RecordNav,
             navigationOptions: {
               tabBarLabel: 'Record',
               tabBarIcon: ({ tintColor }) =>
@@ -128,7 +150,9 @@ const TabNav = TabNavigator({
     activeBackgroundColor: '#fdba31',
     inactiveTintColor: '#fff',
     inactiveBackgroundColor: '#5f97cb'
-  }
+  },
+  //swipeEnabled: true,
+  //animationEnabled: true,
 });
 
 // navigation object to route to consent form

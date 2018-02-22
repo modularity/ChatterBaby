@@ -1,45 +1,49 @@
 import React, { Component } from 'react';
 import {
   View,
-  Linking,
-  WebView,
+  ScrollView
 } from 'react-native';
 // import library for navigation objects and routing
 import { StackNavigator, TabNavigator } from 'react-navigation';
-// import StyleSheet
+// import styleSheets
 import styles from '../stylesheets/faqStyle';
+import markdownStyle from '../stylesheets/markdownStyle';
 // import firebase for analytics
 import firebase from 'react-native-firebase';
+// import FontAwesome to support custom err msg modal
+import Icon from 'react-native-vector-icons/FontAwesome';
+// convert markdown content into React Native components
+import Markdown from 'react-native-markdown-renderer';
 
 export default class Faq extends Component<{}> {
   constructor(props) {
     super(props);
     this.state = {
-      faqUrl: 'https://docs.google.com/document/d/1wXELtFDXSxVaVlRl8HBGEXSfKu1JYgLBEcH2dYJmL50/edit?usp=sharing',
+      markdown: "#There was an error loading the content.",
     }
     firebase.analytics().setCurrentScreen('faq');
   }
 
-  openFAQlink() {
-    var url = this.state.faqUrl;
-    Linking.canOpenURL(url).then(supported => {
-      if (!supported) {
-        //console.log('Can\'t handle url: ' + url);
-        Alert.alert('Connection error', 'Unable to retrieve content, please check your internet connection.');
-      } else {
-        return Linking.openURL(url);
-      }
+  componentDidMount() {
+    this.getMarkdownContent();
+  }
+
+  getMarkdownContent() {
+    fetch('https://raw.githubusercontent.com/modularity/ChatterBaby/master/FAQ.md', {method: 'get'})
+    .then((response) => {
+      if (response.status === 200) this.setState({markdown:response._bodyInit});
     })
-    .catch(err => {
-        //console.error('An error occurred', err));
-        Alert.alert('Connection error', 'Unable to retrieve content, please check your internet connection.');
+    .catch((error) => {
+      //firebase.analytics().logEvent('read_faq_error');
     });
   }
 
   render() {
     return (
       <View style={styles.container}>
-         <WebView source={{uri: this.state.faqUrl}} style={styles.webView} />
+        <ScrollView style={styles.scrollView}>
+          <Markdown style={markdownStyle}>{this.state.markdown}</Markdown>
+        </ScrollView>
       </View>
     );
   }

@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import {
-  Alert,
   Platform,
   Text,
   View,
@@ -9,6 +8,8 @@ import {
   Modal,
   Picker,
   FlatList,
+  ActivityIndicator,
+
 } from 'react-native';
 // import library for navigation objects and routing
 import { StackNavigator, TabNavigator } from 'react-navigation';
@@ -18,7 +19,8 @@ import { AudioRecorder, AudioUtils } from 'react-native-audio';
 import * as Progress from 'react-native-progress';
 // import form histogram/barchart
 import { VictoryChart, VictoryBar, VictoryAxis, Bar } from 'victory-native';
-//import { Bar } from 'react-native-pathjs-charts';
+// import recording icon
+import RecordingIcon from '../microphone.png';
 // import FontAwesome icons
 import Icon from 'react-native-vector-icons/FontAwesome';
 // import Firebase for admob and analytics
@@ -36,22 +38,15 @@ export default class Record extends Component<{}> {
     super(props);
     let path = AudioUtils.DocumentDirectoryPath + '/audioTest.AAC';
     this.state = {
-      showChart: false,
       progress: 0,
       currentTime: 0.0,
       stoppedRecording: false,
+      postRecPreGraph: false,
       audioPath: path,
       hasPermission: undefined,
-      painResponse: 25,
-      hungryResponse: 35,
-      fussyResponse: 40,
       email: '',
-      recordid: 0,
       errMsg: '',
       showMsgModal: false,
-      showOptLabels: false,
-      selectedLabel: false,
-      labels: ['Fussy', 'Hungry', 'Pain','Diaper Change', 'Rash', 'Colic', 'Gassy', 'Scared', 'Seperation', 'Bored'],
     }
     firebase.analytics().setCurrentScreen('record');
   }
@@ -72,7 +67,6 @@ export default class Record extends Component<{}> {
           this.stop();
         } else {
           this.setState({progress: data.currentTime, currentTime: floorTime});
-          //console.log("onProgress data", data);
         }
       };
       AudioRecorder.onFinished = (data) => {
@@ -85,115 +79,44 @@ export default class Record extends Component<{}> {
   }
 
   render() {
-    // renderContent: conditional variable to render either recording UI or result graph
-    var renderContent = (
-    <View style={styles.resultContainer}>
-      <View style={styles.closeContainer}>
-        <TouchableOpacity style={styles.cancelButton} onPress={ () => this.setState({showChart: false, selectedLabel: false}) }>
-          <Icon name="times" size={15} color='#ecf0f1' />
-        </TouchableOpacity>
-      </View>
-      <Text style={styles.title}>Why is baby crying?</Text>
-        {this.renderGraph()}
-        {this.renderLabelFeedback()}
-      </View>);
-
-
-
-    // update renderContent to show recording UI
-    if ( !this.state.showChart ) {
-      renderContent = <View style={styles.recordContainer}>
+    // renderContent: conditional variable to render either pre-recording or actively recording content
+    var renderContent = (<View style={styles.recordContainer}>
         <Progress.Circle style={{ justifyContent: 'center', alignItems: 'center' }}
                         progress={ this.state.progress/5 } size={300} thickness={5}
                         color={'#5f97cb'} borderWidth={0} />
         <View style={styles.recordButton}>
           {this.renderButton('Record', () => { this.record() }, this.state.recording ) }
         </View>
-      </View>
-    };
+      </View>);
+
+    // add spinner between recording stopped and graph rendered
+    if (this.state.postRecPreGraph) {
+      renderContent = (<View style={styles.recordContainer}>
+                          <ActivityIndicator size="large" color="#5f97cb" />
+                      </View>);
+    }
 
     return (
       <View style={styles.container}>
         {this.renderMessage()}
-        {this.renderOptLabel()}
         { renderContent }
         {this.renderBanner()}
       </View>
     );
   }
 
-  renderGraph() {
-    return (<View><VictoryChart domainPadding={30} >
-      <VictoryAxis independentAxis tickFormat={(x) => (`${x}%`)} />
-      <VictoryAxis dependentAxis style={{margin:10}} />
-        <VictoryBar horizontal={true}
-          data={[{x: 'Pain', y: this.state.painResponse, fill: '#f58357'},
-                  {x: 'Hungry', y: this.state.hungryResponse, fill: '#fdba31'},
-                  {x: 'Fussy', y: this.state.fussyResponse, fill: '#5f97cb'} ]}
-          labels={(d) => Math.floor(d.y)}
-          animate={{ duration: 2000, onLoad: { duration: 1500 } }}
-          events={[{
-            target: "data",
-            eventHandlers: {
-              onPressOut: (evt, clickedProps) => {
-                return { target: 'data', mutation: () => {
-                  this.pressLabel(clickedProps.datum.xName);
-            } } } }
-          }]}
-        />
-      </VictoryChart></View>);
-  }
-
-  renderLabelFeedback() {
-    if (this.state.selectedLabel) return null;
-    return (<View>
-      <Text style={styles.feedbackText}>Teach ChatterBaby about you!{'\n'}Select your first choice in the graph above or options below. </Text>
-      <TouchableOpacity style={styles.confirmBtn} onPress={ () => this.setState({showOptLabels:true})}>
-        <Text style={styles.h1Text}> Options </Text>
-      </TouchableOpacity>
-    </View>);
-  }
-
-  // currently seperated from renderOptLabel FlatList
-  renderLabelItem = ({item}) => {
-    // currently pressLabel for testing, will update to processLabel api call
-// <Icon name="circle-o" size={10} color="#777" />
-// <View style={styles.labelItem}>
-    return (
-      <View style={styles.labelContainer}>
-        <TouchableOpacity onPress={() => this.pressLabel(item)}>
-            <Text style={styles.labelText}>{item}</Text>
-        </TouchableOpacity>
-      </View>
-    );
-  }
-
-  // currently structured to just support one label per recording
-  renderOptLabel() {
-    if (this.state.selectedLabel) return null; // will only open if they haven't already selected one
-    if (!this.state.showOptLabels) return null; // will open modal with list of labels
-    return (<Modal transparent={false} visible={this.state.showOptLabels} animationType={'fade'}
-                onRequestClose={() => this.setState({showOptLabels: false})}>
-      <View style={styles.resultContainer}>
-        <View style={styles.closeContainer}>
-          <TouchableOpacity style={styles.cancelButton} onPress={ () => this.setState({showOptLabels: false}) }>
-            <Icon name="times" size={15} color='#ecf0f1' />
-          </TouchableOpacity>
-        </View>
-        <Text style={styles.title}>Select your first choice:</Text>
-        <View style={styles.labelsList}>
-          <FlatList data={this.state.labels} keyExtractor={(item, index) => item}
-                    renderItem={this.renderLabelItem}
-                    ItemSeparatorComponent={() => <View style={{borderWidth: 1, borderColor: '#ccc'}} />}  />
-        </View>
-      </View>
-      </Modal>);
-  }
-
   // button style factory: toggle record button style btw active and inactive mode
   renderButton(title, onPress, active) {
-    var style = (active) ? styles.activeButtonText : styles.inactiveButtonText;
+    var style = styles.inactiveButtonText;
+    var icon = <Icon name="microphone" color="#5f97cb" size={100} style={styles.recordIcon} />;
+    if (active) {
+      style = styles.activeButtonText;
+      icon = null;
+      title = 'Recording';
+    }
+
     return (<TouchableOpacity style={styles.button} onPress={onPress}>
+              {icon}
               <Text style={style}>{title}</Text>
             </TouchableOpacity>);
   }
@@ -262,8 +185,8 @@ export default class Record extends Component<{}> {
     />);
     */
     // return a placeholder image for the banner until review that implementation
-    //return <View style={{marginBottom: 30,width: 320, height: 50, backgroundColor: '#fdba31'}} />
-    return null;
+    //return null
+    return <View style={{alignSelf: 'center',marginBottom: 30,width: 320, height: 50, backgroundColor: '#fdba31'}} />
   }
 
   // wrapper for the AudioRecorder prepareRecordingAtPath method
@@ -287,7 +210,6 @@ export default class Record extends Component<{}> {
     }
     return PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.RECORD_AUDIO, rationale)
       .then((result) => {
-        //console.log('Permission result: ', result);
         return (result === true || result === PermissionsAndroid.RESULTS.GRANTED);
       });
   }
@@ -314,61 +236,37 @@ export default class Record extends Component<{}> {
       if (response.status === 200) {
         response.json().then((data) => {
           if (data.errmsg) {
-            Alert.alert('Algorithm error', 'There was an error running the algorithm.');
-            console.warn('error', data.errmsg);
-          } else {
-            this.updateGraph(data);
-          }
+            this.setState({showMsgModal: true, errMsg:'There was an error running the algorithm.'});
+            firebase.analytics().logEvent('server_sent_algorithm_error');
+          } else this.updateGraph(data);
         })
       }
     })
     .catch((error) => {
       this.setState({showMsgModal: true, errMsg: 'Server error sending the audio file.'});
       firebase.analytics.logEvent('recording_server_error');
-      })
-  }
-
-  // send label validation to server
-  processLabel(label_) {
-    // prep fetch API call with formData
-    let formData = new FormData();
-    formData.append('email', this.state.email);
-    formData.append('label', label_);
-    formData.append('token', this.state.recordid);
-
-    // send formData to server
-    // https://staging5.ctrl.ucla.edu:7423/app-ws/
-    fetch('https://chatterbaby.ctrl.ucla.edu/app-ws/app/process-label', {
-      method: 'post',
-      headers: { 'Content-Type': 'multipart/form-data', 'Accept': 'application/json'},
-      body: formData
     })
-    .then((response) => {
-      console.log('label response', response);
-    })
-    .catch((error) => {
-      this.setState({showMsgModal: true, errMsg: 'Server error processing the label.'});
-      firebase.analytics().logEvent('process_label_server_error');
-    })
-    firebase.analytics().logEvent('algorithm_validation', { label: label_ });
   }
 
   // parse response to update state barchart values
   // data: {"result":{"Fussy":0.398,"Hungry":0.316,"Pain":0.286},"record_id":"941","errmsg":""}
   updateGraph(data) {
-    this.setState({
-      showChart: true,
+
+    // route to Graph page
+    this.props.navigation.navigate('Graph', {
+      email: this.state.email,
       painResponse: data.result.Pain*100,
       hungryResponse: data.result.Hungry*100,
       fussyResponse: data.result.Fussy*100,
-      recordid: data.record_id
+      recordId: data.record_id
     });
+    this.setState({postRecPreGraph: false});
   }
 
   // update state and AudioRecorder object when recording stops
   async stop() {
       if ( !this.state.recording ) return
-      this.setState({ stoppedRecording: true, recording: false, progress: 0, currentTime: 0.0 });
+      this.setState({ postRecPreGraph: true, stoppedRecording: true, recording: false, progress: 0, currentTime: 0.0 });
       try {
         const filePath = await AudioRecorder.stopRecording();
         if (Platform.OS === 'android') {
@@ -402,12 +300,4 @@ export default class Record extends Component<{}> {
     }
   }
 
-  // will update to processLabel(label) after verifying the correct way to access the label value from props in the new lib
-  // give thanks to user for their feedback
-  pressLabel(label) {
-    //Alert.alert('Thanks', 'Your feedback helps improve the algorithm.');
-    this.setState({showOptLabels: false, selectedLabel: true});
-    //console.warn('bar chart label', label);
-    this.processLabel(label);
-  }
 }

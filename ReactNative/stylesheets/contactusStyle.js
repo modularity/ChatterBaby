@@ -5,16 +5,23 @@ module.exports =  StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#F5FCFF',
+    padding: 30,
+  },
+  scrollView: {
+    paddingBottom: 25,
   },
   title: {
-    padding: 30,
     fontSize: 20,
-    textAlign: 'center',
     fontWeight: 'bold',
+    fontFamily: 'Avenir',
+    textAlign: 'center',
+    alignSelf: 'center',
+    margin: 3,
+    color: '#34495e',
   },
   pageText: {
-    color: '#333333',
+    fontFamily: 'Avenir',
+    color: '#34495e',
     margin: 10,
   },
   boldText: {

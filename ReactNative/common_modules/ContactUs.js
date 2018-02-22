@@ -3,7 +3,7 @@ import {
   Platform,
   Text,
   View,
-  Linking
+  ScrollView
 } from 'react-native';
 // import library for navigation objects and routing
 import { StackNavigator, TabNavigator } from 'react-navigation';
@@ -21,6 +21,7 @@ export default class ContactUs extends Component<{}> {
   render() {
     return (
       <View style={styles.container}>
+      <ScrollView style={styles.scrollView}>
         <Text style={styles.title}> Contact Us </Text>
         <Text style={styles.pageText}>If you have any questions, comments or concerns about the research, you can talk to the one of the researchers. Please contact:
             {'\n'}{'\n'}
@@ -43,6 +44,7 @@ export default class ContactUs extends Component<{}> {
             Suite 211, Box 951694 {'\n'}
             Los Angeles, CA 90095-1694 {'\n'}
         </Text>
+      </ScrollView>
       </View>
     );
   }

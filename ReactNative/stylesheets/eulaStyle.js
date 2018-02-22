@@ -1,13 +1,17 @@
 import {StyleSheet, Dimensions} from 'react-native';
-
+var width = Dimensions.get('window').width;
+var height = Dimensions.get('window').height;
 module.exports =  StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'flex-start'
+    justifyContent: 'flex-start',
+    paddingTop: 30,
+    paddingLeft: 20,
+    paddingRight: 20,
   },
   webView: {
-    width: Dimensions.get('window').width,
-    height: Dimensions.get('window').height*.8
+    width: width,
+    height: height*.8
   },
   buttonRow: {
     flexDirection: 'row',
@@ -30,5 +34,50 @@ module.exports =  StyleSheet.create({
     color: 'white',
     fontSize: 20,
     fontWeight: 'bold',
-  }
+  },
+  modalMsgContainer: {
+   flex: .6,
+   justifyContent:'center',
+   alignItems: 'center',
+   alignSelf: 'center',
+ },
+ modalClose: {
+   width: width*.8,
+   backgroundColor: '#f1592a',
+   padding: 5,
+ },
+ modalHeader: {
+   flex: .6,
+   width: width*.8,
+   backgroundColor: '#f1592a',
+   justifyContent: 'center',
+   alignItems: 'center',
+ },
+ infoRadius: {
+   borderWidth:2,
+   borderColor:'#ecf0f1',
+   alignItems:'center',
+   justifyContent:'center',
+   width:100,
+   height:100,
+   backgroundColor:'#fff',
+   borderRadius:100,
+ },
+ modalTxtContainer: {
+   width: width*.8,
+   backgroundColor: '#ecf0f1',
+   flex: .3,
+   justifyContent: 'center',
+   alignItems: 'center',
+ },
+  h1Text: {
+    fontSize: 20,
+    fontWeight: '400',
+    fontFamily: 'Avenir',
+    textAlign: 'center',
+    alignSelf: 'center',
+    margin: 3,
+    color: '#34495e',
+    backgroundColor: 'transparent',
+  },
 });

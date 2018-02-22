@@ -1,12 +1,12 @@
 import {StyleSheet, Dimensions} from 'react-native';
 var width = Dimensions.get('window').width;
 var height = Dimensions.get('window').height;
+
 module.exports =  StyleSheet.create({
   container: {
     flex: 1,
     //justifyContent: 'space-between',
     //alignItems: 'center',
-    //backgroundColor: '#fff',
   },
   recordButton: {
     justifyContent: 'center',
@@ -30,10 +30,12 @@ module.exports =  StyleSheet.create({
     //justifyContent: 'space-between',
     //alignItems: 'stretch',
     //justifyContent: 'center',
-    margin: 10,
+    margin: 5,
   },
   closeContainer: {
     margin: 20,
+    flexDirection: 'row',
+    justifyContent: 'space-around',
     //justifyContent: 'flex-end',
     //alignItems: 'flex-end',
   },
@@ -53,11 +55,15 @@ module.exports =  StyleSheet.create({
   },
   inactiveButtonText: {
     fontSize: 25,
-    color: '#2b608a'
+    color: '#5f97cb'
   },
   activeButtonText: {
     fontSize: 25,
-    color: '#fdba31'
+    color: '#fdba31',
+  },
+  recordIcon: {
+    alignSelf: 'center',
+    padding: 5,
   },
   modalMsgContainer: {
    flex: .6,
@@ -134,12 +140,12 @@ module.exports =  StyleSheet.create({
     margin: 10,
   },
   title: {
-    fontSize: 22,
+    fontSize: 20,
     fontWeight: 'bold',
     fontFamily: 'Avenir',
     textAlign: 'center',
     alignSelf: 'center',
-    margin: 3,
+    //margin: 3,
     color: '#34495e',
     backgroundColor: 'transparent',
   },
@@ -150,6 +156,14 @@ module.exports =  StyleSheet.create({
     alignSelf: 'center',
     color: '#34495e',
     backgroundColor: 'transparent',
+  },
+  feedbackBtn: {
+    width: width*.4,
+    alignSelf: 'center',
+    backgroundColor: '#b3d1f2',
+    borderRadius: 15,
+    padding: 8,
+    margin: 8
   },
   feedbackText: {
     margin: 10,

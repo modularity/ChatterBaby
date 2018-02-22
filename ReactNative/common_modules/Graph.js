@@ -26,6 +26,7 @@ import firebase from 'react-native-firebase';
 
 export default class Graph extends Component<{}> {
 
+
   constructor(props) {
     super(props);
     this.state = {
@@ -58,28 +59,20 @@ export default class Graph extends Component<{}> {
   render() {
     // renderContent: conditional variable to render either recording UI or result graph
     var renderContent = (
-    <View style={styles.resultContainer}>
-      <View style={styles.closeContainer}>
-
-      <Text style={styles.title}>Why is baby crying?</Text>
-      </View>
+      <View style={styles.resultContainer}>
+        <View style={styles.closeContainer}>
+          <Text style={styles.title}>Why is baby crying?</Text>
+        </View>
         {this.renderGraph()}
         {this.renderLabelFeedback()}
-      </View>);
-
-    // add spinner between recording stopped and graph rendered
-    if (this.state.postRecPreGraph) {
-      renderContent = <View style={styles.recordContainer}>
-                          <ActivityIndicator size="large" color="#5f97cb" />
-                      </View>
-    }
+      </View>
+    );
 
     return (
       <View style={styles.container}>
         {this.renderMessage()}
         {this.renderOptLabel()}
         { renderContent }
-        {this.renderBanner()}
       </View>
     );
   }
@@ -118,9 +111,6 @@ export default class Graph extends Component<{}> {
 
   // currently seperated from renderOptLabel FlatList
   renderLabelItem = ({item}) => {
-    // currently pressLabel for testing, will update to processLabel api call
-// <Icon name="circle-o" size={10} color="#777" />
-// <View style={styles.labelItem}>
     return (
       <View style={styles.labelContainer}>
         <TouchableOpacity onPress={() => this.pressLabel(item)}>
@@ -182,53 +172,6 @@ export default class Graph extends Component<{}> {
     </Modal>);
   }
 
-  renderBanner() {
-    /*
-    const Banner = firebase.admob.Banner;
-    const AdRequest = firebase.admob.AdRequest;
-    const request = new AdRequest();
-    request.addTestDevice();
-    request.addKeyword('baby')
-    request.addKeyword('parenting');
-    //var advert = firebase.admob().rewarded('ca-app-pub-4412913872988371/6451389174');
-
-    return (<Banner
-      unitId={'ca-app-pub-4412913872988371/6451389174'}
-      size={'LARGE_BANNER'}
-      request={request.build()}
-      onAdLoaded={() => {
-        console.warn('Advert loaded');
-      }}
-      onAdFailedToLoad={ (err) => {
-        if (err.code === 'admob/error-code-internal-error') {
-          console.warn('ad failed to load');
-        } else if (err.code === 'admob/error-code-invalid-request') {
-          console.warn('invalid request');
-        } else if (err.code === 'admob/error-code-network-error') {
-          console.warn('network error loading ad');
-        } else if (err.code === 'admob/error-code-no-fill') {
-          console.warn('ad request successful, but no ad inventory');
-        } else if (err.code === 'admob/os-version-too-low') {
-          console.warn('os version too low for ads');
-        } else console.warn('other ad err', err)
-      }}
-      onAdOpened={() => {
-        console.warn('Advert opened');
-      }}
-      onAdClosed={() => {
-        console.warn('Advert Closed');
-      }}
-      onAdLeftApplication={() => {
-        console.warn('Advert left application');
-      }}
-    />);
-    */
-    // return a placeholder image for the banner until review that implementation
-    //return null
-    if (this.state.showChart) return null;
-    else return <View style={{alignSelf: 'center',marginBottom: 30,width: 320, height: 50, backgroundColor: '#fdba31'}} />
-  }
-
   // send label validation to server
   processLabel(label_) {
     // prep fetch API call with formData
@@ -252,19 +195,6 @@ export default class Graph extends Component<{}> {
       firebase.analytics().logEvent('process_label_server_error');
     })
     firebase.analytics().logEvent('algorithm_validation', { label: label_ });
-  }
-
-  // parse response to update state barchart values
-  // data: {"result":{"Fussy":0.398,"Hungry":0.316,"Pain":0.286},"record_id":"941","errmsg":""}
-  updateGraph(data) {
-    this.setState({
-      postRecPreGraph: false,
-      showChart: true,
-      painResponse: data.result.Pain*100,
-      hungryResponse: data.result.Hungry*100,
-      fussyResponse: data.result.Fussy*100,
-      recordid: data.record_id
-    });
   }
 
   // will update to processLabel(label) after verifying the correct way to access the label value from props in the new lib

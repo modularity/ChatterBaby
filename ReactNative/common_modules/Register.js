@@ -91,26 +91,6 @@ export default class Register extends Component {
     );
   }
 
-  /*
-  consider adding cross-platform date picker from react-native-calendars library
-
-  <Calendar
-    // Initially visible month. Default = Date()
-    current={'2012-03-01'}
-
-    // Handler which gets executed on day press. Default = undefined
-    onDayPress={(day) => {console.log('selected day', day)}}
-
-    // Month format in calendar title. Formatting values: http://arshaw.com/xdate/#Formatting
-    monthFormat={'yyyy MM'}
-
-    // Handler which gets executed when visible month changes in calendar. Default = undefined
-    onMonthChange={(month) => {console.log('month changed', month)}}
-
-  />
-
-  */
-
   renderCalenderPicker() {
     if (Platform.OS === 'ios') {
       return (
@@ -193,36 +173,30 @@ export default class Register extends Component {
       body: formData
     })
     .then((response) => {
-      console.warn(response);
       if (response.status === 200) {
         response.json().then((data) => {
-          console.warn('successfully sent registration to server', data);
-          //this.logAsRegistered();
+          this.logAsRegistered();
         })
       } else {
         this.setState({showMsgModal: true, errMsg: 'Unable to process registration. Please try again.'});
-        //firebase.analytics.logEvent('register_server_error');
+        firebase.analytics.logEvent('register_server_error');
       }
     })
     .catch((error) => {
-      //console.log('error sending registration to server', error);
       this.setState({showMsgModal: true, errMsg: 'Unable to reach server. Please try again.'});
-      //firebase.analytics.logEvent('register_server_connection_error');
+      firebase.analytics.logEvent('register_server_connection_error');
     })
   }
 
-  // iPhone X launch image: 1125px × 2436px
-
   // save registered complete and email to device
   async logAsRegistered() {
-    var values = [ ['registered', 'yes'],['email',this.state.email] ];
-    AsyncStorage.multiSet(values, (err, result) => {
-      if (err) {
-        this.setState({showMsgModal: true, errMsg: 'Error with saving registration'});
-        //firebase.analytics.logEvent('saving_registration_error');
-      } else {
-        this.props.navigation.navigate('TabNav');
-      }
-    });
+    try {
+      await AsyncStorage.setItem('email', this.state.email);
+      firebase.analytics().logEvent('registration_completed');
+      this.props.navigation.navigate('TabNav');
+    } catch (error) {
+      this.setState({showMsgModal: true, errMsg: 'Error with saving registration'});
+      firebase.analytics.logEvent('saving_registration_error');
+    }
   }
 }
