@@ -50,21 +50,21 @@ Any information that is obtained in connection with this study and that can iden
   If you have any questions, comments or concerns about the research, you can talk to the one of the researchers. 
   Please contact: 
 
-&nbsp;&nbsp;Ariana Anderson, Ph.D.&nbsp;&nbsp;
-&nbsp;&nbsp;University of California, Los Angeles&nbsp;&nbsp;
-&nbsp;&nbsp;Department of Psychiatry and Biobehavioral Sciences&nbsp;&nbsp;
-&nbsp;&nbsp;760 Westwood Plaza, Ste C8-734&nbsp;&nbsp;
-&nbsp;&nbsp;Los Angeles, CA&nbsp;&nbsp;
-&nbsp;&nbsp;90095-1406&nbsp;&nbsp;
-&nbsp;&nbsp;ariana82@ucla.edu&nbsp;&nbsp;
-&nbsp;&nbsp;(310) 254-5680&nbsp;&nbsp;
+&nbsp;&nbsp;Ariana Anderson, Ph.D.  
+&nbsp;&nbsp;University of California, Los Angeles  
+&nbsp;&nbsp;Department of Psychiatry and Biobehavioral Sciences  
+&nbsp;&nbsp;760 Westwood Plaza, Ste C8-734  
+&nbsp;&nbsp;Los Angeles, CA  
+&nbsp;&nbsp;90095-1406  
+&nbsp;&nbsp;ariana82@ucla.edu  
+&nbsp;&nbsp;(310) 254-5680  
 
 * #### UCLA Office of the Human Research Protection Program (OHRPP):
   If you have questions about your rights while taking part in this study, or you have concerns or suggestions and you want to talk to someone other than the researchers about the study, please call the OHRPP at (310) 825-7122 or write to: 
 
-&nbsp;&nbsp;UCLA Office of the Human Research Protection Program&nbsp;&nbsp;
-&nbsp;&nbsp;11000 Kinross Avenue, Suite 211, Box 951694&nbsp;&nbsp;
-&nbsp;&nbsp;Los Angeles, CA 90095-1694&nbsp;&nbsp;
+&nbsp;&nbsp;UCLA Office of the Human Research Protection Program  
+&nbsp;&nbsp;11000 Kinross Avenue, Suite 211, Box 951694  
+&nbsp;&nbsp;Los Angeles, CA 90095-1694  
 
 
 ## By clicking ‘OK’ you are providing your digital signature, indicating your informed consent to participate in this research study.
