@@ -47,23 +47,22 @@ Any information that is obtained in connection with this study and that can iden
 ### Who can I contact if I have questions about this study?
 
 * #### The research team:  
-  If you have any questions, comments or concerns about the research, you can talk to the one of the researchers. 
-  Please contact: 
+  If you have any questions, comments or concerns about the research, you can talk to the one of the researchers.Please contact: 
 
-  Ariana Anderson, Ph.D.  
-  University of California, Los Angeles  
-  Department of Psychiatry and Biobehavioral Sciences  
-  760 Westwood Plaza, Ste C8-734  
-  Los Angeles, CA 90095-1406  
-  ariana82@ucla.edu  
-  (310) 254-5680  
+  Ariana Anderson, Ph.D. </br> 
+  University of California, Los Angeles </br>
+  Department of Psychiatry and Biobehavioral Sciences </br>
+  760 Westwood Plaza, Ste C8-734 </br>
+  Los Angeles, CA 90095-1406 </br>
+  ariana82@ucla.edu </br>
+  (310) 254-5680 </br>
 
 * #### UCLA Office of the Human Research Protection Program (OHRPP):
   If you have questions about your rights while taking part in this study, or you have concerns or suggestions and you want to talk to someone other than the researchers about the study, please call the OHRPP at (310) 825-7122 or write to: 
 
-  UCLA Office of the Human Research Protection Program  
-  11000 Kinross Avenue, Suite 211, Box 951694  
-  Los Angeles, CA 90095-1694  
+  UCLA Office of the Human Research Protection Program </br>
+  11000 Kinross Avenue, Suite 211, Box 951694 </br>
+  Los Angeles, CA 90095-1694 </br>
 
 
 ## By clicking ‘OK’ you are providing your digital signature, indicating your informed consent to participate in this research study.
