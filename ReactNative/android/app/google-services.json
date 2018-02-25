@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "561430323633",
+    "firebase_url": "https://chatterbaby-72edd.firebaseio.com",
+    "project_id": "chatterbaby-72edd",
+    "storage_bucket": "chatterbaby-72edd.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:561430323633:android:40ae5fec628bb3ef",
+        "android_client_info": {
+          "package_name": "com.chatterbaby"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "561430323633-v1p9o75o2t86h0oob72lisje83mfa7bt.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBnk-jbIvRpVuSILz-TLGFpP2BHMviOJE4"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -3,7 +3,11 @@ package com.chatterbaby;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
-import com.RNFetchBlob.RNFetchBlobPackage;
+import io.invertase.firebase.RNFirebasePackage;
+import io.invertase.firebase.admob.RNFirebaseAdMobPackage;
+import io.invertase.firebase.analytics.RNFirebaseAnalyticsPackage;
+import io.invertase.firebase.crash.RNFirebaseCrashPackage;
+
 import com.rnim.rn.audio.ReactNativeAudioPackage;
 import com.horcrux.svg.SvgPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
@@ -27,7 +31,10 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
-            new RNFetchBlobPackage(),
+            new RNFirebasePackage(),
+            new RNFirebaseAnalyticsPackage(), // <-- Add this line
+            new RNFirebaseAdMobPackage(), // <-- Add this line
+            new RNFirebaseCrashPackage(), // <-- Add this line
             new ReactNativeAudioPackage(),
             new SvgPackage(),
             new VectorIconsPackage()
