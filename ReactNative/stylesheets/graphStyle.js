@@ -9,32 +9,15 @@ module.exports =  StyleSheet.create({
     //alignItems: 'center',
     //backgroundColor: '#fff',
   },
-  recordButton: {
-    justifyContent: 'center',
-    alignItems: 'center'
-  },
-  progressText: {
-    paddingTop: 50,
-    fontSize: 50,
-    color: '#fff'
-  },
-  button: {
-    padding: 20
-  },
-  recordContainer: {
-    flex: 1,
-    justifyContent:'center',
-    margin: 10,
-  },
   resultContainer: {
     flex: 1,
     //justifyContent: 'space-between',
     //alignItems: 'stretch',
     //justifyContent: 'center',
-    margin: 5,
+    margin: 20,
   },
   closeContainer: {
-    margin: 20,
+    //margin: 10,
     flexDirection: 'row',
     justifyContent: 'space-around',
     //justifyContent: 'flex-end',
@@ -49,18 +32,6 @@ module.exports =  StyleSheet.create({
     borderRadius: 5,
     width: 35,
     height: 35,
-  },
-  disabledButtonText: {
-    padding: 20,
-    color: '#eee'
-  },
-  inactiveButtonText: {
-    fontSize: 25,
-    color: '#2b608a'
-  },
-  activeButtonText: {
-    fontSize: 25,
-    color: '#fdba31'
   },
   modalMsgContainer: {
    flex: .6,
@@ -107,23 +78,10 @@ module.exports =  StyleSheet.create({
     color: '#34495e',
     backgroundColor: 'transparent',
   },
-  confirmBtn: {
-    backgroundColor: '#b3d1f2',
-    borderRadius: 15,
-    padding: 8,
-    margin: 8
-  },
-  optLabelPicker: {
+  labelListContainer: {
+    flex: 1,
     justifyContent: 'center',
-    //width: "80%"
-    //height: 200,
-  },
-  itemStyle: {
-    fontSize: 15,
-    height: 75,
-    color: 'black',
-    textAlign: 'center',
-    fontWeight: 'bold'
+    margin: 20,
   },
   labelsList: {
     alignSelf: 'center',
@@ -155,17 +113,11 @@ module.exports =  StyleSheet.create({
     backgroundColor: 'transparent',
   },
   feedbackBtn: {
-    width: width*.4,
+    //width: width*.4,
     alignSelf: 'center',
     backgroundColor: '#b3d1f2',
     borderRadius: 15,
     padding: 8,
     margin: 8
   },
-  feedbackText: {
-    margin: 10,
-    fontSize: 12,
-    fontFamily: 'Avenir',
-    color: '#34495e',
-  }
 });

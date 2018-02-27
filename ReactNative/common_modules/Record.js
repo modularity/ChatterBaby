@@ -47,6 +47,7 @@ export default class Record extends Component<{}> {
       email: '',
       errMsg: '',
       showMsgModal: false,
+      recording: false,
     }
     firebase.analytics().setCurrentScreen('record');
   }
@@ -82,11 +83,12 @@ export default class Record extends Component<{}> {
     // renderContent: conditional variable to render either pre-recording or actively recording content
     var renderContent = (<View style={styles.recordContainer}>
         <Progress.Circle style={{ justifyContent: 'center', alignItems: 'center' }}
-                        progress={ this.state.progress/5 } size={300} thickness={5}
-                        color={'#5f97cb'} borderWidth={0} />
-        <View style={styles.recordButton}>
-          {this.renderButton('Record', () => { this.record() }, this.state.recording ) }
-        </View>
+            progress={ this.state.progress/5 } size={300} thickness={5}
+            color={'#5f97cb'} borderWidth={0}>
+          <View style={styles.recordButton}>
+            {this.renderButton('Record', () => { this.record() }, this.state.recording ) }
+          </View>
+        </Progress.Circle>
       </View>);
 
     // add spinner between recording stopped and graph rendered
@@ -111,7 +113,6 @@ export default class Record extends Component<{}> {
     var icon = <Icon name="microphone" color="#5f97cb" size={100} style={styles.recordIcon} />;
     if (active) {
       style = styles.activeButtonText;
-      icon = null;
       title = 'Recording';
     }
 
@@ -226,7 +227,7 @@ export default class Record extends Component<{}> {
 
     // send formData to server
     // https://staging5.ctrl.ucla.edu:7423/app-ws/app/process-data-v2
-    // https://chatterbaby.ctrl.ucla.edu/cbaby/test1
+    // https://chatterbaby.ctrl.ucla.edu/app-ws/app/process-data-v2
     fetch('https://staging5.ctrl.ucla.edu:7423/app-ws/app/process-data-v2', {
       method: 'post',
       headers: { 'Content-Type': 'multipart/form-data', 'Accept': 'application/json'},

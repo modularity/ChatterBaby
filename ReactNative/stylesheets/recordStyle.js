@@ -9,6 +9,7 @@ module.exports =  StyleSheet.create({
     //alignItems: 'center',
   },
   recordButton: {
+    position: 'absolute',
     justifyContent: 'center',
     alignItems: 'center'
   },
@@ -49,17 +50,15 @@ module.exports =  StyleSheet.create({
     width: 35,
     height: 35,
   },
-  disabledButtonText: {
-    padding: 20,
-    color: '#eee'
-  },
   inactiveButtonText: {
     fontSize: 25,
-    color: '#5f97cb'
+    color: '#5f97cb',
+    fontFamily: 'Avenir',
   },
   activeButtonText: {
     fontSize: 25,
     color: '#fdba31',
+    fontFamily: 'Avenir',
   },
   recordIcon: {
     alignSelf: 'center',

@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import {
   View,
-  ScrollView
+  ScrollView,
+  WebView
 } from 'react-native';
 // import library for navigation objects and routing
 import { StackNavigator, TabNavigator } from 'react-navigation';
@@ -25,7 +26,7 @@ export default class Faq extends Component<{}> {
   }
 
   componentDidMount() {
-    this.getMarkdownContent();
+    //this.getMarkdownContent();
   }
 
   getMarkdownContent() {
@@ -40,11 +41,17 @@ export default class Faq extends Component<{}> {
 
   render() {
     return (
+      <WebView
+        source={{uri: 'https://www.chatterbaby.org/pages/mobile-display/faq'}}
+        style={{marginTop: 20}}
+      />
+      /* markdown text
       <View style={styles.container}>
         <ScrollView style={styles.scrollView}>
           <Markdown style={markdownStyle}>{this.state.markdown}</Markdown>
         </ScrollView>
       </View>
+      */
     );
   }
 }
