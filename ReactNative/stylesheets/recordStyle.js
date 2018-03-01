@@ -5,6 +5,7 @@ var height = Dimensions.get('window').height;
 module.exports =  StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: '#fff',
     //justifyContent: 'space-between',
     //alignItems: 'center',
   },
@@ -65,6 +66,7 @@ module.exports =  StyleSheet.create({
     padding: 5,
   },
   modalMsgContainer: {
+   marginTop: 20,
    flex: .6,
    justifyContent:'center',
    alignItems: 'center',

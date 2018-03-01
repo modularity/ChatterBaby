@@ -13,6 +13,7 @@ module.exports =  StyleSheet.create({
     height: height*.9,
   },
   modalMsgContainer: {
+   marginTop: 20,
    flex: .6,
    justifyContent:'center',
    alignItems: 'center',

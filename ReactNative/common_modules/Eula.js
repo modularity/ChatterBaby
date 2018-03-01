@@ -58,7 +58,7 @@ export default class Eula extends Component<{}> {
       if (response.status === 200) this.setState({markdown: response._bodyInit});
     })
     .catch((error) => {
-      //firebase.analytics().logEvent('read_eula_error');
+      firebase.analytics().logEvent('read_eula_error');
     })
   }
 

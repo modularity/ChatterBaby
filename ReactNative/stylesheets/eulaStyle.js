@@ -36,6 +36,7 @@ module.exports =  StyleSheet.create({
     fontWeight: 'bold',
   },
   modalMsgContainer: {
+   marginTop: 20,
    flex: .6,
    justifyContent:'center',
    alignItems: 'center',

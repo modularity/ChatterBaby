@@ -5,6 +5,7 @@ module.exports =  StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    backgroundColor: '#fff',
   },
   formContainer: {
     justifyContent: 'space-around',
@@ -65,6 +66,7 @@ module.exports =  StyleSheet.create({
     color: 'white',
   },
   modalMsgContainer: {
+   marginTop: 20,
    flex: .6,
    justifyContent:'center',
    alignItems: 'center',

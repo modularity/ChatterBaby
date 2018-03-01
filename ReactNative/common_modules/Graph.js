@@ -192,7 +192,7 @@ export default class Graph extends Component<{}> {
     */
     // return a placeholder image for the banner until review that implementation
     //return null
-    return <View style={{alignSelf: 'center',marginBottom: 30,width: 320, height: 50, backgroundColor: '#fdba31'}} />
+    return <View style={{alignSelf: 'center',marginBottom: 30,width: 320, height: 50, backgroundColor: '#fff'}} />
   }
 
   // send label validation to server

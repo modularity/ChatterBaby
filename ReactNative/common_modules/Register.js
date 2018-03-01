@@ -179,12 +179,12 @@ export default class Register extends Component {
         })
       } else {
         this.setState({showMsgModal: true, errMsg: 'Unable to process registration. Please try again.'});
-        firebase.analytics.logEvent('register_server_error');
+        firebase.analytics().logEvent('register_server_error');
       }
     })
     .catch((error) => {
       this.setState({showMsgModal: true, errMsg: 'Unable to reach server. Please try again.'});
-      firebase.analytics.logEvent('register_server_connection_error');
+      firebase.analytics().logEvent('register_server_connection_error');
     })
   }
 
@@ -196,7 +196,7 @@ export default class Register extends Component {
       this.props.navigation.navigate('TabNav');
     } catch (error) {
       this.setState({showMsgModal: true, errMsg: 'Error with saving registration'});
-      firebase.analytics.logEvent('saving_registration_error');
+      firebase.analytics().logEvent('saving_registration_error');
     }
   }
 }

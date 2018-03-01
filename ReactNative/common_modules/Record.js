@@ -19,18 +19,12 @@ import { AudioRecorder, AudioUtils } from 'react-native-audio';
 import * as Progress from 'react-native-progress';
 // import form histogram/barchart
 import { VictoryChart, VictoryBar, VictoryAxis, Bar } from 'victory-native';
-// import recording icon
-import RecordingIcon from '../microphone.png';
 // import FontAwesome icons
 import Icon from 'react-native-vector-icons/FontAwesome';
 // import Firebase for admob and analytics
-import Firebase from 'react-native-firebase';
+import firebase from 'react-native-firebase';
 // import style sheet
 import styles from '../stylesheets/recordStyle';
-// import firebase for analytics
-import firebase from 'react-native-firebase';
-// import list feature for label validation
-//import { List, ListItem } from 'react-native-elements';
 
 export default class Record extends Component<{}> {
 
@@ -128,7 +122,7 @@ export default class Record extends Component<{}> {
            onRequestClose={() => this.setState({showMsgModal: false}) }>
       <View style={styles.modalMsgContainer}>
         <View style={styles.modalClose}>
-          <TouchableOpacity onPress={() => this.setState({showMsgModal: false}) }>
+          <TouchableOpacity onPress={() => this.setState({showMsgModal: false, postRecPreGraph: false}) }>
             <Icon name="times" size={25} color="#ecf0f1"/>
           </TouchableOpacity>
         </View>
@@ -187,7 +181,8 @@ export default class Record extends Component<{}> {
     */
     // return a placeholder image for the banner until review that implementation
     //return null
-    return <View style={{alignSelf: 'center',marginBottom: 30,width: 320, height: 50, backgroundColor: '#fdba31'}} />
+    //return <View style={{alignSelf: 'center',marginBottom: 30,width: 320, height: 50, backgroundColor: '#fdba31'}} />
+    return <View style={{alignSelf: 'center',marginBottom: 30,width: 320, height: 50, backgroundColor: '#fff'}} />
   }
 
   // wrapper for the AudioRecorder prepareRecordingAtPath method
@@ -228,12 +223,13 @@ export default class Record extends Component<{}> {
     // send formData to server
     // https://staging5.ctrl.ucla.edu:7423/app-ws/app/process-data-v2
     // https://chatterbaby.ctrl.ucla.edu/app-ws/app/process-data-v2
-    fetch('https://staging5.ctrl.ucla.edu:7423/app-ws/app/process-data-v2', {
+    fetch('https://chatterbaby.ctrl.ucla.edu/app-ws/app/process-data-v2', {
       method: 'post',
       headers: { 'Content-Type': 'multipart/form-data', 'Accept': 'application/json'},
       body: formData
     })
     .then((response) => {
+      //console.warn('rec res', response);
       if (response.status === 200) {
         response.json().then((data) => {
           if (data.errmsg) {
@@ -241,18 +237,20 @@ export default class Record extends Component<{}> {
             firebase.analytics().logEvent('server_sent_algorithm_error');
           } else this.updateGraph(data);
         })
+      } else {
+        this.setState({showMsgModal: true, errMsg: 'Server error processing the audio file.'});
+        firebase.analytics().logEvent('recording_server_non200_error');
       }
     })
     .catch((error) => {
       this.setState({showMsgModal: true, errMsg: 'Server error sending the audio file.'});
-      firebase.analytics.logEvent('recording_server_error');
+      firebase.analytics().logEvent('recording_server_error');
     })
   }
 
   // parse response to update state barchart values
   // data: {"result":{"Fussy":0.398,"Hungry":0.316,"Pain":0.286},"record_id":"941","errmsg":""}
   updateGraph(data) {
-
     // route to Graph page
     this.props.navigation.navigate('Graph', {
       email: this.state.email,
