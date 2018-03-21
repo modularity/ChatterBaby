@@ -1,13 +1,5 @@
 import React, { Component } from 'react';
-import {
-  AsyncStorage,
-  Text,
-  View,
-  WebView,
-  TouchableOpacity,
-  Modal,
-  ScrollView
-} from 'react-native';
+import {AsyncStorage,Text,View,TouchableOpacity,Modal,ScrollView,ActivityIndicator} from 'react-native';
 // import for navigation
 import Register from './Register';
 // import stylesheets
@@ -26,7 +18,8 @@ export default class Eula extends Component<{}> {
     this.state = {
       showMsgModal: false,
       errMsg: '',
-      markdown: "#There was an error loading the content.",
+      loadingMarkdown: true,
+      markdown: "...Loading",
     }
     firebase.analytics().setCurrentScreen('eula');
   }
@@ -52,14 +45,18 @@ export default class Eula extends Component<{}> {
     );
   }
 
-  getMarkdownContent() {
+  async getMarkdownContent() {
+    var msg = "#There was an error loading the consent form.";
     fetch('https://raw.githubusercontent.com/modularity/ChatterBaby/master/ConsentForm.md', {method: 'get'})
     .then((response) => {
-      if (response.status === 200) this.setState({markdown: response._bodyInit});
+      if (response.status === 200) msg = response._bodyInit;
     })
     .catch((error) => {
       firebase.analytics().logEvent('read_eula_error');
     })
+    .done(() => {
+      this.setState({markdown: msg, loadingMarkdown: false})
+    });
   }
 
   // display converted markdown content for consent form
@@ -70,18 +67,17 @@ export default class Eula extends Component<{}> {
       softbreak: (node, children, parent, styles) =>
         <Text key={node.key}></Text>,
     };
-
+    // render spinner if still parsing markdown from endpoint
+    if (this.state.loadingMarkdown) return (
+      <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+        <ActivityIndicator size="large" color="#5f97cb" />
+      </View>
+    );
     return (<ScrollView>
               <Markdown style={markdownStyle} rules={rules}>
                 {this.state.markdown}
               </Markdown>
             </ScrollView>);
-    /*
-    return(<WebView source={{uri: this.state.consentLink}}
-             style={styles.webView}
-             automaticallyAdjustContentInsets={false}
-             javaScriptEnabled={false} />);
-    */
   }
 
   // display user error messages

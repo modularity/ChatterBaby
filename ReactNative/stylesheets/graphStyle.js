@@ -101,7 +101,7 @@ module.exports =  StyleSheet.create({
     fontFamily: 'Avenir',
     textAlign: 'center',
     alignSelf: 'center',
-    margin: 3,
+    marginTop: 3,
     color: '#34495e',
     backgroundColor: 'transparent',
   },

@@ -1,16 +1,5 @@
 import React, { Component } from 'react';
-import {
-  Platform,
-  Text,
-  View,
-  TouchableOpacity,
-  Dimensions,
-  Modal,
-  Picker,
-  FlatList,
-  ActivityIndicator,
-
-} from 'react-native';
+import {Platform,Text,View,TouchableOpacity,Modal,Picker,FlatList,ActivityIndicator} from 'react-native';
 // import library for navigation objects and routing
 import { StackNavigator, TabNavigator } from 'react-navigation';
 // import to record audio
@@ -25,6 +14,8 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import firebase from 'react-native-firebase';
 // import style sheet
 import styles from '../stylesheets/recordStyle';
+// import cookie manager
+import CookieManager from 'react-native-cookies';
 
 export default class Record extends Component<{}> {
 
@@ -44,6 +35,8 @@ export default class Record extends Component<{}> {
       recording: false,
     }
     firebase.analytics().setCurrentScreen('record');
+    // https://staging5.ctrl.ucla.edu:7423/app-ws/app/process-data-v2
+    // https://chatterbaby.ctrl.ucla.edu/app-ws/app/process-data-v2
   }
 
   componentDidMount() {
@@ -58,62 +51,24 @@ export default class Record extends Component<{}> {
       this.prepareRecordingAtPath(this.state.audioPath);
       AudioRecorder.onProgress = (data) => {
         var floorTime = Math.floor(data.currentTime);
-        if (floorTime == 5) {
-          this.stop();
-        } else {
-          this.setState({progress: data.currentTime, currentTime: floorTime});
-        }
+        if (floorTime == 5) this.stop();
+        else this.setState({progress: data.currentTime, currentTime: floorTime});
       };
       AudioRecorder.onFinished = (data) => {
         //console.log("onFinished data", data); // returning null on android
-        if (Platform.OS === 'ios') {
-          this.finishRecording(data.status === 'OK', data.audioFileURL);
-        }
+        if (Platform.OS === 'ios') this.finishRecording(data.status === 'OK', data.audioFileURL);
       };
     });
   }
 
   render() {
-    // renderContent: conditional variable to render either pre-recording or actively recording content
-    var renderContent = (<View style={styles.recordContainer}>
-        <Progress.Circle style={{ justifyContent: 'center', alignItems: 'center' }}
-            progress={ this.state.progress/5 } size={300} thickness={5}
-            color={'#5f97cb'} borderWidth={0}>
-          <View style={styles.recordButton}>
-            {this.renderButton('Record', () => { this.record() }, this.state.recording ) }
-          </View>
-        </Progress.Circle>
-      </View>);
-
-    // add spinner between recording stopped and graph rendered
-    if (this.state.postRecPreGraph) {
-      renderContent = (<View style={styles.recordContainer}>
-                          <ActivityIndicator size="large" color="#5f97cb" />
-                      </View>);
-    }
-
     return (
       <View style={styles.container}>
         {this.renderMessage()}
-        { renderContent }
+        {this.renderContent()}
         {this.renderBanner()}
       </View>
     );
-  }
-
-  // button style factory: toggle record button style btw active and inactive mode
-  renderButton(title, onPress, active) {
-    var style = styles.inactiveButtonText;
-    var icon = <Icon name="microphone" color="#5f97cb" size={100} style={styles.recordIcon} />;
-    if (active) {
-      style = styles.activeButtonText;
-      title = 'Recording';
-    }
-
-    return (<TouchableOpacity style={styles.button} onPress={onPress}>
-              {icon}
-              <Text style={style}>{title}</Text>
-            </TouchableOpacity>);
   }
 
   // display user error messages
@@ -138,51 +93,87 @@ export default class Record extends Component<{}> {
     </Modal>);
   }
 
+  renderContent() {
+    // renderContent: conditional variable to render either pre-recording or actively recording content
+    var renderContent = (<View style={styles.recordContainer}>
+        <Progress.Circle style={{ justifyContent: 'center', alignItems: 'center' }}
+            progress={ this.state.progress/5 } size={300} thickness={5}
+            color={'#5f97cb'} borderWidth={0}>
+          <View style={styles.recordButton}>
+            {this.renderButton('Record', () => { this.record() }, this.state.recording ) }
+          </View>
+        </Progress.Circle>
+      </View>);
+
+    // add spinner between recording stopped and graph rendered
+    if (this.state.postRecPreGraph) {
+      renderContent = (<View style={styles.recordContainer}>
+                          <ActivityIndicator size="large" color="#5f97cb" />
+                      </View>);
+    }
+    return renderContent;
+  }
+
   renderBanner() {
-    /*
+    ///*
     const Banner = firebase.admob.Banner;
     const AdRequest = firebase.admob.AdRequest;
     const request = new AdRequest();
-    request.addTestDevice();
+    //request.addTestDevice();
     request.addKeyword('baby')
     request.addKeyword('parenting');
-    //var advert = firebase.admob().rewarded('ca-app-pub-4412913872988371/6451389174');
+    request.addKeyword('infant');
+    request.addKeyword('diaper');
 
-    return (<Banner
-      unitId={'ca-app-pub-4412913872988371/6451389174'}
-      size={'LARGE_BANNER'}
-      request={request.build()}
-      onAdLoaded={() => {
-        console.warn('Advert loaded');
-      }}
-      onAdFailedToLoad={ (err) => {
-        if (err.code === 'admob/error-code-internal-error') {
-          console.warn('ad failed to load');
-        } else if (err.code === 'admob/error-code-invalid-request') {
-          console.warn('invalid request');
-        } else if (err.code === 'admob/error-code-network-error') {
-          console.warn('network error loading ad');
-        } else if (err.code === 'admob/error-code-no-fill') {
-          console.warn('ad request successful, but no ad inventory');
-        } else if (err.code === 'admob/os-version-too-low') {
-          console.warn('os version too low for ads');
-        } else console.warn('other ad err', err)
-      }}
-      onAdOpened={() => {
-        console.warn('Advert opened');
-      }}
-      onAdClosed={() => {
-        console.warn('Advert Closed');
-      }}
-      onAdLeftApplication={() => {
-        console.warn('Advert left application');
-      }}
-    />);
-    */
+    return (<Banner style={{alignSelf: 'center'}}
+              unitId={'ca-app-pub-4412913872988371/2373554464'} //ChatterBaby unit ID
+              //unitID={'ca-app-pub-4412913872988371/6451389174'} //chatterbaby unit ID
+              //unitId={'ca-app-pub-3940256099942544/6300978111'} // test unit ID
+              size={'BANNER'}
+              request={request.build()}
+              onAdLoaded={() => {
+                //console.warn('Advert loaded');
+              }}
+              onAdFailedToLoad={ (err) => {
+                if (err.code === 'admob/error-code-internal-error') {
+                  //console.warn('ad failed to load');
+                } else if (err.code === 'admob/error-code-invalid-request') {
+                  //console.warn('invalid request');
+                } else if (err.code === 'admob/error-code-network-error') {
+                  //console.warn('network error loading ad');
+                } else if (err.code === 'admob/error-code-no-fill') {
+                  //console.warn('ad request successful, but no ad inventory');
+                } else if (err.code === 'admob/os-version-too-low') {
+                  //console.warn('os version too low for ads');
+                } //else console.warn('other ad err', err)
+              }}
+              onAdOpened={() => {
+                //console.warn('Advert_opened');
+              }}
+              onAdClosed={() => {
+                //console.warn('Advert Closed');
+              }}
+              onAdLeftApplication={() => {
+                //console.warn('Advert left application');
+              }}
+            />);
+    //*/
     // return a placeholder image for the banner until review that implementation
-    //return null
     //return <View style={{alignSelf: 'center',marginBottom: 30,width: 320, height: 50, backgroundColor: '#fdba31'}} />
-    return <View style={{alignSelf: 'center',marginBottom: 30,width: 320, height: 50, backgroundColor: '#fff'}} />
+  }
+
+  // button style factory: toggle record button style btw active and inactive mode
+  renderButton(title, onPress, active) {
+    var style = styles.inactiveButtonText;
+    if (active) {
+      style = styles.activeButtonText;
+      title = 'Recording';
+    }
+
+    return (<TouchableOpacity style={styles.button} onPress={onPress}>
+              <Icon name="microphone" color="#5f97cb" size={100} style={styles.recordIcon} />
+              <Text style={style}>{title}</Text>
+            </TouchableOpacity>);
   }
 
   // wrapper for the AudioRecorder prepareRecordingAtPath method
@@ -197,9 +188,8 @@ export default class Record extends Component<{}> {
 
   // ensure permission asked on Android during run-time per the platform standards
   checkPermission() {
-    if (Platform.OS !== 'android') {
-      return Promise.resolve(true);
-    }
+    if (Platform.OS !== 'android') return Promise.resolve(true);
+
     const rationale = {
       'title': 'Microphone Permission',
       'message': 'ChatterBaby needs to access your microphone to create audio samples.'
@@ -220,38 +210,38 @@ export default class Record extends Component<{}> {
     formData.append('token', '');
     formData.append('data', audioFile);
 
-    // send formData to server
-    // https://staging5.ctrl.ucla.edu:7423/app-ws/app/process-data-v2
-    // https://chatterbaby.ctrl.ucla.edu/app-ws/app/process-data-v2
-    fetch('https://chatterbaby.ctrl.ucla.edu/app-ws/app/process-data-v2', {
-      method: 'post',
-      headers: { 'Content-Type': 'multipart/form-data', 'Accept': 'application/json'},
-      body: formData
-    })
-    .then((response) => {
-      //console.warn('rec res', response);
-      if (response.status === 200) {
-        response.json().then((data) => {
-          if (data.errmsg) {
-            this.setState({showMsgModal: true, errMsg:'There was an error running the algorithm.'});
-            firebase.analytics().logEvent('server_sent_algorithm_error');
-          } else this.updateGraph(data);
-        })
-      } else {
-        this.setState({showMsgModal: true, errMsg: 'Server error processing the audio file.'});
-        firebase.analytics().logEvent('recording_server_non200_error');
-      }
-    })
-    .catch((error) => {
-      this.setState({showMsgModal: true, errMsg: 'Server error sending the audio file.'});
-      firebase.analytics().logEvent('recording_server_error');
-    })
+    // need to manually delete cookies before calling API
+    CookieManager.clearAll().then((res) => {
+      // send formData to server
+      fetch('https://chatterbaby.ctrl.ucla.edu/app-ws/app/process-data-v2', {
+        method: 'post',
+        mode: "no-cors",
+        body: formData
+      })
+      .then((response) => {
+        if (response.status === 200) {
+          response.json().then((data) => {
+            if (data.errmsg) {
+              this.setState({showMsgModal: true, errMsg:'There was an error running the algorithm.'});
+              firebase.analytics().logEvent('server_sent_algorithm_error');
+            } else this.updateGraph(data);
+          })
+        } else {
+          this.setState({showMsgModal: true, errMsg: 'Server error processing the audio file.'});
+          firebase.analytics().logEvent('recording_server_non200_error');
+        }
+      })
+      .catch((error) => {
+        this.setState({showMsgModal: true, errMsg: 'Server error sending the audio file.'});
+        firebase.analytics().logEvent('recording_server_error');
+      });
+    });
   }
 
   // parse response to update state barchart values
   // data: {"result":{"Fussy":0.398,"Hungry":0.316,"Pain":0.286},"record_id":"941","errmsg":""}
   updateGraph(data) {
-    // route to Graph page
+    // route to Graph page with params to init Graph
     this.props.navigation.navigate('Graph', {
       email: this.state.email,
       painResponse: data.result.Pain*100,
@@ -268,9 +258,7 @@ export default class Record extends Component<{}> {
       this.setState({ postRecPreGraph: true, stoppedRecording: true, recording: false, progress: 0, currentTime: 0.0 });
       try {
         const filePath = await AudioRecorder.stopRecording();
-        if (Platform.OS === 'android') {
-          this.finishRecording(true, filePath);
-        }
+        if (Platform.OS === 'android') this.finishRecording(true, filePath);
         return filePath;
       } catch (error) {
         this.setState({showMsgModal: true, errMsg: 'Unable to complete the recording on your device. Please try again.'});
@@ -285,18 +273,15 @@ export default class Record extends Component<{}> {
       firebase.analytics().logEvent('audio_permission_not_enabled');
       return;
     }
-    if (this.state.stoppedRecording) {
-      this.prepareRecordingAtPath(this.state.audioPath);
-    }
+    if (this.state.stoppedRecording) this.prepareRecordingAtPath(this.state.audioPath);
+
     this.setState({ recording: true });
     try {
       const filePath = await AudioRecorder.startRecording();
       firebase.analytics().logEvent('start_recording');
-      //firebase.analytics().logEvent('start_recording', { id: _id });
     } catch (error) {
       this.setState({showMsgModal: true, errMsg: 'Please enable audio and storage permissions.'});
       firebase.analytics().logEvent('start_recording_error');
     }
   }
-
 }

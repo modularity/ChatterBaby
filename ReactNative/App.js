@@ -1,12 +1,7 @@
 
 import React, { Component } from 'react';
-import {
-  Alert,
-  AsyncStorage,
-  ActivityIndicator,
-  View
-} from 'react-native';
-// import other pages to load into the navigation objects
+import { Alert, AsyncStorage, ActivityIndicator, View } from 'react-native';
+// import other pages to load into navigation objects
 import Graph from './common_modules/Graph';
 import Record from './common_modules/Record';
 import Questionnaire from './common_modules/Questionnaire';
@@ -27,72 +22,82 @@ export default class App extends Component {
     super(props);
     this.state = {
       consented: false,
+      consentReady: false,
       email: '',
-      appReady: false,
+      emailReady: false,
+
     }
     firebase.analytics().setAnalyticsCollectionEnabled(true);
 
     // init admob once per app lifecycle with app id
-    firebase.admob().initialize('ca-app-pub-4412913872988371/6451389174');
+    // ChatterBaby app ID: ca-app-pub-4412913872988371~6821379677
+    firebase.admob().initialize('ca-app-pub-4412913872988371~6821379677');
+    // admob test app ID: ca-app-pub-3940256099942544~3347511713
+    //firebase.admob().initialize('ca-app-pub-3940256099942544~3347511713');
   }
 
-  componentDidMount() {
-    // check storage to determine routing
+  componentDidMount() { // check storage to determine routing
     this.checkRegistration();
   }
 
-  async checkRegistration() {
-    var consentLoading = true;
-    var emailLoading = true;
-    // uncomment line below to wipe storage for testing
-    // AsyncStorage.clear();
-    await AsyncStorage.getItem('consented')
-      .then(val => this.setState({consented: val}))
-      .catch(e => {
-        Alert.alert('Start Error', 'Hmm something went wrong initializing the app.');
-        firebase.analytics().logEvent('accessing_consent_init_error');
-      })
-      .done(() => consentLoading = false);
-    await AsyncStorage.getItem('email')
-      .then(val => this.setState({email: val}))
-      .catch(e => {
-        Alert.alert('Start Error', 'Hmm something went wrong initializing the app.');
-        firebase.analytics().logEvent('accessing_email_init_error');
-      })
-      .done(() => emailLoading = false);
-      if (consentLoading && emailLoading) this.setState({appReady: true});
-  }
-
-  render() {
-    // spinner if still loading
-    if (!this.state.appReady) return (
+  render() { // spinner if still loading, otherwise route to app
+    // init: F & F -> F, consented without email: F & T -> F, consented with email: T & T -> T
+    var appReady = this.state.consentReady && this.state.emailReady;
+    if (!appReady) return (
       <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
         <ActivityIndicator size="large" color="#5f97cb" />
       </View>
     );
-    // otherwise route to app
     return this.getRoute();
+  }
+
+  async checkRegistration() {
+    // uncomment line below to wipe storage for testing
+    // AsyncStorage.clear();
+    await AsyncStorage.getItem('consented')
+      .then(val => {
+        if (val) this.setState({consented: val, consentReady: true});
+        else this.setState({consentReady: true});
+      })
+      .catch(e => {
+        Alert.alert('Start Error', 'Hmm something went wrong initializing the app.');
+        firebase.analytics().logEvent('accessing_consent_init_error');
+      })
+      .done();
+    await AsyncStorage.getItem('email')
+      .then(val => {
+        if (val) this.setState({email: val, emailReady: true});
+        else this.setState({emailReady: true});
+      })
+      .catch(e => {
+        Alert.alert('Start Error', 'Hmm something went wrong initializing the app.');
+        firebase.analytics().logEvent('accessing_email_init_error');
+      })
+      .done();
   }
 
   // dynamic route rendering based on consent/registration status
   getRoute() {
-    var route = <ConsentNav navigator = {this.props.navigation} screenProps={{email: this.state.email}} />;
+    var route = null;
     if (this.state.email) { // email implies consent/registration completed
       route = <TabNav navigator={this.props.navigation} screenProps={{email: this.state.email}} />;
     } else if (this.state.consented) { // if consented but not registered
       route = <RegisterNav navigator={this.props.navigation} screenProps={{email: this.state.email}} />;
+    } else {
+      route = <ConsentNav navigator = {this.props.navigation} screenProps={{email: this.state.email}} />;
     }
     return route;
   }
 }
 
+// navigation objects
+// order matters: nested navigation objects must be initialized before they can be referenced
 const RecordNav = StackNavigator({
   Record: { screen: Record,
     navigationOptions: ({ navigation }) => ({
       header: null,
       }),
     },
-  //Graph: { screen: Graph },
   Graph: { screen: Graph,
     navigationOptions: ({ navigation }) => ({
       title: 'Results',

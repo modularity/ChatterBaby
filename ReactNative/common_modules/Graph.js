@@ -1,29 +1,25 @@
 import React, { Component } from 'react';
-import {
-  Text,
-  View,
-  TouchableOpacity,
-  Dimensions,
-  Modal,
-  FlatList,
-} from 'react-native';
+import {Text,View,TouchableOpacity,Dimensions,Modal,FlatList} from 'react-native';
 // import library for navigation objects and routing
 import { StackNavigator, TabNavigator } from 'react-navigation';
 // import form histogram/barchart
 import { VictoryChart, VictoryBar, VictoryAxis  } from 'victory-native';
-//import { Bar } from 'react-native-pathjs-charts';
 // import FontAwesome icons
 import Icon from 'react-native-vector-icons/FontAwesome';
 // import Firebase for admob and analytics
 import firebase from 'react-native-firebase';
 // import style sheet
 import styles from '../stylesheets/graphStyle';
+// import CookieManager
+import CookieManager from 'react-native-cookies';
+
+var window = Dimensions.get('window');
 
 export default class Graph extends Component<{}> {
 
   constructor(props) {
     super(props);
-    const { params } = props.navigation.state;
+    const { params } = props.navigation.state; // init state from navigation object
     this.state = {
       postRecPreGraph: false,
       painResponse: params.painResponse,
@@ -35,36 +31,37 @@ export default class Graph extends Component<{}> {
       showMsgModal: false,
       showOptLabels: false,
       selectedLabel: false,
-      labels: ['Fussy', 'Hungry', 'Pain','Diaper Change', 'Rash', 'Colic', 'Gassy', 'Scared', 'Separation', 'Bored'],
+      labels: ['Fussy','Hungry','Pain','Diaper Change','Rash','Colic','Gassy','Scared','Separation','Bored'],
     }
     firebase.analytics().setCurrentScreen('record');
   }
 
   render() {
-    // renderContent: conditional variable to render either recording UI or result graph
-    var renderContent = (
-      <View style={styles.resultContainer}>
-        <View style={styles.closeContainer}>
-          <Text style={styles.title}>Chance my baby is crying</Text>
-        </View>
-        {this.renderGraph()}
-        {this.renderLabelFeedback()}
-      </View>
-    );
-
     return (
       <View style={styles.container}>
         {this.renderMessage()}
         {this.renderOptLabel()}
-        { renderContent }
+        {this.renderResults()}
         {this.renderBanner()}
       </View>
     );
   }
 
+  renderResults() {
+    return(<View style={styles.resultContainer}>
+      <View style={styles.closeContainer}>
+        <Text style={styles.title}>Chance my baby is crying</Text>
+      </View>
+      {this.renderGraph()}
+      {this.renderLabelFeedback()}
+    </View>);
+  }
+
   renderGraph() {
-    var width = Dimensions.get('window').width/6;
-    return (<View><VictoryChart domainPadding={width/2} padding={width}>
+    var width = window.width/5;
+    var height = window.height;
+    // to support banner in responsive layout, update VictoryChart height={height/3}
+    return (<View><VictoryChart height={height/2.7} domainPadding={width/3} padding={{top: width/2, bottom: width, left: width, right:width}} >
       <VictoryAxis independentAxis tickFormat={(x) => (``)} label={"Chances"} />
       <VictoryAxis dependentAxis style={{margin:10}} />
         <VictoryBar horizontal={true}
@@ -150,49 +147,47 @@ export default class Graph extends Component<{}> {
   }
 
   renderBanner() {
-    /*
     const Banner = firebase.admob.Banner;
     const AdRequest = firebase.admob.AdRequest;
     const request = new AdRequest();
-    request.addTestDevice();
+    //request.addTestDevice();
     request.addKeyword('baby')
     request.addKeyword('parenting');
-    //var advert = firebase.admob().rewarded('ca-app-pub-4412913872988371/6451389174');
 
-    return (<Banner
-      unitId={'ca-app-pub-4412913872988371/6451389174'}
-      size={'LARGE_BANNER'}
+    return (<Banner style={{alignSelf: 'center'}}
+      unitId={'ca-app-pub-4412913872988371/2373554464'} //ChatterBaby unit ID
+      //unitID={'ca-app-pub-4412913872988371/6451389174'} //chatterbaby unit ID
+      //unitId={'ca-app-pub-3940256099942544/6300978111'} // test unit ID
+      size={'BANNER'}
       request={request.build()}
       onAdLoaded={() => {
-        console.warn('Advert loaded');
+        //console.warn('Advert loaded');
       }}
       onAdFailedToLoad={ (err) => {
         if (err.code === 'admob/error-code-internal-error') {
-          console.warn('ad failed to load');
+          //console.warn('ad failed to load');
         } else if (err.code === 'admob/error-code-invalid-request') {
-          console.warn('invalid request');
+          //console.warn('invalid request');
         } else if (err.code === 'admob/error-code-network-error') {
-          console.warn('network error loading ad');
+          //console.warn('network error loading ad');
         } else if (err.code === 'admob/error-code-no-fill') {
-          console.warn('ad request successful, but no ad inventory');
+          //console.warn('ad request successful, but no ad inventory');
         } else if (err.code === 'admob/os-version-too-low') {
-          console.warn('os version too low for ads');
-        } else console.warn('other ad err', err)
+          //console.warn('os version too low for ads');
+        } //else console.warn('other ad err', err)
       }}
       onAdOpened={() => {
-        console.warn('Advert opened');
+        //console.warn('Advert_opened');
       }}
       onAdClosed={() => {
-        console.warn('Advert Closed');
+        //console.warn('Advert Closed');
       }}
       onAdLeftApplication={() => {
-        console.warn('Advert left application');
+        //console.warn('Advert left application');
       }}
     />);
-    */
-    // return a placeholder image for the banner until review that implementation
-    //return null
-    return <View style={{alignSelf: 'center',marginBottom: 30,width: 320, height: 50, backgroundColor: '#fff'}} />
+    // returns a placeholder image for the BANNER object
+    //return <View style={{alignSelf: 'center', marginBottom: 30, width: 320, height: 50, backgroundColor: '#fff'}} />
   }
 
   // send label validation to server
@@ -201,26 +196,29 @@ export default class Graph extends Component<{}> {
     let formData = new FormData();
     formData.append('email', this.state.email);
     formData.append('label', label_);
-    formData.append('token', this.state.recordid);
+    formData.append('record_id', this.state.recordid);
 
     // send formData to server
     // https://staging5.ctrl.ucla.edu:7423/app-ws/
-    fetch('https://chatterbaby.ctrl.ucla.edu/app-ws/app/process-label', {
-      method: 'post',
-      headers: { 'Content-Type': 'multipart/form-data', 'Accept': 'application/json'},
-      body: formData
-    })
-    .then((response) => {
-      // console.log('label response', response);
-    })
-    .catch((error) => {
-      this.setState({showMsgModal: true, errMsg: 'Server error processing the label.'});
-      firebase.analytics().logEvent('process_label_server_error');
-    })
-    firebase.analytics().logEvent('algorithm_validation', { label: label_ });
+    // need to manually delete cookies before calling API
+    CookieManager.clearAll().then((res) => {
+      fetch('https://chatterbaby.ctrl.ucla.edu/app-ws/app/process-label', {
+        method: 'post',
+        body: formData
+      })
+      .then((response) => {
+        console.log('label response', response);
+      })
+      .catch((error) => {
+        this.setState({showMsgModal: true, errMsg: 'Server error processing the label.'});
+        firebase.analytics().logEvent('process_label_server_error');
+      });
+      firebase.analytics().logEvent('algorithm_validation', { label: label_ });
+    });
   }
 
-  // will update to processLabel(label) after verifying the correct way to access the label value from props in the new lib
+  // button handler for label validation
+  // close modal, call API, remove label validation button below graph(only one user selection per recording)
   pressLabel(label) {
     //Alert.alert('Thanks', 'Your feedback helps improve the algorithm.');
     this.setState({showOptLabels: false, selectedLabel: true});

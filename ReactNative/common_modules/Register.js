@@ -17,6 +17,8 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import styles from '../stylesheets/registerStyle';
 // import firebase for analytics
 import firebase from 'react-native-firebase';
+// import CookieManager
+import CookieManager from 'react-native-cookies';
 
 export default class Register extends Component {
   constructor(props) {
@@ -168,24 +170,27 @@ export default class Register extends Component {
     formData.append('mode', 'survey');
     formData.append('token', '');
     formData.append('data', registerData);
-    fetch('https://chatterbaby.ctrl.ucla.edu/app-ws/app/process-data-v2', {
-      method: 'post',
-      body: formData
-    })
-    .then((response) => {
-      if (response.status === 200) {
-        response.json().then((data) => {
-          this.logAsRegistered();
-        })
-      } else {
-        this.setState({showMsgModal: true, errMsg: 'Unable to process registration. Please try again.'});
-        firebase.analytics().logEvent('register_server_error');
-      }
-    })
-    .catch((error) => {
-      this.setState({showMsgModal: true, errMsg: 'Unable to reach server. Please try again.'});
-      firebase.analytics().logEvent('register_server_connection_error');
-    })
+    // need to manually delete cookies before calling API
+    CookieManager.clearAll().then((res) => {
+      fetch('https://chatterbaby.ctrl.ucla.edu/app-ws/app/process-data-v2', {
+        method: 'post',
+        body: formData
+      })
+      .then((response) => {
+        if (response.status === 200) {
+          response.json().then((data) => {
+            this.logAsRegistered();
+          })
+        } else {
+          this.setState({showMsgModal: true, errMsg: 'Unable to process registration. Please try again.'});
+          firebase.analytics().logEvent('register_server_error');
+        }
+      })
+      .catch((error) => {
+        this.setState({showMsgModal: true, errMsg: 'Unable to reach server. Please try again.'});
+        firebase.analytics().logEvent('register_server_connection_error');
+      })
+    });
   }
 
   // save registered complete and email to device
