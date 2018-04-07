@@ -31,7 +31,7 @@ export default class Graph extends Component<{}> {
       showMsgModal: false,
       showOptLabels: false,
       selectedLabel: false,
-      labels: ['Fussy','Hungry','Pain','Diaper Change','Rash','Colic','Gassy','Scared','Separation','Bored'],
+      labels: ['Fussy','Hungry','Pain','Diaper Change','Rash','Colic','Gassy','Scared','Separation','Bored', 'Sick', 'Unknown'],
     }
     firebase.analytics().setCurrentScreen('record');
   }
@@ -48,10 +48,12 @@ export default class Graph extends Component<{}> {
   }
 
   renderResults() {
+    /*
+    <View style={styles.closeContainer}>
+      <Text style={styles.title}>Chance my baby is crying</Text>
+    </View>
+    */
     return(<View style={styles.resultContainer}>
-      <View style={styles.closeContainer}>
-        <Text style={styles.title}>Chance my baby is crying</Text>
-      </View>
       {this.renderGraph()}
       {this.renderLabelFeedback()}
     </View>);
@@ -61,8 +63,8 @@ export default class Graph extends Component<{}> {
     var width = window.width/5;
     var height = window.height;
     // to support banner in responsive layout, update VictoryChart height={height/3}
-    return (<View><VictoryChart height={height/2.7} domainPadding={width/3} padding={{top: width/2, bottom: width, left: width, right:width}} >
-      <VictoryAxis independentAxis tickFormat={(x) => (``)} label={"Chances"} />
+    return (<View><VictoryChart height={height/2.5} domainPadding={width/3} padding={{top: width/2, bottom: width, left: width, right:width}} >
+      <VictoryAxis independentAxis tickFormat={(x) => (``)} label={"Cry Chance"} />
       <VictoryAxis dependentAxis style={{margin:10}} />
         <VictoryBar horizontal={true}
           data={[{x: 'Pain', y: this.state.painResponse, fill: '#f58357'},
@@ -85,6 +87,9 @@ export default class Graph extends Component<{}> {
   renderLabelFeedback() {
     if (this.state.selectedLabel) return null;
     return (<View>
+      <View style={styles.closeContainer}>
+        <Text style={styles.title}>Were we right?</Text>
+      </View>
       <TouchableOpacity style={styles.feedbackBtn} onPress={ () => this.setState({showOptLabels:true})}>
         <Text style={styles.h1Text}> Teach ChatterBaby about your baby </Text>
       </TouchableOpacity>
@@ -113,8 +118,8 @@ export default class Graph extends Component<{}> {
           <TouchableOpacity style={styles.cancelButton} onPress={ () => this.setState({showOptLabels: false}) }>
             <Icon name="times" size={15} color='#ecf0f1' />
           </TouchableOpacity>
-        <Text style={styles.title}>Select your first choice:</Text>
         </View>
+        <Text style={styles.title}>Select your first choice:</Text>
         <View style={styles.labelsList}>
           <FlatList data={this.state.labels} keyExtractor={(item, index) => item}
                     renderItem={this.renderLabelItem}
@@ -153,10 +158,11 @@ export default class Graph extends Component<{}> {
     //request.addTestDevice();
     request.addKeyword('baby')
     request.addKeyword('parenting');
+    request.addKeyword('infant');
+    request.addKeyword('wipes');
 
-    return (<Banner style={{alignSelf: 'center'}}
-      unitId={'ca-app-pub-4412913872988371/2373554464'} //ChatterBaby unit ID
-      //unitID={'ca-app-pub-4412913872988371/6451389174'} //chatterbaby unit ID
+    return (<Banner style={{alignSelf: 'center', margin: 20}}
+      unitId={'ca-app-pub-4733123709610330/8392678650'} //ChatterBaby unit ID: wipes
       //unitId={'ca-app-pub-3940256099942544/6300978111'} // test unit ID
       size={'BANNER'}
       request={request.build()}
@@ -186,7 +192,7 @@ export default class Graph extends Component<{}> {
         //console.warn('Advert left application');
       }}
     />);
-    // returns a placeholder image for the BANNER object
+    // placeholder image for the BANNER object
     //return <View style={{alignSelf: 'center', marginBottom: 30, width: 320, height: 50, backgroundColor: '#fff'}} />
   }
 

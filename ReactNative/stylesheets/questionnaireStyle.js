@@ -39,7 +39,7 @@ module.exports =  StyleSheet.create({
  modalTxtContainer: {
    width: width*.8,
    backgroundColor: '#ecf0f1',
-   flex: .3,
+   flex: .5,
    justifyContent: 'center',
    alignItems: 'center',
  },

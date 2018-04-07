@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, View, WebView } from 'react-native';;
+import { Text, View, WebView } from 'react-native';
 // import StyleSheet
 import styles from '../stylesheets/questionnaireStyle';
 // import icon for error handler
@@ -27,8 +27,11 @@ export default class Questionnaire extends Component<{}> {
             </View>
           </View>
           <View style={styles.modalTxtContainer}>
-            <Text style={styles.h1Text}>Unable to connect to the survey link.</Text>
+            <Text style={styles.h1Text}>Unable to connect to the survey link. Please check your internet connection.</Text>
           </View>
+          <Icon.Button name="refresh" backgroundColor="#fdba31" onPress={() => this.forceUpdate()}>
+            <Text style={{fontFamily: 'Arial', fontSize: 15}}>Retry</Text>
+          </Icon.Button>
         </View>);
     }
 

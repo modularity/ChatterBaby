@@ -1,9 +1,5 @@
 import React, { Component } from 'react';
-import {
-  View,
-  ScrollView,
-  WebView
-} from 'react-native';
+import {View, ScrollView, WebView, Text} from 'react-native';
 // import library for navigation objects and routing
 import { StackNavigator, TabNavigator } from 'react-navigation';
 // import styleSheets
@@ -20,7 +16,7 @@ export default class Faq extends Component<{}> {
   constructor(props) {
     super(props);
     this.state = {
-      markdown: "#There was an error loading the content.",
+      markdown: "",
     }
     firebase.analytics().setCurrentScreen('faq');
   }
@@ -28,7 +24,7 @@ export default class Faq extends Component<{}> {
   componentDidMount() {
     //this.getMarkdownContent();
   }
-
+/*
   getMarkdownContent() {
     fetch('https://raw.githubusercontent.com/modularity/ChatterBaby/master/FAQ.md', {method: 'get'})
     .then((response) => {
@@ -38,20 +34,30 @@ export default class Faq extends Component<{}> {
       firebase.analytics().logEvent('read_faq_error');
     });
   }
-
+*/
   render() {
+    const errorPage = () => {
+      return (<View style={styles.modalMsgContainer}>
+          <View style={styles.modalHeader}>
+            <View style={styles.infoRadius}>
+              <Icon name="info" size={60} color="#f1592a"/>
+            </View>
+          </View>
+          <View style={styles.modalTxtContainer}>
+            <Text style={styles.h1Text}>Unable to connect to the faq link. Please check your internet connection.</Text>
+          </View>
+          <Icon.Button name="refresh" backgroundColor="#fdba31" onPress={() => this.forceUpdate()}>
+            <Text style={{fontFamily: 'Arial', fontSize: 15}}>Retry</Text>
+          </Icon.Button>
+        </View>);
+    }
     return (
-      <WebView
-        source={{uri: 'https://www.chatterbaby.org/pages/mobile-display/faq'}}
-        style={{marginTop: 20}}
-      />
-      /* markdown text
       <View style={styles.container}>
-        <ScrollView style={styles.scrollView}>
-          <Markdown style={markdownStyle}>{this.state.markdown}</Markdown>
-        </ScrollView>
+        <WebView
+          source={{uri: 'https://www.chatterbaby.org/pages/mobile-display/faq'}}
+          style={styles.webView}
+          renderError={errorPage} />
       </View>
-      */
     );
   }
 }

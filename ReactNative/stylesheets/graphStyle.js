@@ -18,13 +18,13 @@ module.exports =  StyleSheet.create({
   },
   closeContainer: {
     //margin: 10,
-    flexDirection: 'row',
-    justifyContent: 'space-around',
+    //flexDirection: 'row',
+    //justifyContent: 'space-around',
     //justifyContent: 'flex-end',
     //alignItems: 'flex-end',
   },
   cancelButton: {
-    justifyContent: 'flex-end',
+    justifyContent: 'flex-start',
     //alignItems: 'center',
     //alignSelf: 'center',
     padding: 10,

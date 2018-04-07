@@ -29,7 +29,7 @@ export default class ContactUs extends Component<{}> {
     <ScrollView style={styles.scrollView}>
       <Text style={styles.title}> Contact Us </Text>
       <Text style={styles.pageText}>If you have any questions, comments or concerns about the research, you can talk to the one of the researchers. Please contact:{'\n'}{'\n'}</Text>
-      <Text style={styles.boldText}>
+      <Text style={styles.pageText}>
         Ariana Anderson, Ph.D. {'\n'}
         University of California, Los Angeles {'\n'}
         Department of Psychiatry and Biobehavioral Sciences {'\n'}

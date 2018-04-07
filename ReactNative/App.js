@@ -30,10 +30,7 @@ export default class App extends Component {
     firebase.analytics().setAnalyticsCollectionEnabled(true);
 
     // init admob once per app lifecycle with app id
-    // ChatterBaby app ID: ca-app-pub-4412913872988371~6821379677
-    firebase.admob().initialize('ca-app-pub-4412913872988371~6821379677');
-    // admob test app ID: ca-app-pub-3940256099942544~3347511713
-    //firebase.admob().initialize('ca-app-pub-3940256099942544~3347511713');
+    firebase.admob().initialize('ca-app-pub-4733123709610330~8489222518');
   }
 
   componentDidMount() { // check storage to determine routing

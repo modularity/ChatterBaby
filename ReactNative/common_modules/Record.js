@@ -90,6 +90,9 @@ export default class Record extends Component<{}> {
           <Text style={styles.h1Text}>{this.state.errMsg}</Text>
         </View>
       </View>
+      <Icon.Button name="refresh" backgroundColor="#fdba31" onPress={() => this.forceUpdate()}>
+        <Text style={{fontFamily: 'Arial', fontSize: 15}}>Retry</Text>
+      </Icon.Button>
     </Modal>);
   }
 
@@ -115,19 +118,16 @@ export default class Record extends Component<{}> {
   }
 
   renderBanner() {
-    ///*
     const Banner = firebase.admob.Banner;
     const AdRequest = firebase.admob.AdRequest;
     const request = new AdRequest();
-    //request.addTestDevice();
     request.addKeyword('baby')
     request.addKeyword('parenting');
     request.addKeyword('infant');
-    request.addKeyword('diaper');
+    request.addKeyword('diapers');
 
-    return (<Banner style={{alignSelf: 'center'}}
-              unitId={'ca-app-pub-4412913872988371/2373554464'} //ChatterBaby unit ID
-              //unitID={'ca-app-pub-4412913872988371/6451389174'} //chatterbaby unit ID
+    return (<Banner style={{alignSelf: 'center', margin: 20}}
+              unitId={'ca-app-pub-4733123709610330/4180657820'} //ChatterBaby unit ID: Diapers
               //unitId={'ca-app-pub-3940256099942544/6300978111'} // test unit ID
               size={'BANNER'}
               request={request.build()}
@@ -157,8 +157,7 @@ export default class Record extends Component<{}> {
                 //console.warn('Advert left application');
               }}
             />);
-    //*/
-    // return a placeholder image for the banner until review that implementation
+    // placeholder image for the banner until review that implementation
     //return <View style={{alignSelf: 'center',marginBottom: 30,width: 320, height: 50, backgroundColor: '#fdba31'}} />
   }
 
