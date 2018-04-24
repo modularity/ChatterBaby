@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {View, ScrollView, WebView, Text} from 'react-native';
+import {NetInfo,View, ScrollView,Linking,WebView, Text,TouchableOpacity} from 'react-native';
 // import library for navigation objects and routing
 import { StackNavigator, TabNavigator } from 'react-navigation';
 // import styleSheets
@@ -17,27 +17,56 @@ export default class Faq extends Component<{}> {
     super(props);
     this.state = {
       markdown: "",
+      isConnected: false,
+      key: 1,
+      isWebViewUrlChanged: false
     }
     firebase.analytics().setCurrentScreen('faq');
   }
 
   componentDidMount() {
-    //this.getMarkdownContent();
+    NetInfo.isConnected.addEventListener('connectionChange', this.handleConnectivityChange);
   }
-/*
-  getMarkdownContent() {
-    fetch('https://raw.githubusercontent.com/modularity/ChatterBaby/master/FAQ.md', {method: 'get'})
-    .then((response) => {
-      if (response.status === 200) this.setState({markdown:response._bodyInit});
-    })
-    .catch((error) => {
-      firebase.analytics().logEvent('read_faq_error');
-    });
+
+  componentWillUnmount() {
+    NetInfo.isConnected.removeEventListener('connectionChange', this.handleConnectivityChange);
   }
-*/
+
+  handleConnectivityChange = (isConnected) => {
+    if (isConnected) {
+      this.setState({ isConnected });
+    } else {
+      this.setState({ isConnected });
+    }
+  };
+
+  resetWebViewToInitialUrl = () => {
+    if (this.state.isWebViewUrlChanged) {
+      this.setState({
+        key: this.state.key + 1,
+        isWebViewUrlChanged: false
+      });
+    }
+  };
+
+  setWebViewUrlChanged = webviewState => {
+    if (webviewState.url !== 'https://www.chatterbaby.org/pages/mobile-display/faq') {
+      this.setState({ isWebViewUrlChanged: true });
+    }
+  };
+
+  closeModal() {
+    this.setState({showMsgModal: false});
+  }
+
   render() {
     const errorPage = () => {
       return (<View style={styles.modalMsgContainer}>
+        <View style={styles.modalClose}>
+          <TouchableOpacity onPress={() => this.closeModal() }>
+            <Icon name="times" size={25} color="#ecf0f1"/>
+          </TouchableOpacity>
+        </View>
           <View style={styles.modalHeader}>
             <View style={styles.infoRadius}>
               <Icon name="info" size={60} color="#f1592a"/>
@@ -46,18 +75,44 @@ export default class Faq extends Component<{}> {
           <View style={styles.modalTxtContainer}>
             <Text style={styles.h1Text}>Unable to connect to the faq link. Please check your internet connection.</Text>
           </View>
-          <Icon.Button name="refresh" backgroundColor="#fdba31" onPress={() => this.forceUpdate()}>
-            <Text style={{fontFamily: 'Arial', fontSize: 15}}>Retry</Text>
-          </Icon.Button>
         </View>);
     }
+    if (!this.state.isConnected) {
+      return (<View style={styles.modalMsgContainer}>
+        <View style={styles.modalClose}>
+          <TouchableOpacity onPress={() => this.closeModal() }>
+            <Icon name="times" size={25} color="#ecf0f1"/>
+          </TouchableOpacity>
+        </View>
+        <View style={styles.modalHeader}>
+          <View style={styles.infoRadius}>
+            <Icon name="info" size={60} color="#f1592a"/>
+          </View>
+        </View>
+        <View style={styles.modalTxtContainer}>
+          <Text style={styles.h1Text}>Unable to connect to the survey link. Please check your internet connection.</Text>
+        </View>
+      </View>);
+    }
+    const uri = 'https://www.chatterbaby.org/pages/mobile-display/faq';
     return (
       <View style={styles.container}>
-        <WebView
-          source={{uri: 'https://www.chatterbaby.org/pages/mobile-display/faq'}}
-          style={styles.webView}
-          renderError={errorPage} />
+      <WebView
+        ref={(ref) => { this.webview = ref; }}
+        source={{ uri }}
+        style={styles.webView}
+        renderError={errorPage}
+        onNavigationStateChange={(event) => {
+          if (event.url !== uri) {
+            this.webview.stopLoading();
+            Linking.openURL(event.url);
+          }
+        }}
+      />
       </View>
     );
+  }
+  closeModal() {
+    this.setState({showMsgModal: false, url: this.state.url});
   }
 }

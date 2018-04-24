@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, View, ScrollView, WebView } from 'react-native';
+import { Text, View, ScrollView, WebView, Linking } from 'react-native';
 // import library for navigation objects and routing
 import { StackNavigator, TabNavigator } from 'react-navigation';
 // import stylesheets
@@ -13,11 +13,19 @@ export default class AboutUs extends Component<{}> {
     firebase.analytics().setCurrentScreen('aboutus');
   }
   render() {
+    const uri = 'https://www.chatterbaby.org/pages/mobile-display/aboutus';
     return (
       <WebView
-        source={{uri: 'https://www.chatterbaby.org/pages/mobile-display/aboutus'}}
+        ref={(ref) => { this.webview = ref; }}
+        source={{ uri }}
         style={{marginTop: 20}}
         renderError={this.renderOfflineText}
+        onNavigationStateChange={(event) => {
+          if (event.url !== uri) {
+            this.webview.stopLoading();
+            Linking.openURL(event.url);
+          }
+        }}
       />
     );
   }

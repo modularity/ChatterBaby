@@ -19,6 +19,11 @@ module.exports =  StyleSheet.create({
    alignItems: 'center',
    alignSelf: 'center',
  },
+ modalClose: {
+   width: width*.8,
+   backgroundColor: '#f1592a',
+   padding: 5,
+ },
  modalHeader: {
    flex: .6,
    width: width*.8,

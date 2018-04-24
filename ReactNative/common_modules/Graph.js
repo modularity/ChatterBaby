@@ -213,7 +213,7 @@ export default class Graph extends Component<{}> {
         body: formData
       })
       .then((response) => {
-        console.log('label response', response);
+        //console.log('label response', response);
       })
       .catch((error) => {
         this.setState({showMsgModal: true, errMsg: 'Server error processing the label.'});

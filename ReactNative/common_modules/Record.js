@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {Platform,Text,View,TouchableOpacity,Modal,Picker,FlatList,ActivityIndicator} from 'react-native';
+import {PermissionsAndroid,Platform,Text,View,TouchableOpacity,Modal,Picker,FlatList,ActivityIndicator} from 'react-native';
 // import library for navigation objects and routing
 import { StackNavigator, TabNavigator } from 'react-navigation';
 // import to record audio
@@ -90,9 +90,6 @@ export default class Record extends Component<{}> {
           <Text style={styles.h1Text}>{this.state.errMsg}</Text>
         </View>
       </View>
-      <Icon.Button name="refresh" backgroundColor="#fdba31" onPress={() => this.forceUpdate()}>
-        <Text style={{fontFamily: 'Arial', fontSize: 15}}>Retry</Text>
-      </Icon.Button>
     </Modal>);
   }
 
@@ -212,27 +209,29 @@ export default class Record extends Component<{}> {
     // need to manually delete cookies before calling API
     CookieManager.clearAll().then((res) => {
       // send formData to server
-      fetch('https://chatterbaby.ctrl.ucla.edu/app-ws/app/process-data-v2', {
+      fetch('https://164.67.97.127/app-ws/app/process-data-v2', {
         method: 'post',
         mode: "no-cors",
         body: formData
       })
       .then((response) => {
+        //console.log('finishRecording res', response);
         if (response.status === 200) {
           response.json().then((data) => {
             if (data.errmsg) {
               this.setState({showMsgModal: true, errMsg:'There was an error running the algorithm.'});
-              firebase.analytics().logEvent('server_sent_algorithm_error');
+              //firebase.analytics().logEvent('server_sent_algorithm_error');
             } else this.updateGraph(data);
           })
         } else {
           this.setState({showMsgModal: true, errMsg: 'Server error processing the audio file.'});
-          firebase.analytics().logEvent('recording_server_non200_error');
+          //firebase.analytics().logEvent('recording_server_non200_error');
         }
       })
       .catch((error) => {
+        //console.log('finishRecording err', error);
         this.setState({showMsgModal: true, errMsg: 'Server error sending the audio file.'});
-        firebase.analytics().logEvent('recording_server_error');
+        //firebase.analytics().logEvent('recording_server_error');
       });
     });
   }

@@ -5,7 +5,7 @@ module.exports =  StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    padding: 30,
+    padding: 40,
   },
   scrollView: {
     paddingBottom: 25,
@@ -16,15 +16,17 @@ module.exports =  StyleSheet.create({
     fontFamily: 'Avenir',
     textAlign: 'center',
     alignSelf: 'center',
-    margin: 3,
     color: '#34495e',
   },
   pageText: {
     fontFamily: 'Avenir',
     color: '#34495e',
-    margin: 10,
+    fontWeight: 'normal',
   },
   boldText: {
-    fontWeight: 'bold'
+    fontFamily: 'Avenir',
+    color: '#34495e',
+    fontWeight: 'bold',
+    margin: 0,
   }
 });

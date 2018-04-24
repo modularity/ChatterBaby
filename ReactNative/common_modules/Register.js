@@ -30,6 +30,13 @@ export default class Register extends Component {
       errMsg: '',
       showMsgModal: false,
     }
+    /*
+    gender: 'female',
+    dob: new Date(),
+    email: 'testing@test.com',
+    errMsg: '',
+    showMsgModal: false,
+    */
     firebase.analytics().setCurrentScreen('register');
   }
 
