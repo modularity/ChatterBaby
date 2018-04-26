@@ -39,7 +39,7 @@ export default class App extends Component {
 
   render() { // spinner if still loading, otherwise route to app
     // init: F & F -> F, consented without email: F & T -> F, consented with email: T & T -> T
-    return <TabNav navigator={this.props.navigation} screenProps={{email: this.state.email}} />;
+    //return <TabNav navigator={this.props.navigation} screenProps={{email: this.state.email}} />;
     var appReady = this.state.consentReady && this.state.emailReady;
     if (!appReady) return (
       <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>

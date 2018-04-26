@@ -31,7 +31,7 @@ export default class Graph extends Component<{}> {
       showMsgModal: false,
       showOptLabels: false,
       selectedLabel: false,
-      labels: ['Fussy','Hungry','Pain','Diaper Change','Rash','Colic','Gassy','Scared','Separation','Bored', 'Sick', 'Unknown'],
+      labels: ['Fussy','Hungry','Pain','Diaper Change','Rash','Colic','Gassy','Scared','Separation','Bored','Sick','Tired','Unknown'],
     }
     firebase.analytics().setCurrentScreen('record');
   }

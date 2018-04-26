@@ -208,8 +208,8 @@ export default class Record extends Component<{}> {
 
     // need to manually delete cookies before calling API
     CookieManager.clearAll().then((res) => {
-      // send formData to server
-      fetch('https://164.67.97.127/app-ws/app/process-data-v2', {
+      // send formData to server // 164.67.97.127
+      fetch('https://chatterbaby.ctrl.ucla.edu/app-ws/app/process-data-v2', {
         method: 'post',
         mode: "no-cors",
         body: formData
