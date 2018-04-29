@@ -8,10 +8,12 @@
   },
   "dependencies": {
     "axios": "^0.16.0",
+    "moment": "^2.22.1",
     "react": "16.2.0",
     "react-native": "0.53.0",
     "react-native-audio": "3.5.1",
     "react-native-cookies": "^3.2.0",
+    "react-native-datepicker": "^1.7.1",
     "react-native-firebase": "3.2.4",
     "react-native-markdown-renderer": "^3.0.2",
     "react-native-pathjs-charts": "0.0.33",

@@ -10,6 +10,7 @@ import {
   DatePickerAndroid,
   DatePickerIOS,
   Modal,
+  Dimensions
 } from 'react-native';
 // import for icons in form field
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -19,14 +20,18 @@ import styles from '../stylesheets/registerStyle';
 import firebase from 'react-native-firebase';
 // import CookieManager
 import CookieManager from 'react-native-cookies';
+// import time utility
+import moment from 'moment';
+// import cross-platform date picker library
+import DatePicker from 'react-native-datepicker';
 
 export default class Register extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      gender: '',
+      gender: 'female',
       dob: new Date(),
-      email: '',
+      email: 'testing@test.com',
       errMsg: '',
       showMsgModal: false,
     }
@@ -49,7 +54,7 @@ export default class Register extends Component {
             Email
           </Text>
           <View style={styles.inputSection}>
-            <Icon name="user-o" color="#777" style={styles.inputImage}/>
+            <Icon name="user-o" color="#777" size={15} style={styles.inputImage}/>
             <TextInput
                 style={styles.input}
                 onChangeText={(email) => this.setState({email})}
@@ -79,19 +84,30 @@ export default class Register extends Component {
   }
 
   renderBabyGender() {
+    /*
+    var maleCfg = { color:'#5f97cb', icon:'circle' };
+    var femaleCfg = { color: '#5f97cb', icon: 'circle' };
+    var noCfg = {};
+    var cfg = {male:maleCfg, female:femaleCfg, '':noCfg };
+    var {color, icon} = cfg[this.state.gender];
+    */
+
+    var boyColor = this.state.gender === 'male' ? '#5f97cb' : '#aaa' ;
+    var girlColor = this.state.gender === 'female' ? '#5f97cb' : '#aaa';
     var boyIcon = this.state.gender === 'male' ? 'circle' : 'circle-o';
     var girlIcon = this.state.gender === 'female' ? 'circle' : 'circle-o';
+
     return (
       <View>
         <Text style={styles.headerText}>
           Baby Gender
         </Text>
         <View style={styles.genderBtns}>
-          <Icon.Button name={boyIcon} backgroundColor='#aaa'
+          <Icon.Button name={boyIcon} backgroundColor={boyColor}
                         onPress={() => this.setState({gender: 'male'})}>
              Boy
            </Icon.Button>
-           <Icon.Button name={girlIcon} backgroundColor='#aaa'
+           <Icon.Button name={girlIcon} backgroundColor={girlColor}
                           onPress={() => this.setState({gender: 'female'})}>
             Girl
           </Icon.Button>
@@ -101,6 +117,64 @@ export default class Register extends Component {
   }
 
   renderCalenderPicker() {
+    const _format = 'MM-DD-YYYY';
+    const _today = moment().format(_format);
+    const _minDate = moment().subtract(720, 'days').format(_format);
+    return (
+      <View>
+        <DatePicker
+          androidMode="spinner"
+          style={styles.calendar}
+          date={this.state.dob}
+          mode="date"
+          format={_format}
+          minDate={_minDate}
+          maxDate={_today}
+          confirmBtnText="Confirm"
+          cancelBtnText="Cancel"
+          showIcon={false}
+          iconComponent={<Icon name="calendar" size={20} color="#777"/>}
+          customStyles={{
+            dateInput: {
+              //marginLeft: 36,
+              backgroundColor: '#fff',
+              borderWidth: .5,
+              borderColor: 'rgba(0,0,0,0.2)',
+              height: 40,
+              borderRadius: 10,
+            },
+            btnTextText: {
+              color: '#777',
+            },
+            btnTextConfirm: {
+              color: '#5f97cb',
+            },
+            btnTextCancel: {
+              color: '#777',
+            },
+            dateText: {
+              fontFamily: 'Avenir',
+            }
+          }}
+          onDateChange={(dob) => this.setState({dob})}
+        />
+        </View>
+      );
+
+  /*  return <Picker
+      selectedValue={this.state.language}
+      style={{ height: 50, width: 100 }}
+      onValueChange={(itemValue, itemIndex) => this.setState({language: itemValue})}>
+      <Picker.Item label="Java" value="java" />
+      <Picker.Item label="JavaScript" value="js" />
+    </Picker>
+
+
+
+
+  }
+
+
     if (Platform.OS === 'ios') {
       return (
         <View>
@@ -111,21 +185,27 @@ export default class Register extends Component {
          </View>
       )
     } else {
-      return null;
-      /* // hasnt been tested on android
-      try {
-        const {action, year, month, day} = await DatePickerAndroid.open({
-          // Use `new Date()` for current date.
-          // May 25 2020. Month 0 is January.
-          date: new Date()
+        return(
+          <TouchableOpacity onPress={() => this.renderAndroidCalendar()}>
+            Select Date
+          </TouchableOpacity>
+        );
+    }
+    */
+  }
+
+  async renderAndroidCalendar() {
+    try {
+      const {action, year, month, day} = await DatePickerAndroid.open({
+        date: new Date()
+      });
+      if (action !== DatePickerAndroid.dismissedAction) {
+        this.setState({
+          dob: new Date(year, month, day, hour, minute)
         });
-        if (action !== DatePickerAndroid.dismissedAction) {
-          // Selected year, month (0-11), day
-        }
-      } catch ({code, message}) {
-        console.warn('Cannot open date picker', message);
       }
-      */
+    } catch ({code, message}) {
+      console.warn('Cannot open date picker', message);
     }
   }
 
@@ -177,27 +257,38 @@ export default class Register extends Component {
     formData.append('mode', 'survey');
     formData.append('token', '');
     formData.append('data', registerData);
+    console.log('submitForm formData', formData);
     // need to manually delete cookies before calling API
     CookieManager.clearAll().then((res) => {
-      fetch('https://chatterbaby.ctrl.ucla.edu/app-ws/app/process-data-v2', {
-        method: 'post',
+    // https://chatterbaby.ctrl.ucla.edu/app-ws/app/process-data-v2
+      fetch('https://164.67.97.127/app-ws/app/process-data-v2', {
+        method: 'POST',
         body: formData
       })
       .then((response) => {
+        console.log('submitForm resp', response);
         if (response.status === 200) {
           response.json().then((data) => {
             this.logAsRegistered();
           })
         } else {
+         console.log('submitForm non 200', response);
           this.setState({showMsgModal: true, errMsg: 'Unable to process registration. Please try again.'});
-          firebase.analytics().logEvent('register_server_error');
+          //firebase.analytics().logEvent('register_server_error');
         }
       })
       .catch((error) => {
+        console.log('submitForm err', error);
         this.setState({showMsgModal: true, errMsg: 'Unable to reach server. Please try again.'});
-        firebase.analytics().logEvent('register_server_connection_error');
-      })
+        //firebase.analytics().logEvent('register_server_connection_error');
+      });
     });
+
+/*
+fetch('https://api.github.com/users/modularity')
+  .then((res) => console.log(res.json()))
+  .catch((err) => console.log(JSON.stringify(err)))
+    */
   }
 
   // save registered complete and email to device
