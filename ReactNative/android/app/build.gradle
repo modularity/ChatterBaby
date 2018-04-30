@@ -100,7 +100,7 @@ android {
     defaultConfig {
         applicationId "com.chatterbaby"
         minSdkVersion 16
-        targetSdkVersion 23
+        targetSdkVersion 26
         versionCode 1
         versionName "1.0"
         ndk {
@@ -137,6 +137,7 @@ android {
 }
 
 dependencies {
+    compile project(':react-native-cookies')
     compile project(':react-native-audio')
     compile project(':react-native-svg')
     compile project(':react-native-vector-icons')

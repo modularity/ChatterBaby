@@ -153,10 +153,15 @@ const TabNav = TabNavigator({
     activeBackgroundColor: '#fdba31',
     inactiveTintColor: '#fff',
     inactiveBackgroundColor: '#5f97cb',
-    labelStyle: {fontSize: 10},
+    showIcon: true,
+    showLabel: true,
+    labelStyle: {fontSize: 10, margin: 0},
+    style: {backgroundColor: '#5f97cb'},
+    indicatorStyle: {backgroundColor: '#fdba31'}
   },
+  //tabBarPosition: 'bottom',
   //swipeEnabled: true,
-  //animationEnabled: true,
+  animationEnabled: true,
 });
 
 // navigation object to route to consent form

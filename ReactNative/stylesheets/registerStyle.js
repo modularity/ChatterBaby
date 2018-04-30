@@ -34,20 +34,22 @@ module.exports =  StyleSheet.create({
     borderWidth: .5,
     borderColor: 'rgba(0,0,0,0.2)',
     height: 40,
+    width: width*.8,
     borderRadius: 10,
     margin: 8
   },
   inputImage: {
-    padding: 10,
     margin: 5,
-    height: 25,
-    width: 25,
-    //resizeMode : 'stretch',
-    alignItems: 'center'
+    height: 15,
+    width: 15,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   input: {
     height: 40,
     width: width*.6,
+    //color: '#777',
+    fontFamily: 'Avenir',
   },
   buttonRow: {
     flexDirection: 'row',
@@ -116,4 +118,11 @@ module.exports =  StyleSheet.create({
    borderRadius: 15,
    padding: 10,
  },
+ calendar: {
+   width: width*.8,
+   padding: 10,
+   justifyContent: 'center',
+   alignSelf: 'center',
+   alignItems: 'center'
+ }
 });

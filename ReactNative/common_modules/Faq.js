@@ -16,10 +16,12 @@ export default class Faq extends Component<{}> {
   constructor(props) {
     super(props);
     this.state = {
+      url: 'https://www.chatterbaby.org/pages/mobile-display/faq',
       markdown: "",
       isConnected: false,
       key: 1,
-      isWebViewUrlChanged: false
+      isWebViewUrlChanged: false,
+      showMsgModal: false,
     }
     firebase.analytics().setCurrentScreen('faq');
   }
@@ -30,33 +32,6 @@ export default class Faq extends Component<{}> {
 
   componentWillUnmount() {
     NetInfo.isConnected.removeEventListener('connectionChange', this.handleConnectivityChange);
-  }
-
-  handleConnectivityChange = (isConnected) => {
-    if (isConnected) {
-      this.setState({ isConnected });
-    } else {
-      this.setState({ isConnected });
-    }
-  };
-
-  resetWebViewToInitialUrl = () => {
-    if (this.state.isWebViewUrlChanged) {
-      this.setState({
-        key: this.state.key + 1,
-        isWebViewUrlChanged: false
-      });
-    }
-  };
-
-  setWebViewUrlChanged = webviewState => {
-    if (webviewState.url !== 'https://www.chatterbaby.org/pages/mobile-display/faq') {
-      this.setState({ isWebViewUrlChanged: true });
-    }
-  };
-
-  closeModal() {
-    this.setState({showMsgModal: false});
   }
 
   render() {
@@ -90,20 +65,19 @@ export default class Faq extends Component<{}> {
           </View>
         </View>
         <View style={styles.modalTxtContainer}>
-          <Text style={styles.h1Text}>Unable to connect to the survey link. Please check your internet connection.</Text>
+          <Text style={styles.h1Text}>Unable to connect to the faq link. Please check your internet connection.</Text>
         </View>
       </View>);
     }
-    const uri = 'https://www.chatterbaby.org/pages/mobile-display/faq';
     return (
       <View style={styles.container}>
       <WebView
         ref={(ref) => { this.webview = ref; }}
-        source={{ uri }}
+        source={this.state.url}
         style={styles.webView}
         renderError={errorPage}
         onNavigationStateChange={(event) => {
-          if (event.url !== uri) {
+          if (event.url !== this.state.url) {
             this.webview.stopLoading();
             Linking.openURL(event.url);
           }
@@ -112,7 +86,28 @@ export default class Faq extends Component<{}> {
       </View>
     );
   }
+
+  handleConnectivityChange = (isConnected) => {
+    this.setState({ isConnected });
+  };
+
+/*
+  resetWebViewToInitialUrl = () => {
+    if (this.state.isWebViewUrlChanged) {
+      this.setState({
+        key: this.state.key + 1,
+        isWebViewUrlChanged: false
+      });
+    }
+  };
+
+  setWebViewUrlChanged = webviewState => {
+    if (webviewState.url !== 'https://www.chatterbaby.org/pages/mobile-display/faq') {
+      this.setState({ isWebViewUrlChanged: true });
+    }
+  };
+*/
   closeModal() {
-    this.setState({showMsgModal: false, url: this.state.url});
+    this.setState({showMsgModal: false});
   }
 }
