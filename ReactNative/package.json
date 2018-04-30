@@ -7,7 +7,7 @@
     "test": "jest"
   },
   "dependencies": {
-    "axios": "^0.16.0",
+    "axios": "^0.16.2",
     "moment": "^2.22.1",
     "react": "16.2.0",
     "react-native": "0.53.0",
@@ -18,7 +18,7 @@
     "react-native-markdown-renderer": "^3.0.2",
     "react-native-pathjs-charts": "0.0.33",
     "react-native-progress": "3.4.0",
-    "react-native-svg": "6.1.4",
+    "react-native-svg": "^6.3.1",
     "react-native-vector-icons": "4.5.0",
     "react-navigation": "1.0.0",
     "reactotron-react-native": "^1.14.0",

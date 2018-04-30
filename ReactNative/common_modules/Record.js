@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import {PermissionsAndroid,Platform,Text,View,TouchableOpacity,Modal,Picker,FlatList,ActivityIndicator} from 'react-native';
+import axios from 'axios';
 // import library for navigation objects and routing
 import { StackNavigator, TabNavigator } from 'react-navigation';
 // import to record audio
@@ -198,16 +199,39 @@ export default class Record extends Component<{}> {
 
   // send file to api for processing
   finishRecording(didSucceed, filePath) {
-    // prep fetch API call with formData
-    var audioFile = { uri: filePath, type: 'audio/aac', name: 'audioSample.aac' };
-    let formData = new FormData();
-    formData.append('email', this.state.email);
-    formData.append('mode', 'whyCry');
-    formData.append('token', '');
-    formData.append('data', audioFile);
+    var audioData = new FormData();
+    formData.append('data', {
+      uri: filePath, name: 'audioSample.aac', type: 'audio/aac'
+    });
+    var data = {
+      email: this.state.email,
+      mode: 'whyCry',
+      token: '',
+      data: audioData
+    };
 
-    // need to manually delete cookies before calling API
+    // need to manually delete cookies before calling API to fix bug with iOS
     CookieManager.clearAll().then((res) => {
+      axios.post('https://chatterbaby.ctrl.ucla.edu/app-ws/app/process-data-v2', formData)
+      .then((response) => {
+        if (response.data.errmsg !== '') {
+          this.setState({showMsgModal: true, errMsg: 'Server error processing the audio file.'});
+          //firebase.analytics().logEvent('server_sent_algorithm_error');
+        } else this.updateGraph(response.data);
+      })
+      .catch((error) => {
+        this.setState({showMsgModal: true, errMsg: 'Server error sending the audio file.'});
+        //firebase.analytics().logEvent('recording_server_error');
+      });
+      /*
+      // prep fetch API call with formData
+      var audioFile = { uri: filePath, type: 'audio/aac', name: 'audioSample.aac' };
+      let formData = new FormData();
+      formData.append('email', this.state.email);
+      formData.append('mode', 'whyCry');
+      formData.append('token', '');
+      formData.append('data', audioFile);
+
       // send formData to server // 164.67.97.127
       fetch('https://chatterbaby.ctrl.ucla.edu/app-ws/app/process-data-v2', {
         method: 'post',
@@ -232,7 +256,7 @@ export default class Record extends Component<{}> {
         //console.log('finishRecording err', error);
         this.setState({showMsgModal: true, errMsg: 'Server error sending the audio file.'});
         //firebase.analytics().logEvent('recording_server_error');
-      });
+      }); */
     });
   }
 
@@ -256,7 +280,10 @@ export default class Record extends Component<{}> {
       this.setState({ postRecPreGraph: true, stoppedRecording: true, recording: false, progress: 0, currentTime: 0.0 });
       try {
         const filePath = await AudioRecorder.stopRecording();
-        if (Platform.OS === 'android') this.finishRecording(true, filePath);
+        if (Platform.OS === 'android') {
+          var androidFilePath = 'file://'+filePath;
+          this.finishRecording(true, androidFilePath);
+        }
         return filePath;
       } catch (error) {
         this.setState({showMsgModal: true, errMsg: 'Unable to complete the recording on your device. Please try again.'});

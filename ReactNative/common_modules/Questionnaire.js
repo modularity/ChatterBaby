@@ -11,6 +11,7 @@ export default class Questionnaire extends Component<{}> {
   constructor(props) {
     super(props);
     this.state = {
+      showMsgModal: false,
       isConnected: true,
       url: 'https://www.ctrc.medsch.ucla.edu/redcap/surveys/?s=MJJ43CDT4R',
       //questionURL: 'https://chatterbaby.ctrl.ucla.edu/survey-consented-start',
@@ -18,27 +19,20 @@ export default class Questionnaire extends Component<{}> {
       // old link: https://www.chatterbaby.org/survey-consented-start
     }
     firebase.analytics().setCurrentScreen('questionnaire');
+    NetInfo.getConnectionInfo().then((connectionInfo) => {
+      console.log('Initial, type: ' + connectionInfo.type + ', effectiveType: ' + connectionInfo.effectiveType);
+    });
   }
+
   componentDidMount() {
+    NetInfo.getConnectionInfo().then((connectionInfo) => {
+      console.log('Initial, type: ' + connectionInfo.type + ', effectiveType: ' + connectionInfo.effectiveType);
+    });
     NetInfo.isConnected.addEventListener('connectionChange', this.handleConnectivityChange);
   }
 
   componentWillUnmount() {
     NetInfo.isConnected.removeEventListener('connectionChange', this.handleConnectivityChange);
-  }
-
-  handleConnectivityChange = (isConnected) => {
-    if (isConnected) {
-      this.setState({ isConnected });
-    } else {
-      this.setState({ isConnected });
-    }
-  };
-
-  closeModal() {
-    var _url = this.state.url;
-    this.setState({showMsgModal: false, url: ''});
-    this.setState({showMsgModal: false, url: _url});
   }
 
   render() {
@@ -80,10 +74,32 @@ export default class Questionnaire extends Component<{}> {
 
     return (
       <View style={styles.container}>
-         <WebView source={{uri: this.state.url}}
+         <WebView ref={(ref) => { this.webview = ref; }}
+                  source={{uri: this.state.url}}
                   style={styles.webView}
-                  renderError={errorPage}/>
+                  renderError={errorPage}
+                  onNavigationStateChange={(event) => {
+                    if (event.url !== this.state.url) {
+                      this.webview.stopLoading();
+                      Linking.openURL(event.url);
+                    }
+                  }}
+                  />
       </View>
     );
+  }
+
+  handleConnectivityChange = (connectionInfo) => {
+    console.warn('survey connectionInfo', connectionInfo);
+    console.log('First change, type: ' + connectionInfo.type + ', effectiveType: ' + connectionInfo.effectiveType);
+    NetInfo.removeEventListener(
+      'connectionChange',
+      handleFirstConnectivityChange
+    );
+    //this.setState({ isConnected });
+  };
+
+  closeModal() {
+    this.setState({showMsgModal: false});
   }
 }

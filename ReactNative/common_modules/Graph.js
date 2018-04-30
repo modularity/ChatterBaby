@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import {Text,View,TouchableOpacity,Dimensions,Modal,FlatList} from 'react-native';
+import axios from 'axios';
 // import library for navigation objects and routing
 import { StackNavigator, TabNavigator } from 'react-navigation';
 // import form histogram/barchart
@@ -26,7 +27,7 @@ export default class Graph extends Component<{}> {
       hungryResponse: params.hungryResponse,
       fussyResponse: params.fussyResponse,
       email: params.email,
-      recordid: params.recordid,
+      recordId: params.recordId,
       errMsg: '',
       showMsgModal: false,
       showOptLabels: false,
@@ -63,7 +64,7 @@ export default class Graph extends Component<{}> {
     var width = window.width/5;
     var height = window.height;
     // to support banner in responsive layout, update VictoryChart height={height/3}
-    return (<View><VictoryChart height={height/2.5} domainPadding={width/3} padding={{top: width/2, bottom: width, left: width, right:width}} >
+    return (<View><VictoryChart height={height/2.35} domainPadding={width/3} padding={{top: width/2, bottom: width, left: width, right:width}} >
       <VictoryAxis independentAxis tickFormat={(x) => (``)} label={"Cry Chance"} />
       <VictoryAxis dependentAxis style={{margin:10}} />
         <VictoryBar horizontal={true}
@@ -202,23 +203,41 @@ export default class Graph extends Component<{}> {
     let formData = new FormData();
     formData.append('email', this.state.email);
     formData.append('label', label_);
-    formData.append('record_id', this.state.recordid);
+    formData.append('record_id', this.state.recordId);
+
+    var data = {
+      email: this.state.email,
+      label: label_,
+      record_id: this.state.recordId
+    };
 
     // send formData to server
     // https://staging5.ctrl.ucla.edu:7423/app-ws/
     // need to manually delete cookies before calling API
     CookieManager.clearAll().then((res) => {
+      axios.post('https://chatterbaby.ctrl.ucla.edu/app-ws/app/process-label', data)
+      .then((response) => {
+        console.log('processLabel response', response);
+        //if (response.data)
+      })
+      .catch((error) => {
+        console.warn('processLabel err', error);
+        this.setState({showMsgModal: true, errMsg: 'Server error processing the label.'});
+        firebase.analytics().logEvent('process_label_server_error');
+      });
+      /*
       fetch('https://chatterbaby.ctrl.ucla.edu/app-ws/app/process-label', {
         method: 'post',
         body: formData
       })
       .then((response) => {
-        //console.log('label response', response);
+        console.log('label response', response);
       })
       .catch((error) => {
         this.setState({showMsgModal: true, errMsg: 'Server error processing the label.'});
         firebase.analytics().logEvent('process_label_server_error');
       });
+      */
       firebase.analytics().logEvent('algorithm_validation', { label: label_ });
     });
   }

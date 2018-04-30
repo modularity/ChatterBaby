@@ -12,6 +12,7 @@ import {
   Modal,
   Dimensions
 } from 'react-native';
+import axios from 'axios';
 // import for icons in form field
 import Icon from 'react-native-vector-icons/FontAwesome';
 // import StyleSheet
@@ -205,7 +206,7 @@ export default class Register extends Component {
         });
       }
     } catch ({code, message}) {
-      console.warn('Cannot open date picker', message);
+      //console.warn('Cannot open date picker', message);
     }
   }
 
@@ -250,17 +251,34 @@ export default class Register extends Component {
   // valid forms will get sent to server
   submitForm() {
     var registerData = { gender: this.state.gender, dob: this.state.dob, email: this.state.email };
+    var data = {
+      email: this.state.email,
+      mode: 'survey',
+      token: '',
+      data: registerData
+    };
 
-    // send formData to server
-    var formData = new FormData();
-    formData.append('email', this.state.email);
-    formData.append('mode', 'survey');
-    formData.append('token', '');
-    formData.append('data', registerData);
-    console.log('submitForm formData', formData);
-    // need to manually delete cookies before calling API
+    // need to manually delete cookies before calling API to fix bug with iOS
     CookieManager.clearAll().then((res) => {
     // https://chatterbaby.ctrl.ucla.edu/app-ws/app/process-data-v2
+
+    axios.post('https://chatterbaby.ctrl.ucla.edu/app-ws/app/process-data-v2', data)
+      .then((response) => {
+        this.logAsRegistered();
+      })
+      .catch((error) => {
+        this.setState({showMsgModal: true, errMsg: 'Unable to reach server. Please try again.'});
+        //firebase.analytics().logEvent('register_server_connection_error');
+      });
+    /*
+      // send formData to server
+      var formData = new FormData();
+      formData.append('email', this.state.email);
+      formData.append('mode', 'survey');
+      formData.append('token', '');
+      formData.append('data', registerData);
+      console.warn('submitForm formData', formData);
+
       fetch('https://164.67.97.127/app-ws/app/process-data-v2', {
         method: 'POST',
         body: formData
@@ -281,14 +299,8 @@ export default class Register extends Component {
         console.log('submitForm err', error);
         this.setState({showMsgModal: true, errMsg: 'Unable to reach server. Please try again.'});
         //firebase.analytics().logEvent('register_server_connection_error');
-      });
+      }); */
     });
-
-/*
-fetch('https://api.github.com/users/modularity')
-  .then((res) => console.log(res.json()))
-  .catch((err) => console.log(JSON.stringify(err)))
-    */
   }
 
   // save registered complete and email to device
