@@ -1,4 +1,5 @@
-## UNIVERSITY OF CALIFORNIA LOS ANGELES
+### UNIVERSITY OF CALIFORNIA 
+### LOS ANGELES
 ## STUDY INFORMATION SHEET
 
 
@@ -65,6 +66,6 @@ Any information that is obtained in connection with this study and that can iden
   Los Angeles, CA 90095-1694  
 
 
-## By clicking ‘OK’ you are providing your digital signature, indicating your informed consent to participate in this research study.
+## By clicking ‘I Agree’ you are providing your digital signature, indicating your informed consent to participate in this research study.
 
 
