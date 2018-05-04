@@ -36,8 +36,6 @@ export default class Record extends Component<{}> {
       recording: false,
     }
     firebase.analytics().setCurrentScreen('record');
-    // https://staging5.ctrl.ucla.edu:7423/app-ws/app/process-data-v2
-    // https://chatterbaby.ctrl.ucla.edu/app-ws/app/process-data-v2
   }
 
   componentDidMount() {
@@ -57,7 +55,7 @@ export default class Record extends Component<{}> {
       };
       AudioRecorder.onFinished = (data) => {
         //console.log("onFinished data", data); // returning null on android
-        if (Platform.OS === 'ios') this.finishRecording(data.status === 'OK', data.audioFileURL);
+        if (Platform.OS === 'ios') this.finishRecording(data.status === 'OK', this.state.audioPath);
       };
     });
   }
@@ -119,8 +117,14 @@ export default class Record extends Component<{}> {
     const Banner = firebase.admob.Banner;
     const AdRequest = firebase.admob.AdRequest;
     const request = new AdRequest();
-    request.addKeyword('baby')
-    request.addKeyword('parenting');
+    request.addKeyword('cry');
+    request.addKeyword('translate');
+    request.addKeyword('baby');
+    request.addKeyword('monitor');
+    request.addKeyword('pain');
+    request.addKeyword('colic');
+    request.addKeyword('measure');
+    request.addKeyword('predict');
     request.addKeyword('infant');
     request.addKeyword('diapers');
 
@@ -199,64 +203,26 @@ export default class Record extends Component<{}> {
 
   // send file to api for processing
   finishRecording(didSucceed, filePath) {
-    var audioData = new FormData();
-    formData.append('data', {
-      uri: filePath, name: 'audioSample.aac', type: 'audio/aac'
-    });
-    var data = {
-      email: this.state.email,
-      mode: 'whyCry',
-      token: '',
-      data: audioData
-    };
-
+    if (Platform.OS === 'android') filePath = 'file://'+filePath;
+    var audioFile = { uri: filePath, type: 'audio/aac', name: 'audioSample.aac' };
+    let formData = new FormData();
+    formData.append('email', this.state.email);
+    formData.append('mode', 'whyCry');
+    formData.append('token', '');
+    formData.append('data', audioFile);
     // need to manually delete cookies before calling API to fix bug with iOS
     CookieManager.clearAll().then((res) => {
       axios.post('https://chatterbaby.ctrl.ucla.edu/app-ws/app/process-data-v2', formData)
       .then((response) => {
         if (response.data.errmsg !== '') {
           this.setState({showMsgModal: true, errMsg: 'Server error processing the audio file.'});
-          //firebase.analytics().logEvent('server_sent_algorithm_error');
+          firebase.analytics().logEvent('server_sent_algorithm_error');
         } else this.updateGraph(response.data);
       })
       .catch((error) => {
         this.setState({showMsgModal: true, errMsg: 'Server error sending the audio file.'});
-        //firebase.analytics().logEvent('recording_server_error');
+        firebase.analytics().logEvent('recording_server_error');
       });
-      /*
-      // prep fetch API call with formData
-      var audioFile = { uri: filePath, type: 'audio/aac', name: 'audioSample.aac' };
-      let formData = new FormData();
-      formData.append('email', this.state.email);
-      formData.append('mode', 'whyCry');
-      formData.append('token', '');
-      formData.append('data', audioFile);
-
-      // send formData to server // 164.67.97.127
-      fetch('https://chatterbaby.ctrl.ucla.edu/app-ws/app/process-data-v2', {
-        method: 'post',
-        mode: "no-cors",
-        body: formData
-      })
-      .then((response) => {
-        //console.log('finishRecording res', response);
-        if (response.status === 200) {
-          response.json().then((data) => {
-            if (data.errmsg) {
-              this.setState({showMsgModal: true, errMsg:'There was an error running the algorithm.'});
-              //firebase.analytics().logEvent('server_sent_algorithm_error');
-            } else this.updateGraph(data);
-          })
-        } else {
-          this.setState({showMsgModal: true, errMsg: 'Server error processing the audio file.'});
-          //firebase.analytics().logEvent('recording_server_non200_error');
-        }
-      })
-      .catch((error) => {
-        //console.log('finishRecording err', error);
-        this.setState({showMsgModal: true, errMsg: 'Server error sending the audio file.'});
-        //firebase.analytics().logEvent('recording_server_error');
-      }); */
     });
   }
 

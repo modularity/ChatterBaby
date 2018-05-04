@@ -1,6 +1,6 @@
 
 import React, { Component } from 'react';
-import { Alert, AsyncStorage, ActivityIndicator, View } from 'react-native';
+import { Alert, AsyncStorage, ActivityIndicator, View, YellowBox } from 'react-native';
 // import other pages to load into navigation objects
 import Graph from './common_modules/Graph';
 import Record from './common_modules/Record';
@@ -16,6 +16,8 @@ import { StackNavigator, TabNavigator } from 'react-navigation';
 import Icon from 'react-native-vector-icons/FontAwesome';
 // import Firebase for analytics and admob
 import firebase from 'react-native-firebase';
+
+YellowBox.ignoreWarnings(['Encountered an error loading page', 'Module RCTImageLoader', 'Module AudioRecorderManager']);
 
 export default class App extends Component {
   constructor(props) {

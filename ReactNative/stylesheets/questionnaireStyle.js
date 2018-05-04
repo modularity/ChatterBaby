@@ -58,4 +58,40 @@ module.exports =  StyleSheet.create({
     color: '#34495e',
     backgroundColor: 'transparent',
   },
+  title: {
+    fontSize: 20,
+    marginBottom: 10,
+    fontWeight: 'bold',
+    fontFamily: 'Avenir',
+    textAlign: 'center',
+    alignSelf: 'center',
+    color: '#34495e',
+  },
+  pageText: {
+    fontFamily: 'Avenir',
+    color: '#34495e',
+    fontWeight: 'normal',
+  },
+  boldText: {
+    fontFamily: 'Avenir',
+    color: '#34495e',
+    fontWeight: 'bold',
+    margin: 0,
+  },
+  buttonRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    alignItems: 'center',
+  },
+  submitBtn: {
+    backgroundColor: '#5f97cb',
+    padding: 10,
+    borderRadius: 5,
+  },
+  submitText: {
+    textAlign: 'center',
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: 'white',
+  },
 });

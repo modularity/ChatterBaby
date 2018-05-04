@@ -5,7 +5,6 @@ module.exports =  StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#fff',
   },
   formContainer: {
     justifyContent: 'space-around',

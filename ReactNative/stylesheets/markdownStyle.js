@@ -15,6 +15,8 @@ module.exports =  StyleSheet.create({
     fontWeight: 'bold'
   },
   heading2: {
+    alignSelf: 'center',
+    alignItems: 'center',
     fontSize: 22,
     fontFamily: 'Avenir',
     color: '#34495e',
@@ -31,7 +33,8 @@ module.exports =  StyleSheet.create({
     fontSize: 16,
     fontFamily: 'Avenir',
     color: '#34495e',
-    fontWeight: 'bold'
+    fontWeight: 'bold',
+    //ontAlign: 'center'
   },
   heading5: {
     fontSize: 13,

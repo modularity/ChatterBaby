@@ -30,19 +30,12 @@ export default class Register extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      gender: 'female',
+      gender: '',
       dob: new Date(),
-      email: 'testing@test.com',
+      email: '',
       errMsg: '',
       showMsgModal: false,
     }
-    /*
-    gender: 'female',
-    dob: new Date(),
-    email: 'testing@test.com',
-    errMsg: '',
-    showMsgModal: false,
-    */
     firebase.analytics().setCurrentScreen('register');
   }
 
@@ -85,14 +78,6 @@ export default class Register extends Component {
   }
 
   renderBabyGender() {
-    /*
-    var maleCfg = { color:'#5f97cb', icon:'circle' };
-    var femaleCfg = { color: '#5f97cb', icon: 'circle' };
-    var noCfg = {};
-    var cfg = {male:maleCfg, female:femaleCfg, '':noCfg };
-    var {color, icon} = cfg[this.state.gender];
-    */
-
     var boyColor = this.state.gender === 'male' ? '#5f97cb' : '#aaa' ;
     var girlColor = this.state.gender === 'female' ? '#5f97cb' : '#aaa';
     var boyIcon = this.state.gender === 'male' ? 'circle' : 'circle-o';
@@ -121,61 +106,7 @@ export default class Register extends Component {
     const _format = 'MM-DD-YYYY';
     const _today = moment().format(_format);
     const _minDate = moment().subtract(720, 'days').format(_format);
-    return (
-      <View>
-        <DatePicker
-          androidMode="spinner"
-          style={styles.calendar}
-          date={this.state.dob}
-          mode="date"
-          format={_format}
-          minDate={_minDate}
-          maxDate={_today}
-          confirmBtnText="Confirm"
-          cancelBtnText="Cancel"
-          showIcon={false}
-          iconComponent={<Icon name="calendar" size={20} color="#777"/>}
-          customStyles={{
-            dateInput: {
-              //marginLeft: 36,
-              backgroundColor: '#fff',
-              borderWidth: .5,
-              borderColor: 'rgba(0,0,0,0.2)',
-              height: 40,
-              borderRadius: 10,
-            },
-            btnTextText: {
-              color: '#777',
-            },
-            btnTextConfirm: {
-              color: '#5f97cb',
-            },
-            btnTextCancel: {
-              color: '#777',
-            },
-            dateText: {
-              fontFamily: 'Avenir',
-            }
-          }}
-          onDateChange={(dob) => this.setState({dob})}
-        />
-        </View>
-      );
-
-  /*  return <Picker
-      selectedValue={this.state.language}
-      style={{ height: 50, width: 100 }}
-      onValueChange={(itemValue, itemIndex) => this.setState({language: itemValue})}>
-      <Picker.Item label="Java" value="java" />
-      <Picker.Item label="JavaScript" value="js" />
-    </Picker>
-
-
-
-
-  }
-
-
+    /*
     if (Platform.OS === 'ios') {
       return (
         <View>
@@ -185,15 +116,39 @@ export default class Register extends Component {
                 onDateChange={(dob) => this.setState({dob})} />
          </View>
       )
-    } else {
-        return(
-          <TouchableOpacity onPress={() => this.renderAndroidCalendar()}>
-            Select Date
-          </TouchableOpacity>
-        );
-    }
-    */
+    } else { */
+    return (<View>
+      <DatePicker
+        androidMode="spinner"
+        style={styles.calendar}
+        date={this.state.dob}
+        mode="date"
+        format={_format}
+        minDate={_minDate}
+        maxDate={_today}
+        confirmBtnText="Confirm"
+        cancelBtnText="Cancel"
+        showIcon={false}
+        iconComponent={<Icon name="calendar" size={20} color="#777"/>}
+        customStyles={{
+          dateInput: {
+            //marginLeft: 36,
+            backgroundColor: '#fff',
+            borderWidth: .5,
+            borderColor: 'rgba(0,0,0,0.2)',
+            height: 40,
+            borderRadius: 10,
+          },
+          btnTextText: {color: '#777'},
+          btnTextConfirm: {color: '#5f97cb'},
+          btnTextCancel: {color: '#777'},
+          dateText: {fontFamily: 'Avenir'}
+        }}
+        onDateChange={(dob) => this.setState({dob})}
+      />
+      </View>);
   }
+
 
   async renderAndroidCalendar() {
     try {
@@ -260,46 +215,14 @@ export default class Register extends Component {
 
     // need to manually delete cookies before calling API to fix bug with iOS
     CookieManager.clearAll().then((res) => {
-    // https://chatterbaby.ctrl.ucla.edu/app-ws/app/process-data-v2
-
-    axios.post('https://chatterbaby.ctrl.ucla.edu/app-ws/app/process-data-v2', data)
-      .then((response) => {
-        this.logAsRegistered();
-      })
-      .catch((error) => {
-        this.setState({showMsgModal: true, errMsg: 'Unable to reach server. Please try again.'});
-        //firebase.analytics().logEvent('register_server_connection_error');
+      axios.post('https://chatterbaby.ctrl.ucla.edu/app-ws/app/process-data-v2', data)
+        .then((response) => {
+          this.logAsRegistered();
+        })
+        .catch((error) => {
+          this.setState({showMsgModal: true, errMsg: 'Unable to reach server. Please try again.'});
+          firebase.analytics().logEvent('register_server_connection_error');
       });
-    /*
-      // send formData to server
-      var formData = new FormData();
-      formData.append('email', this.state.email);
-      formData.append('mode', 'survey');
-      formData.append('token', '');
-      formData.append('data', registerData);
-      console.warn('submitForm formData', formData);
-
-      fetch('https://164.67.97.127/app-ws/app/process-data-v2', {
-        method: 'POST',
-        body: formData
-      })
-      .then((response) => {
-        console.log('submitForm resp', response);
-        if (response.status === 200) {
-          response.json().then((data) => {
-            this.logAsRegistered();
-          })
-        } else {
-         console.log('submitForm non 200', response);
-          this.setState({showMsgModal: true, errMsg: 'Unable to process registration. Please try again.'});
-          //firebase.analytics().logEvent('register_server_error');
-        }
-      })
-      .catch((error) => {
-        console.log('submitForm err', error);
-        this.setState({showMsgModal: true, errMsg: 'Unable to reach server. Please try again.'});
-        //firebase.analytics().logEvent('register_server_connection_error');
-      }); */
     });
   }
 

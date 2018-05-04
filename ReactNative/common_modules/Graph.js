@@ -4,7 +4,7 @@ import axios from 'axios';
 // import library for navigation objects and routing
 import { StackNavigator, TabNavigator } from 'react-navigation';
 // import form histogram/barchart
-import { VictoryChart, VictoryBar, VictoryAxis  } from 'victory-native';
+import { VictoryChart, VictoryBar, VictoryAxis, VictoryLabel } from 'victory-native';
 // import FontAwesome icons
 import Icon from 'react-native-vector-icons/FontAwesome';
 // import Firebase for admob and analytics
@@ -32,7 +32,7 @@ export default class Graph extends Component<{}> {
       showMsgModal: false,
       showOptLabels: false,
       selectedLabel: false,
-      labels: ['Fussy','Hungry','Pain','Diaper Change','Rash','Colic','Gassy','Scared','Separation','Bored','Sick','Tired','Unknown'],
+      labels: ['Fussy','Hungry','Pain','Diaper Change','Rash','Colic','Ear ache','Fever','Gassy','Scared','Separation','Bored','Sick','Tired','Unknown'],
     }
     firebase.analytics().setCurrentScreen('record');
   }
@@ -63,30 +63,36 @@ export default class Graph extends Component<{}> {
   renderGraph() {
     var width = window.width/5;
     var height = window.height;
-    // to support banner in responsive layout, update VictoryChart height={height/3}
-    return (<View><VictoryChart height={height/2.35} domainPadding={width/3} padding={{top: width/2, bottom: width, left: width, right:width}} >
+    return (<View><VictoryChart height={height/2.35} domainPadding={width/3.5} padding={{top: width/2, bottom: width, left: width, right:width}} >
       <VictoryAxis independentAxis tickFormat={(x) => (``)} label={"Cry Chance"} />
-      <VictoryAxis dependentAxis style={{margin:10}} />
+      <VictoryAxis dependentAxis />
         <VictoryBar horizontal={true}
           data={[{x: 'Pain', y: this.state.painResponse, fill: '#f58357'},
                   {x: 'Hungry', y: this.state.hungryResponse, fill: '#fdba31'},
                   {x: 'Fussy', y: this.state.fussyResponse, fill: '#5f97cb'} ]}
           labels={(d) => (`${Math.floor(d.y)}%`)}
-          animate={{ duration: 2000, onLoad: { duration: 1500 } }}
-          events={[{
-            target: "data",
-            eventHandlers: {
-              onPressOut: (evt, clickedProps) => {
-                return { target: 'data', mutation: () => {
-                  this.pressLabel(clickedProps.datum.xName);
-            } } } }
-          }]}
+barRatio={0.65}
+cornerRadius={10}
+style={{ labels: {fontFamily: 'Avenir'} }}
+          animate={{ duration: 2000, onLoad: { duration: 1400 } }}
         />
       </VictoryChart></View>);
+      /* removing graph onPress handler
+      events={[{
+        target: "data",
+        eventHandlers: {
+          onPressOut: (evt, clickedProps) => {
+            return { target: 'data', mutation: () => {
+              this.pressLabel(clickedProps.datum.xName);
+        } } } }
+      }]}
+      */
   }
 
   renderLabelFeedback() {
-    if (this.state.selectedLabel) return null;
+    if (this.state.selectedLabel) return (
+      <View><Text style={styles.title}>Thanks, your feedback helps improve the algorithm.</Text></View>
+    );
     return (<View>
       <View style={styles.closeContainer}>
         <Text style={styles.title}>Were we right?</Text>
@@ -124,6 +130,8 @@ export default class Graph extends Component<{}> {
         <View style={styles.labelsList}>
           <FlatList data={this.state.labels} keyExtractor={(item, index) => item}
                     renderItem={this.renderLabelItem}
+                    showsVerticalScrollIndicator={true}
+                    scrollEnabled={true} 
                     ItemSeparatorComponent={() => <View style={{borderWidth: 1, borderColor: '#ccc'}} />}  />
         </View>
       </View>
@@ -157,9 +165,15 @@ export default class Graph extends Component<{}> {
     const AdRequest = firebase.admob.AdRequest;
     const request = new AdRequest();
     //request.addTestDevice();
-    request.addKeyword('baby')
-    request.addKeyword('parenting');
+    request.addKeyword('crying');
     request.addKeyword('infant');
+    request.addKeyword('translator');
+    request.addKeyword('fussy');
+    request.addKeyword('hungry');
+    request.addKeyword('sleep');
+    request.addKeyword('algorithm');
+    request.addKeyword('analyze');
+    request.addKeyword('voice');
     request.addKeyword('wipes');
 
     return (<Banner style={{alignSelf: 'center', margin: 20}}
@@ -217,27 +231,12 @@ export default class Graph extends Component<{}> {
     CookieManager.clearAll().then((res) => {
       axios.post('https://chatterbaby.ctrl.ucla.edu/app-ws/app/process-label', data)
       .then((response) => {
-        console.log('processLabel response', response);
-        //if (response.data)
-      })
-      .catch((error) => {
-        console.warn('processLabel err', error);
-        this.setState({showMsgModal: true, errMsg: 'Server error processing the label.'});
-        firebase.analytics().logEvent('process_label_server_error');
-      });
-      /*
-      fetch('https://chatterbaby.ctrl.ucla.edu/app-ws/app/process-label', {
-        method: 'post',
-        body: formData
-      })
-      .then((response) => {
-        console.log('label response', response);
+        //firebase.analytics().logEvent('label_validation');
       })
       .catch((error) => {
         this.setState({showMsgModal: true, errMsg: 'Server error processing the label.'});
         firebase.analytics().logEvent('process_label_server_error');
       });
-      */
       firebase.analytics().logEvent('algorithm_validation', { label: label_ });
     });
   }

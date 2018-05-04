@@ -12,6 +12,7 @@ module.exports =  StyleSheet.create({
   },
   title: {
     fontSize: 20,
+    marginBottom: 10,
     fontWeight: 'bold',
     fontFamily: 'Avenir',
     textAlign: 'center',
@@ -21,8 +22,12 @@ module.exports =  StyleSheet.create({
   pageText: {
     fontFamily: 'Avenir',
     color: '#34495e',
+    fontWeight: 'normal',
   },
   boldText: {
-    fontWeight: 'bold'
+    fontFamily: 'Avenir',
+    color: '#34495e',
+    fontWeight: 'bold',
+    margin: 0,
   }
 });

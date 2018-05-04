@@ -12,6 +12,7 @@ module.exports =  StyleSheet.create({
   },
   title: {
     fontSize: 20,
+    marginBottom: 10,
     fontWeight: 'bold',
     fontFamily: 'Avenir',
     textAlign: 'center',
